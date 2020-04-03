@@ -1,0 +1,131 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页,
+		{
+			"path": "pages/basic/login",
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
+		},{
+			"path": "pages/index/index",
+			"style": {
+			}
+		},{
+			"path": "pages/basic/register",
+			"style": {
+				"navigationBarTitleText": "注册"
+			}
+		}, {
+			"path": "pages/basic/pwd",
+			"style": {
+				"navigationBarTitleText": "找回密码"
+			}
+		}
+		, {
+			"path": "pages/me/collection",
+			"style": {
+			}
+		}, {
+			"path": "pages/me/plan",
+			"style": {
+			}
+		}, {
+			"path": "pages/me/attention",
+			"style": {
+			}
+		}, {
+			"path": "pages/me/attentionDiary",
+			"style": {
+			}
+		}, {
+			"path": "pages/me/ranking",
+			"style": {
+			}
+		}, {
+			"path": "pages/me/diary",
+			"style": {
+			}
+		}, {
+			"path": "pages/me/setting",
+			"style": {
+			}
+		}
+		,{
+            "path" : "pages/me/me",
+            "style" : {}
+        }
+	    ,{
+            "path" : "pages/home/country",
+            "style" : {}
+        },{
+            "path" : "pages/home/city",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/discover/discover",
+            "style" : {}
+        } ,{
+            "path" : "pages/discover/diary",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/post/createPost",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/oneDay/oneDay",
+            "style" : {}
+        } ,{
+            "path" : "pages/oneDay/customized",
+            "style" : {}
+        } ,{
+            "path" : "pages/oneDay/food_select",
+            "style" : {}
+        } ,{
+            "path" : "pages/oneDay/route",
+            "style" : {}
+        } ,{
+            "path" : "pages/oneDay/shop_select",
+            "style" : {}
+        }
+        
+        ,{
+            "path" : "pages/basic/introduction",
+            "style" : {}
+        }
+       ,{
+       "path" : "pages/food/food",
+       "style" : {}
+        },{
+       "path" : "pages/food/place",
+       "style" : {}
+        }
+ 
+        ,{
+            "path" : "pages/test",
+            "style" : {}
+        }
+    ],
+	
+	"tabBar": {
+		"color": "#7a7e83",
+		"selectedColor": "#fbe08b",
+		"backgroundColor": "#ffffff",
+		"list": [{
+			"pagePath": "pages/index/index",
+			"text": "首页",
+			"iconPath": "static/img/home.png",
+			"selectedIconPath": "static/img/homeHL.png"
+		}, {
+			"pagePath": "pages/me/me",
+			"text": "我的",
+			"iconPath": "static/img/user.png",
+			"selectedIconPath": "static/img/userHL.png"
+		}]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarBackgroundColor": "#ff8c3a",
+		"backgroundColor": "#fbf9fe",
+		"navigationStyle": "custom"
+	}
+}
