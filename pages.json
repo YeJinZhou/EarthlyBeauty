@@ -105,23 +105,6 @@
             "style" : {}
         }
     ],
-	
-	"tabBar": {
-		"color": "#7a7e83",
-		"selectedColor": "#fbe08b",
-		"backgroundColor": "#ffffff",
-		"list": [{
-			"pagePath": "pages/index/index",
-			"text": "首页",
-			"iconPath": "static/img/home.png",
-			"selectedIconPath": "static/img/homeHL.png"
-		}, {
-			"pagePath": "pages/me/me",
-			"text": "我的",
-			"iconPath": "static/img/user.png",
-			"selectedIconPath": "static/img/userHL.png"
-		}]
-	},
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarBackgroundColor": "#ff8c3a",
