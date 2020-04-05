@@ -97,17 +97,18 @@
 					});
 					return;
 				}
-
+				// 先定义一个data表示注册的账号
 				const data = {
 					account: this.account,
 					password: this.password,
-					email: this.email
 				}
+				// 把data通过addUser的方法加入用户列表
 				service.addUser(data);
+				// 提示注册成功
 				uni.showToast({
 					title: '注册成功'
 				});
-				
+				// 跳转至登录页面
 				uni.navigateTo({
 					url: 'login',
 				});
