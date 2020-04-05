@@ -1,5 +1,6 @@
 <template>
 	<view class="content">
+		<!-- 有问题：class renjian取名不好，别人一看不知道这个是什么东西 -->
 		<view class="renjian">
 			<img class="photo1"  style="width:100%;height: 100%;max-height: 200%;max-width: 200%; min-width:100% ;overflow:hidden; " src='../../static/img/logo2.png' ></image>
 		</view>		
@@ -56,6 +57,10 @@
 			}
 		},
 		computed: mapState(['forcedLogin']),
+		// 在页面加载时新建默认账户
+		onLoad() {
+			this.addDefaultAccount()
+		},
 		methods: {
 			...mapMutations(['login']),
 			initProvider() {
@@ -115,6 +120,9 @@
 					account: this.account,
 					password: this.password
 				};
+				// vaildUser 函数，用于验证输入的账号是否在本地缓存中
+				// 其中getUser获取的是本地缓存中的用户列表，some表示遍历每个数据
+				// 如果其中一个数据的值与输入的data匹配，表示账号信息正确，返回true，反之返回false
 				const validUser = service.getUsers().some(function(user) {
 					return data.account === user.account && data.password === user.password;
 				});
@@ -126,9 +134,6 @@
 						title: '用户账号或密码不正确',
 					});
 				}
-				uni.navigateTo({
-					url: '../main/main',
-				});
 			},
 			oauth(value) {
 				uni.login({
@@ -176,7 +181,7 @@
 				 */
 				if (this.forcedLogin) {
 					uni.reLaunch({
-						url: '../main/main',
+						url: '../index/index',
 					});
 				} else {
 					uni.reLaunch({
@@ -184,6 +189,14 @@
 					});
 				}
 
+			},
+			// 添加默认的账户，省去调试时的注册环节
+			addDefaultAccount(){
+				service.addUser({
+					account: 'admini',
+					password: 'admini'
+				});
+				console.log('add admin success');
 			}
 		},
 		onReady() {
@@ -192,7 +205,8 @@
 			// #ifdef MP-WEIXIN
 			this.isDevtools = uni.getSystemInfoSync().platform === 'devtools';
 			// #endif
-		}
+		},
+
 	}
 </script>
 
