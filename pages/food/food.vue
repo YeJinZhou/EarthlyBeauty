@@ -116,7 +116,7 @@
 				<view class="content-column margin-top" style="height: 100px;">
 					<navigator url="place" hover-class="navigator-hover">
 						<view class="uni-flex uni-row content-row " style="background-color: #f4f4f4;width: 320px;height: 100px;">
-							<image class="picture" style="width: 100px;height: 100px;" src="../../../static/shop04.png"></image>
+							<image class="picture" style="width: 100px;height: 100px;" src="/static/shop04.png"></image>
 							<view class="uni-flex uni-column content-column" style="height: 100px;width: 200px;">
 								<view style="font-size: 15px;font-weight: bold"><text>罗氏热干牛肉面馆（玫瑰街店）</text></view>
 								<view>评分<text>4.5</text><text> 18</text>/人</view>		
@@ -130,7 +130,7 @@
 				<view class="content-column margin-top" style="height: 100px;">
 					<navigator url="place" hover-class="navigator-hover">
 						<view class="uni-flex uni-row content-row " style="background-color: #f4f4f4;width: 320px;height: 100px;">
-							<image class="picture" style="width: 100px;height: 100px;" src="../../../static/shop05.png"></image>
+							<image class="picture" style="width: 100px;height: 100px;" src="/static/shop05.png"></image>
 							<view class="uni-flex uni-column content-column" style="height: 100px;width: 200px;">
 								<view style="font-size: 15px;font-weight: bold"><text>清蒸鼎盛鑫饭店</text></view>
 								<view>评分<text>4.8</text><text> 30</text>/人</view>		
