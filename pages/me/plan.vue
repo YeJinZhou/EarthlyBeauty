@@ -2,8 +2,8 @@
 	<view>
 		<cu-custom bgColor="bg-gradual-orange" :isBack="true"><block slot="backText">返回</block><block slot="content">我的计划</block></cu-custom>
 		
-		
-        	<uni-swipe-action-item v-for="(item,index) in planlist" @click="swipeClick($event,index)" :key="item.index" :options="item.options"  @change="swipeChange" style="margin:4%;height: 130px;border-radius: 10px;">
+		<uniSwipeAction>
+        	<uniSwipeActionItem v-for="(item,index) in planlist.map(x=>x.briefPlanItems)" v-if="item[0].foodurl&&item[0].foodname&&item[0].shopname" @click="swipeClick($event,index)"  :key="item.index" :options="options"  @change="swipeChange" style="margin:4%;height: 130px;border-radius: 10px;">
 					<navigator :url="'../oneDay/customized?id='+index">
 						<view class="cu-list menu-avatar" style="height:130px">
 							<view class="cu-item" style="display: flex; flex-direction: row; align-items: center; justify-content: center;margin-top: 10%;border-radius: 10px;">
@@ -12,28 +12,29 @@
 					 	</view>
 				    	<view class="contain" style="width: 90%;">
 							<view class="t">
-								<view class="cu-avatar xl round" :style="[{ backgroundImage:'url(' + item.headPortrait1 + ')' }]"></view>
-								<view>{{item.food1}}</view>
-								<view>{{item.shop1}}</view>
+								<view class="cu-avatar xl round" :style="[{ backgroundImage:'url(' + item[0].foodurl + ')' }]"></view>
+								<view>{{item[0].foodname}}</view>
+								<view>{{item[0].shopname}}</view>
 							</view>
 							<view class="jia"  >+</view>
 							<view class="t">
-								<view class="cu-avatar xl round" :style="[{ backgroundImage:'url(' + item.headPortrait2 + ')' }]"></view>
-								<view>{{item.food2}}</view>
-								<view>{{item.shop2}}</view>
+								<view class="cu-avatar xl round" :style="[{ backgroundImage:'url(' + item[1].foodurl + ')' }]"></view>
+								<view>{{item[1].foodname}}</view>
+								<view>{{item[1].shopname}}</view>
 							</view>
 							<view class="jia"  >+</view>
 							<view class="t">
-								<view class="cu-avatar xl round" :style="[{ backgroundImage:'url(' + item.headPortrait3 + ')' }]"></view>
-								<view>{{item.food3}}</view>
-								<view>{{item.shop3}}</view>
+								<view class="cu-avatar xl round" :style="[{ backgroundImage:'url(' + item[2].foodurl + ')' }]"></view>
+								<view>{{item[2].foodname}}</view>
+								<view>{{item[2].shopname}}</view>
 							</view>
 							<view class="hua"  >《</view>
         			    </view>
 						</view>
         	          </view>
 					</navigator>
-        	</uni-swipe-action-item>
+        	</uniSwipeActionItem>
+			</uniSwipeAction>
 	</view>
 </template>
 
@@ -42,7 +43,12 @@
 	import uniSection from '@/components/uni-section/uni-section.vue'
 	import uniSwipeAction from '@/components/uni-swipe-action/uni-swipe-action.vue'
 	import uniSwipeActionItem from '@/components/uni-swipe-action-item/uni-swipe-action-item.vue'
+	import {
+		mapState
+	} from 'vuex'
+	
 	export default {
+		computed: mapState([ 'userName']),
 		components: {
 			uniSearchBar,
 			uniSection,
@@ -53,67 +59,108 @@
 			return {
 				isCard: false,
 				searchVal: '',
-				planlist:[{
-					          options: [{
+				options: [{
 					          	text: '删除',
 					          	style: {
 					          		backgroundColor: 'rgb(255,58,49)'
 					          	}
 					          }],
-					          id: 0,
-							  food1:'羊肉泡馍',
-							  shop1:'鼎盛兴店',
-						      headPortrait1:'../../static/img/timg.png',
-							  
-							  food2:'臊子面',
-							  shop2:'李氏臊子面',
-							  headPortrait2:'../../static/img/2.png',
-							  
-							  food3:'陕西凉皮',
-							  shop3:'长安美食坊',
-							  headPortrait3:'../../static/img/3.png',
-						   },{
+				planlist:[{
+					          
+					        id: 0,
+						    briefPlanItems: 
+							[
+							  {foodname:'羊肉泡馍',
+							  shopname:'鼎盛兴店',
+						      foodurl:'../../static/img/timg.png',
+							  kind:1},
+							  {
+							  foodname:'臊子面',
+							  shopname:'李氏臊子面',
+							  foodurl:'../../static/img/2.png',
+							  kind:1},
+							  {
+							  foodname:'陕西凉皮',
+							  shopname:'长安美食坊',
+							  foodurl:'../../static/img/3.png',
+							  kind:1}
+						   ]
+						  },{
 						       id: 1,
-						       options: [ {
-						       	text: '删除',
-						       	style: {
-						       		backgroundColor: 'rgb(255,58,49)'
-						       	}
-						       }],
-					           food1:'羊肉泡馍',
-					           shop1:'回坊老马家',
-					           headPortrait1:'../../static/img/timg.png',
-					           
-					           food3:'臊子面',
-					           shop3:'李氏臊子面',
-					           headPortrait3:'../../static/img/2.png',
-					           
-					           food2:'陕西凉皮',
-					           shop2:'长安美食坊',
-					           headPortrait2:'../../static/img/3.png',
+						    briefPlanItems:
+						    [  
+								{
+					           foodname:'羊肉泡馍',
+					           shopname:'回坊老马家',
+					           foodurl:'../../static/img/timg.png',
+							  kind:1},
+					           {
+					           foodname:'臊子面',
+					           shopname:'李氏臊子面',
+					           foodurl:'../../static/img/2.png',
+							  kind:1},
+					           {
+					           foodname:'陕西凉皮',
+					           shopname:'长安美食坊',
+					           foodurl:'../../static/img/3.png',
+							  kind:1}
+						   ]
 						   },{
 							   id: 2,
-							   options: [{
-							   	text: '删除',
-							   	style: {
-							   		backgroundColor: 'rgb(255,58,49)'
-							   	}
-							   }],
-					           food3:'羊肉泡馍',
-					           shop3:'回坊老马家',
-					           headPortrait3:'../../static/img/timg.png',
-					           
-					           food2:'臊子面',
-					           shop2:'李氏臊子面',
-					           headPortrait2:'../../static/img/2.png',
-					           
-					           food1:'陕西凉皮',
-					           shop1:'长安美食坊',
-					           headPortrait1:'../../static/img/3.png',
-						   }]
+							  briefPlanItems:
+							  [  
+							  	{
+					           foodname:'羊肉泡馍',
+					           shopname:'回坊老马家',
+					           foodurl:'../../static/img/timg.png',
+							  kind:1},
+					          { 
+					           foodname:'臊子面',
+					           shopname:'李氏臊子面',
+					           foodurl:'../../static/img/2.png',
+							  kind:1},
+					           {
+					           foodname:'陕西凉皮',
+					           shopname:'长安美食坊',
+					           foodurl:'../../static/img/3.png',
+							  kind:1}
+						   ]}]
 			};
 		},
+		onLoad() {
+					this.initPage(); 
+				},
 		methods: {
+			async initPage(){
+							const res = await this.$myRequest({
+								url: '/v1/api/onedayyfoodpage/getbriefplanbyuserid?userid=', //仅为示例，并非真实接口地址。
+								data: {
+									userid: this.userName
+								},
+							})
+							console.log(res.data);
+							console.log(this.userName);
+							this.planlist = res.data.data;
+						
+							
+							
+							// 给页面的数据赋值
+							
+						},
+			async displan(id){
+							const res = await this.$myRequest({
+								url: '/v1/api/onedayyfoodpage/deleteplan?planid=', //仅为示例，并非真实接口地址。
+								data: {
+									planid: id,
+								},
+							})
+							console.log(res.data);
+							console.log(id);
+							
+							
+							// 给页面的数据赋值
+							
+						},
 			IsCard(e) {
 				this.isCard = e.detail.value
 			},
@@ -135,7 +182,10 @@
 						content: '是否删除',
 						success: (res) => {
 							if (res.confirm) {
-								this.planlist.splice(index, 1)
+								console.log(this.planlist);								
+								let id = this.planlist[index].id;
+								this.planlist.splice(index, 1);
+								this.displan(id)
 							} else if (res.cancel) {
 								console.log('用户点击取消');
 							}
