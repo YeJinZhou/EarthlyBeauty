@@ -1,7 +1,6 @@
 <template>
 	<view class="content">
-		<!-- 有问题：class renjian取名不好，别人一看不知道这个是什么东西 -->
-		<view class="renjian">
+		<view class="logo">
 			<img class="photo1"  style="width:100%;height: 100%;max-height: 200%;max-width: 200%; min-width:100% ;overflow:hidden; " src='../../static/img/logo2.png' ></image>
 		</view>		
 		<view class="input-group">
@@ -57,11 +56,21 @@
 			}
 		},
 		computed: mapState(['forcedLogin']),
-		// 在页面加载时新建默认账户
 		onLoad() {
-			this.addDefaultAccount()
-		},
+					this.addDefaultAccount()
+				},
 		methods: {
+			async isAccountExist(account,password){
+							const res = await this.$myRequest({
+								url: '/v1/api/loadpage/isAccountExist?account=&password=', //仅为示例，并非真实接口地址。
+								data: {
+									account:this.account,
+									password:this.password
+								},
+							})
+							console.log(res.data);
+							console.log(this.account,this.password);							
+						},
 			...mapMutations(['login']),
 			initProvider() {
 				const filters = ['weixin', 'qq', 'sinaweibo'];
@@ -120,13 +129,11 @@
 					account: this.account,
 					password: this.password
 				};
-				// vaildUser 函数，用于验证输入的账号是否在本地缓存中
-				// 其中getUser获取的是本地缓存中的用户列表，some表示遍历每个数据
-				// 如果其中一个数据的值与输入的data匹配，表示账号信息正确，返回true，反之返回false
 				const validUser = service.getUsers().some(function(user) {
 					return data.account === user.account && data.password === user.password;
 				});
-				if (validUser) {
+				const validUser2=this.isAccountExist(this.account,this.password);
+				if (validUser||validUser2) {
 					this.toMain(this.account);
 				} else {
 					uni.showToast({
@@ -134,6 +141,7 @@
 						title: '用户账号或密码不正确',
 					});
 				}
+				
 			},
 			oauth(value) {
 				uni.login({
@@ -191,22 +199,22 @@
 
 			},
 			// 添加默认的账户，省去调试时的注册环节
-			addDefaultAccount(){
-				service.addUser({
-					account: 'admini',
-					password: 'admini'
-				});
-				console.log('add admin success');
-			}
+						addDefaultAccount(){
+							service.addUser({
+								account: 'admini@qq.com',
+								password: 'admini'
+							});
+							console.log('add admin success');
+						}
 		},
+		
 		onReady() {
 			this.initPosition();
 			this.initProvider();
 			// #ifdef MP-WEIXIN
 			this.isDevtools = uni.getSystemInfoSync().platform === 'devtools';
 			// #endif
-		},
-
+		}
 	}
 </script>
 
@@ -312,7 +320,7 @@
 			background-color: #eab373;
 			padding: 10upx;
 		}
-	 .renjian{
+	 .logo{
 			display: block;
 		margin-left: 10upx;
 			margin-top: 5upx;
