@@ -1,116 +1,94 @@
 <template>
 	<view class="page">
-		<view style="height:40px;"></view>
-		<view class="uni-flex" style="height: 100px;color: #fff;">
-			<view class="center">精选特色菜品</view>
-			<view class="flex justify-end" style="font-size: 12px;">
+		<view style="height: 70upx;"></view>
+		<view class="uni-flex" style="height: 100upx;color: #fff;">
+			<view class="center" style="font-size: 42upx;">精选特色菜品</view>
+			<view class="flex justify-end" style="font-size: 25upx;width: 720upx;">
 				<navigator url="../home/city">前往我的城市></navigator>
 			</view>	
 		</view>
 		
-		<view class="cu-bar search fixed" :style="[{top:CustomBar + 'px'}]">
+		<!--搜索框-->
+		<view class="cu-bar search">
 			<view class="search-form round">
 				<text class="cuIcon-search"></text>
-				<input type="text" placeholder="输入搜索的关键词" confirm-type="search"></input>
+				<input @focus="InputFocus" @blur="InputBlur" :adjust-position="false" type="text" 
+				placeholder="请输入搜索内容" confirm-type="search"></input>
+			</view>
+			<view class="action">
+				<button class="cu-btn bg-red shadow-blur round">搜索</button>
 			</view>
 		</view>
 		
-		<view>
-		    <scroll-view scroll-y="true" style="height: 600px">
-		        <view class="content uni-flex">
-					<navigator url="../food/food" hover-class="navigator-hover">
-						<image class="picture" src="/static/food4.png"></image>
-					</navigator>
-					<view style="font-size: 18px;font-weight: bold">{{foodname1}}</view>
-					<view class="text" style="width: 320px;">
-						<template v-if="showText">
-							<view style="font-size: 15px;color:#000;">{{description}}
-								<text v-if="description !== null && description.length > 60" @click="toggleDescription" style="color: #f00;">收起</text>
+		<!--食物介绍-->
+		<view style="display: flex;">
+		    <scroll-view scroll-y="true" style="height: 1330upx;flex:1;width:680upx;">
+		        <view v-for="(item,index) in food" class="content" :key="index">
+					<view style=" height:auto; flex;flex-direction: column;border-radius: 20upx;"
+		        	class="bg-white content">
+						<!--点击图片跳转-->
+		        		<image class="picture" @tap="jumpfood(index)" :src="item.picture"></image>
+		        		<view style="display:flex ;flex-direction: column; width: 680upx;">
+		        			<view class="content" style="font-size: 40upx;font-weight: bold">{{item.name}}</view>
+		        			<view class="text">
+								{{item.introduction}}
 							</view>
-						</template>
-						<template v-else>
-							<view style="font-size: 15px;color:#000;">{{description.substr(0, 57)}}
-								<text v-if="description !== null && description.length > 60" @click="toggleDescription" style="color: #f00;">...更多</text>
-							</view>
-						</template>
-					</view>
-				</view>
-				
-				<view class="content" >
-					<navigator url="../food/food" hover-class="navigator-hover">
-						<image class="picture" src="/static/food3.png"></image>
-					</navigator>
-					<view style="font-size: 18px;font-weight: bold">{{foodname2}}</view>
-					<view class="text" style="width: 320px;">
-						<template v-if="showText">
-							<view style="font-size: 15px;color:#000;">{{description}}
-								<text v-if="description !== null && description.length > 45" @click="toggleDescription" style="color: #f00;">收起</text>
-							</view>
-						</template>
-						<template v-else>
-							<view style="font-size: 15px;color:#000;">{{description.substr(0, 42)}}
-								<text v-if="description !== null && description.length > 45" @click="toggleDescription" style="color: #f00;">...更多</text>
-							</view>
-						</template>
-					</view>
-				</view>
-				
-				<view class="content" >
-					<navigator url="../food/food" hover-class="navigator-hover">
-						<image class="picture" src="/static/food1.png"></image>
-					</navigator>
-					<view style="font-size: 18px;font-weight: bold">{{foodname3}}</view>
-					<view class="text" style="width: 320px;">
-						<template v-if="showText">
-							<view style="font-size: 15px;color:#000;">{{description}}
-								<text v-if="description !== null && description.length > 45" @click="toggleDescription" style="color: #f00;">收起</text>
-							</view>
-						</template>
-						<template v-else>
-							<view style="font-size: 15px;color:#000;">{{description.substr(0, 42)}}
-								<text v-if="description !== null && description.length > 45" @click="toggleDescription" style="color: #f00;">...更多</text>
-							</view>
-						</template>
-					</view>
-				</view>	
+		        		</view>
+		        	</view>
+		        	<view style="height: 40upx;"></view>
+		        </view>	
 		    </scroll-view>
 		</view>
-		
-		
-		
-		
-		
 	</view>
 </template>
 
 <script>
 	export default {
-		name:'home',
 		data() {
-			return {
-				PageCur:"home",
-				foodname1: '武汉.热干面',
-				foodname2: '山东.排骨藕汤',
-				foodname3: '河北.酸辣土豆',
-				CustomBar: this.CustomBar,
+			return {	
 				showText: false,
-				description:'热干面是中国十大面条之一。是湖北省武汉最出名的小吃之一，有多重做法。通常以油、盐、芝麻酱、色拉油、香油、细香葱、大蒜子、萝卜丁等构成。'
+				food: [],
 			}
 		},
 		methods: {
+			//初始化页面，从接口获取数据
+			async initPage(){
+				const res = await this.$myRequest({
+					url: '/v1/api/homepage/getNationalSelection',
+				})
+				this.food =res.data.data;
+			},
+			//搜索框弹出键盘样式修改
+			InputFocus(e) {
+				this.InputBottom = e.detail.height
+			},
+			//搜索框弹出键盘样式修改
+			InputBlur(e) {
+				this.InputBottom = 0
+			},
+			//食物带foodid参数跳转
+			jumpfood(e) {   
+				var that = this;
+				var foodid = that.food[e].id;
+				uni.navigateTo({
+				    url: '../food/food?foodid='+foodid,
+				});
+			},
+			//多余文字隐藏
 			toggleDescription (num) {
 				this.showText = !this.showText
-			}
-		}
+			},
+		},
+		onLoad() {
+			this.initPage()
+		},
 	}
 </script>
 
 <style>
 	.center{
 		display: flex;
-		font-size: 20px;
 		justify-content: center;
-		font-family: 'FZXiaoBiaoSong-B05S';
 	}
 	.content {
 		display: flex;
@@ -119,25 +97,17 @@
 		justify-content: center;
 	}
 	.picture {
-		height: 200px;
-		width: 320px;
-		margin-top: 0px;
-		margin-left: auto;
-		margin-right: auto;
-		margin-bottom: 0px;
-		border-radius: 10px;
+		height: 420upx;
+		width: 680upx;
+		border-radius: 20upx;
 	}
 	.text{
 		padding: 10upx;
 		colof: #999;
-		max-height: 130px;
+		max-height: 200upx;
 		overflow: scroll;
 	}
-	.text-center {
-		display: flex;
-		justify-content: center;
-	}
 	.page{
-		background: linear-gradient(#f00,#fff);
+		background: linear-gradient(#F76260,#fff);
 	}
 </style>

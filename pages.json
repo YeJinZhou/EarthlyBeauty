@@ -46,16 +46,21 @@
 			}
 		}, {
 			"path": "pages/me/setting",
-			"style": {
-			}
+			"style" : {
+            	"app-plus": {"titleNView": false}
+            }
 		}
 		,{
             "path" : "pages/me/me",
-            "style" : {}
+            "style" : {
+            	"app-plus": {"titleNView": false}
+            }
         }
 	    ,{
             "path" : "pages/home/country",
-            "style" : {}
+            "style" : {
+            	"app-plus": {"titleNView": false}
+            }
         },{
             "path" : "pages/home/city",
             "style" : {}
@@ -94,7 +99,9 @@
         }
        ,{
        "path" : "pages/food/food",
-       "style" : {}
+       "style" : {
+            	"app-plus": {"titleNView": false}
+            }
         },{
        "path" : "pages/food/place",
        "style" : {}

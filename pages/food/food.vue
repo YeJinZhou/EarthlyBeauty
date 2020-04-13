@@ -3,158 +3,133 @@
 		<cu-custom style="background-color: #fff;" :isBack="true">
 			<block slot="backText">返回</block>
 			<block slot="content">
-				<view style="font-size: 20px;font-weight: bold;">{{title}}</view>
+				<view style="font-size: 42upx;font-weight: bold;">{{title}}美食</view>
 			</block>
 		</cu-custom>
 		
 		<view class="content-column" style="background-color: #fff;">
-			<view class="uni-flex uni-row content-row" style="background-color: #fff;width: 300px;height: 120px;">
-				<view class="solids-right" style="width: 126px;">
-					<image class="picture" style="width: 100px;height: 100px;border-radius: 50%;" src="/static/food5.png"></image>
+			<view class="uni-flex uni-row content-row" style="background-color: #fff;width: 620upx;height: 260upx;">
+				<view class="solids-right" style="width: 300upx;">
+					<image class="picture" style="width: 180upx;height: 180upx;border-radius: 50%;" :src="foodInfo[0].picture"></image>
 				</view>
 				
-				<view class="uni-flex" style="height: 100px;width: 200px;">
-					<view class="flex justify-end">查看西安其他美食</view>
-					<view class="uni-flex uni-row content-row" style="flex-direction: row;height: 80px;">
-						<view style="width: 10px;"></view>		
-						<navigator url="/pages/food/food" hover-class="navigator-hover">
-							<view>
-								<view class="food">
-									<image class="picture" src="/static/food1.png" style="border-radius: 50%;"></image>
+				<view class="uni-flex" style="height: 220upx;width: 400upx;">
+					<view class="flex justify-end">查看{{title}}其他美食</view>
+					<view class="uni-flex uni-row content-row" style="flex-direction: row;height: 200upx;">
+						<scroll-view scroll-x class="bg-white padding response cu-steps steps-bottom" style="width: 420upx;">
+							<block v-for="(item,index) in foodInfo" :key="index">
+								<view class="item" @tap="changfood(index)">
+									<view class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + item.picture + ')' }]"></view>
+									<text class="text-sm margin-top-xs" style="height: 30upx; display: flex; justify-content: center;">{{item.name}}</text>
 								</view>
-								<view class="food">臊子面</view>
-							</view>
-						</navigator>
-						
-						<view style="width: 10px;"></view>
-						<navigator url="/pages/food/food" hover-class="navigator-hover">
-							<view>
-								<view class="food">
-									<image class="picture" src="/static/food3.png" style="border-radius: 50%;"></image>
-								</view>
-								<view class="food">排骨藕汤</view>					
-							</view>
-						</navigator>
-						
-						<view style="width: 10px;"></view>
-						<navigator url="/pages/food/food" hover-class="navigator-hover">
-							<view>
-								<view class="food">
-									<image class="picture" src="/static/food4.png" style="border-radius: 50%;"></image>
-								</view>
-								<view class="food">牛肉面</view>
-							</view>
-						</navigator>
-					</view>		
+							</block>
+						</scroll-view>
+					</view>
 				</view>
 			</view>
 		</view>
 		
-		<view style="font-size: 20px;font-weight: bold;margin-left: 25px;">热干面</view>
+		<view style="font-size: 42upx;font-weight: bold;margin-left: 50upx;">{{foodInfo[0].name}}</view>
 		
 		<view class="content-column uni-flex uni-column">	
-			<view class="text" style="width: 320px;">			
+			<view class="text" style="width: 680upx;">			
 				<template v-if="showText">			
-					<view style="font-size: 15px;color:#000;">  {{description}}
-						<text v-if="description !== null && description.length > 59" @click="toggleDescription" style="color: #f00;">收起</text>
+					<view v-if="foodInfo[0].introduction" style="font-size: 32upx;color:#000;">{{foodInfo[0].introduction}}
+						<text v-if="foodInfo[0].introduction !== null && foodInfo[0].introduction.length > 64" @click="toggleDescription" style="color: #f00;">收起</text>
 					</view>
 				</template>
 				<template v-else>
-					<view style="font-size: 15px;color:#000;">  {{description.substr(0, 56)}}
-						<text v-if="description !== null && description.length > 59" @click="toggleDescription" style="color: #f00;">
+					<view v-if="foodInfo[0].introduction" style="font-size: 32upx;color:#000;">{{foodInfo[0].introduction.substr(0, 60)}}
+						<text v-if="foodInfo[0].introduction !== null && foodInfo[0].introduction.length > 64" @click="toggleDescription" style="color: #f00;">
 							<text style="color: #000;">...</text>更多						
 						</text>
 					</view>
 				</template>
 			</view>
 		</view>
-		
+		{{food.foodid}}
 		<view>
-		    <scroll-view scroll-y="true" style="height: 460px;" >
-		        <view class="content-column" style="height: 100px;">
-					<navigator url="place" hover-class="navigator-hover">
-						<view class="uni-flex uni-row content-row" style="background-color: #f4f4f4;width: 320px;height: 100px;">
-							<image class="picture" style="width: 100px;height: 100px;" src="/static/shop01.png"></image>
-							<view class="uni-flex uni-column content-column" style="height: 100px;width: 200px;">
-								<view style="font-size: 15px;font-weight: bold"><text>蔡明纬（汉街店）</text></view>
-								<view>评分<text>4.8</text><text> 22</text>/人</view>		
-								<view><text>楚河汉街</text><text> 小吃</text><text> 1.2</text>km</view>
-								<view><text>武汉热干面发明者</text></view>
-							</view>							
-						</view>
-					</navigator>					
+		    <scroll-view scroll-y="true" style="height: 950upx;" >
+		        <view v-for="(item,index) in placeInfo" :key="index">
+					<view class="content-column" style="height: 220upx;">
+						<navigator url="../food/place" hover-class="navigator-hover">
+							<view class="uni-flex uni-row content-row" style="border-radius: 20upx;background-color: #f4f4f4;width: 680upx;height: 220upx;">
+								<image class="picture" style="width: 220upx;height: 220upx;border-radius: 20upx;" :src="item.pictures[0]"></image>
+								<view class="uni-flex uni-column padding" style="height: 220upx;width: 450upx;display: flex;flex-direction: column;">
+									<view style="font-size: 32upx;font-weight: bold">
+										<text>{{item.name}}</text>
+									</view>
+									<view class="justify-start flex align-center" style="font-weight: bold;">
+										<uni-rate :value='item.score' disabled="true" size="10" style="margin-top: 6upx;"></uni-rate>
+										<text style="color: #f00;">{{item.score}}</text>
+										<text class="margin-left">¥{{item.price}}</text>/人
+									</view>		
+									<view>
+										<text class='cu-tag round sm' style="background-color: #ff0;">{{item.address}}</text>
+										<text class='cu-tag round sm' style="background-color: #ff0;">{{item.label}}</text>
+									</view>
+									<view>{{item.introduction}}</view>
+								</view>							
+							</view>
+						</navigator>					
+					</view>
+					<view style="height: 40upx;"></view>
 				</view>
-				
-				<view class="content-column margin-top" style="height: 100px;">
-					<navigator url="place" hover-class="navigator-hover">
-						<view class="uni-flex uni-row content-row " style="background-color: #f4f4f4;width: 320px;height: 100px;">
-							<image class="picture" style="width: 100px;height: 100px;" src="/static/shop02.png"></image>
-							<view class="uni-flex uni-column content-column" style="height: 100px;width: 200px;">
-								<view style="font-size: 15px;font-weight: bold"><text>蔡林记（武汉站1店）</text></view>
-								<view>评分<text>4.6</text><text> 25</text>/人</view>		
-								<view><text>武汉火车站</text><text> 小吃</text><text> 1.2</text>km</view>
-								<view><text>武汉热干面已经成为了城市地标</text></view>
-							</view>							
-						</view>
-					</navigator>					
-				</view>
-				
-				<view class="content-column margin-top" style="height: 100px;">
-					<navigator url="place" hover-class="navigator-hover">
-						<view class="uni-flex uni-row content-row " style="background-color: #f4f4f4;width: 320px;height: 100px;">
-							<image class="picture" style="width: 100px;height: 100px;" src="/static/shop03.png"></image>
-							<view class="uni-flex uni-column content-column" style="height: 100px;width: 200px;">
-								<view style="font-size: 15px;font-weight: bold"><text>回坊老马家牛羊肉泡馍</text></view>
-								<view>评分<text>4.6</text><text> 27</text>/人</view>		
-								<view><text>城市运动公园</text><text> 泡馍</text><text> 1.2</text>km</view>
-								<view><text>泡馍、涮菜、烤肉应有尽有</text></view>
-							</view>							
-						</view>
-					</navigator>					
-				</view>
-				
-				<view class="content-column margin-top" style="height: 100px;">
-					<navigator url="place" hover-class="navigator-hover">
-						<view class="uni-flex uni-row content-row " style="background-color: #f4f4f4;width: 320px;height: 100px;">
-							<image class="picture" style="width: 100px;height: 100px;" src="/static/shop04.png"></image>
-							<view class="uni-flex uni-column content-column" style="height: 100px;width: 200px;">
-								<view style="font-size: 15px;font-weight: bold"><text>罗氏热干牛肉面馆（玫瑰街店）</text></view>
-								<view>评分<text>4.5</text><text> 18</text>/人</view>		
-								<view><text>王家湾</text><text> 热干面</text><text> 1.2</text>km</view>
-								<view><text>回头客多</text></view>
-							</view>							
-						</view>
-					</navigator>					
-				</view>
-				
-				<view class="content-column margin-top" style="height: 100px;">
-					<navigator url="place" hover-class="navigator-hover">
-						<view class="uni-flex uni-row content-row " style="background-color: #f4f4f4;width: 320px;height: 100px;">
-							<image class="picture" style="width: 100px;height: 100px;" src="/static/shop05.png"></image>
-							<view class="uni-flex uni-column content-column" style="height: 100px;width: 200px;">
-								<view style="font-size: 15px;font-weight: bold"><text>清蒸鼎盛鑫饭店</text></view>
-								<view>评分<text>4.8</text><text> 30</text>/人</view>		
-								<view><text>劳动南路</text><text> 特色菜</text><text> 1.2</text>km</view>
-								<view><text>优质羊肉泡馍馆</text></view>
-							</view>							
-						</view>
-					</navigator>					
-				</view>
-		    </scroll-view>
+			</scroll-view>
 		</view>
 	</view>
 </template>
 
 <script>
+	
+	import uniRate from '@/components/uni-rate/uni-rate.vue'
 	export default {
 		data() {
 			return {
+				test:[],
+				placeInfo: [],
+				foodInfo: [],
+				food:[],
 				showText: false,
-				title:'西安美食',
-				description: '热干面是中国十大面条之一。是湖北省武汉最出名的小吃之一，有多重做法。通常以油、盐、芝麻酱、色拉油、香油、细香葱、大蒜子、萝卜丁等构成。'	
+				title:'西安',
 			}
 		},
+		onLoad(e) {
+			this.initPage(),
+			this.init(),
+			this.food=e
+		},
 		methods: {
+			async initPage(){
+				const res = await this.$myRequest({
+					url: '/v1/api/homepage/getCityFood',
+					data: {
+						cityid: '6463',
+					}
+				})
+				// 给页面的数据赋值
+				this.foodInfo =res.data.data;
+			},
+			async init(){
+				const res = await this.$myRequest({
+					url: '/v1/api/homepage/getShopByFood',
+					data: {
+						foodid: '80121',
+					}
+				})
+				// 给页面的数据赋值
+				this.placeInfo =res.data.data;
+			},
+			changfood(e) {
+				
+				var that=this;
+				this.test=that.foodInfo[e];
+				that.foodInfo[e]=that.foodInfo[0];
+				that.foodInfo[0]=this.test;
+				uni.navigateTo({
+				    url: '../food/food',
+				});
+			},
 			toggleDescription (num) {
 				this.showText = !this.showText
 			}
@@ -163,16 +138,21 @@
 </script>
 
 <style>
+	.item {
+		margin-left: 20upx;
+		display: inline-block;
+		vertical-align: top;
+	}
 	.text{
-		padding: 10upx;
+		padding: 20upx;
 		colof: #999;
 		background: #E5E5E5;
-		max-height: 130px;
+		max-height: 280upx;
 		overflow: scroll;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 320px;	
+		width: 680upx;	
 	}
 	.content-row {
 		display: flex;
@@ -188,8 +168,7 @@
 		justify-content: center;
 	}
 	.picture {
-		height: 50px;
-		width: 50px;
+		display: flex;
 		margin-top: 0px;
 		margin-left: 0px;
 		margin-right: auto;
