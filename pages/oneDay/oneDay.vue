@@ -1,11 +1,17 @@
 <template>
 	<view>
 		
-		<view style="height:130px; display:flex; justify-content: space-around;align-items: center;">
-			<image style="position:relative; height:90%; width:48%; border-radius: 10px;" src="https://dss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1947298534,2782052763&fm=26&gp=0.jpg"><button
-				 @tap="click1" :class="modalName=='DialogModal1'?'D1':'D2'" style=" left:50px;top:90px;">推荐方案</button></image>
-			<image style="position:relative; height:90%; width:48%; border-radius: 10px; " src="https://dss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1947298534,2782052763&fm=26&gp=0.jpg"><button
-				 @tap="click2" :class="modalName=='DialogModal2'?'D1':'D2'" style=" left:230px;top:90px;">我的计划</button></image>
+		<view class="head-nav">
+			<image class="nav-button" @tap="click1">
+				<button class="nav-text customize" @tap="click1" :class="modalName=='DialogModal1'?'D1':'D2'">
+					推荐方案
+				</button>
+			</image>
+			<image class="nav-button" @tap="click2">
+				<button class="nav-text plan" @tap="click2" :class="modalName=='DialogModal2'?'D1':'D2'">
+				我的计划
+				</button>
+			</image>
 		</view>
 
         <view v-if="modalName=='DialogModal1'">
@@ -328,6 +334,32 @@
 </script>
 
 <style>
+	.head-nav {
+		position: relative;
+		margin: 10px;
+		height: 120px; 
+		display: flex; 
+		justify-content: space-around;
+		align-items: center;
+	}
+	.nav-button {
+		position: relative;
+		height:100%; 
+		width:48%; 
+		border-radius: 10px;
+		background: url(https://dss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1947298534,2782052763&fm=26&gp=0.jpg) 0/100%;
+	}
+	.nav-text {
+		position: absolute;
+		bottom: 0;
+		border-radius: 10px 10px 0 0;
+	}
+	.head-nav .customize {
+		left: 40px;
+	}
+	.head-nav .plan {
+		right: 40px;
+	}
 	.contain {
 		background-color: #FFFFFF;
 		display: flex;
