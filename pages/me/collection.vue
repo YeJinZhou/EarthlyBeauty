@@ -1,5 +1,6 @@
 <template>
 	<view>
+		<!-- 顶部导航栏 -->
 		<cu-custom bgColor="bg-gradual-orange" :isBack="true"><block slot="backText">返回</block><block slot="content">收藏</block></cu-custom>
 		<!-- /搜索栏/ -->
 		<view class="cu-bar bg-white solid-bottom">

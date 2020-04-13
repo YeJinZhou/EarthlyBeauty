@@ -2,7 +2,7 @@
 	
 	<view class="content">
 		<view class="logo">
-			<img class="photo1"  style="width:100%;height: 100%;max-height: 200%;max-width: 200%; min-width:100% ;overflow:hidden; " src='../../static/img/logo2.png' ></image>
+			<img class="photo1 main-logo"  style="" src='../../static/img/logo2.png' ></image>
 		</view>
 		
 			
@@ -377,5 +377,13 @@
 		color: #000000;
 		background-color: #ffffff;
 		border-radius: 15px;
+	}
+	.main-logo {
+		width:100%;
+		height: 100%;
+		max-height: 200%;
+		max-width: 200%;
+		 min-width:100% ;
+		 overflow:hidden; 
 	}
 </style>
