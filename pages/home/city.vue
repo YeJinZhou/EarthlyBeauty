@@ -12,7 +12,7 @@
 			<view class="Express">
 				<view class="info">
 					<view :class="{hide:!iSinfo}">
-						{{city.info}}
+						{{city.introduction}}
 					</view>
 					<text @tap="showinfo" v-if="!iSinfo">展开</text>
 				</view>
@@ -27,7 +27,7 @@
 				<block v-for="(item,index) in specialFood" :key="index">
 					<view class="item">
 						<navigator url="../food/food">
-							<view class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + item.img + ')' }]"></view>
+							<view class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + item.picture + ')' }]"></view>
 							<text class="text-sm margin-top-xs" style="height: 30upx; display: flex; justify-content: center;">{{item.name}}</text>
 						</navigator>
 					</view>
@@ -40,16 +40,16 @@
 			<block v-for="(item,index) in placeList" :key="index">
 				<view class="placeBlock">
 					<navigator url="../food/place" hover-class="navigator-hover">
-						<view class="flex cu-card case margin-right" >
-							<image class="picture" :style="[{ backgroundImage:'url(' + item.img + ')' }]" mode="scaleToFill" ></image>
+						<view class="flex" >
+							<image class="picture" :style="[{ backgroundImage:'url(' + item.pictures[0] + ')' }]"></image>
 							<view class="margin-left margin-right">
 								<view class="text-lg text-bold margin-top-xs" >{{item.name}}</view>
 								<view class="flex justify-start margin-top-xs">
 									<view class="text-sm">评分{{item.score}}</view>
-									<view class="text-sm margin-left">人均¥{{item.perConsumption}}</view>		
+									<view class="text-sm margin-left">人均 ¥{{item.price}}</view>		
 								</view>
-								<view class="text-sm">距离：{{item.dist}}km</view>
-								<view class="text-sm margin-top-xs"><text>{{item.desc}}</text></view>
+								<view class="text-sm">距离：1.2 km</view>
+								<view class="text-sm margin-top-xs"><text>{{item.introduction}}</text></view>
 							</view>							
 						</view>
 					</navigator>					
@@ -63,16 +63,16 @@
 			<view class="cu-card case" :class="isCard?'no-card':''" style="border-radius: 10px;" >
 				<navigator :url="'../discover/diary?id='+index">
 					<view class="image" style="height:240px;" >
-						<image   :src="item.background"
+						<image   :src="item.picture"
 						 mode="heightFix" ></image>
-						<view class="cu-bar bg-shadeBottom"> <text class="text-cut"  >{{item.description}}</text></view>				
+						<view class="cu-bar bg-shadeBottom"> <text class="text-cut"  >{{item.title}}</text></view>				
 					</view>
 					<view class="cu-list menu-avatar" style="height: 35px;">
 						<view class="cu-item" style="bottom: 50%;">
-							<view class="cu-avatar round"  :style="[{ backgroundImage:'url(' + item.headPortrait + ')' }]"></view>
-							<view class="text-grey" style="font-size:12px;margin-right:auto;margin-left: 30%;">{{item.name}}</view>			   			    		
+							<view class="cu-avatar round"  :style="[{ backgroundImage:'url(' + item.userBriefInformation.headportrait + ')' }]"></view>
+							<view class="text-grey" style="font-size:12px;margin-right:auto;margin-left: 30%;">{{item.userBriefInformation.name}}</view>			   			    		
 							<view class="text-gray text-sm">			   			    		
-								<text class="cuIcon-appreciatefill margin-lr-xs"></text> {{item.likes}}
+								<text class="cuIcon-appreciatefill margin-lr-xs"></text> {{item.praisenumber}}
 							</view>
 						</view>
 					</view>
@@ -88,115 +88,53 @@
 			return {
 				PageCur:"home",
 				iSinfo: false,
-				city:{
-					name: "西安",
-					info: "西安，简称“镐”，古称长安、镐京，是陕西省省会、特大城市、关中平原城市群核心城市，国务院批复确定的中国西部地区重要的中心城市，国家重要的科研、教育、工业基地  。截至2018年，全市下辖11个区、2个县，总面积10752平方千米，建成区面积700.27平方千米，常住人口1000.37万人，城镇人口740.37万人，城镇化率74.01%。",
-				},
-				specialFood:[
-					{
-						id:0,
-						name: "羊肉泡馍",
-						img: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=598688115,3254608759&fm=26&gp=0.jpg",
-					},
-					{
-						id:1,
-						name:"臊子面",
-						img:'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2961522630,4144869196&fm=26&gp=0.jpg',
-					},
-					{
-						id:2,
-						name:"陕西凉皮",
-						img:'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=799755974,285942594&fm=11&gp=0.jpg',
-					},
-					{
-						id:3,
-						name:"葫芦鸡",
-						img:'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=829486457,374540752&fm=26&gp=0.jpg',
-					},
-					{
-						id:4,
-						name:"玫瑰镜糕",
-						img:'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2544692856,1542675395&fm=26&gp=0.jpg',
-					},
-					{
-						id:5,
-						name:"羊肉泡馍",
-						img:'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=598688115,3254608759&fm=26&gp=0.jpg',
-					}
-				],
-				placeList:[
-					{
-						id: 0,
-						img: "/static/shop01.png",
-						name: "清真鼎盛兴饭店",
-						score: "4.7",
-						perConsumption: 30,
-						dist: 1.2,
-						desc: "这是一家好吃的饭店"
-					},
-					{
-						id: 1,
-						img: "/static/food4.png",
-						name: "清真鼎盛兴饭店",
-						score: "4.3",
-						perConsumption: 30,
-						dist: 1.2,
-						desc: "这是一家非常好吃的饭店"
-					},
-					{
-						id: 2,
-						img: "/static/shop04.png",
-						name: "清真鼎盛兴饭店",
-						score: "4.3",
-						perConsumption: 30,
-						dist: 1.2,
-						desc: "这是一家好吃的饭店"
-					}
-				],
-				diaryList:[
-					{
-						id: 0,
-						name: '令人头秃',
-						description: '希望大家能够尝一尝这家烤肉！',
-						background:"../../static/img/7.jpg",
-						headPortrait:'../../static/img/5.jpg',
-						views:'15',
-						likes:'25',
-						comment:'35',
-					},{
-						id: 1,
-						name: '吃货小王',
-						description: '他们家的凉皮真的不容错过！！',
-						background:"../../static/img/3.png",
-						headPortrait:'../../static/img/6.jpg',
-						views:'30',
-						likes:'22',
-						comment:'18',
-					},{
-						id: 2,
-						name: '独白',
-						description: '这家的面真的太好吃啦！',
-						background:"../../static/img/2.png",
-						headPortrait:'../../static/img/qq_pic_merged_1583398729577.jpg',
-						views:'11',
-						likes:'5',
-						comment:'3',
-					},{
-						name: 'SiSi',
-						description: '西安美食大搜罗！去了很多地方才收集到的哦！',
-						background:"../../static/img/12.png",
-						headPortrait:'../../static/img/qq_pic_merged_1583398711824.jpg',
-						views:'30',
-						likes:'22',
-						comment:'18',
-					},
-				]
+				city: [],
+				specialFood:[],
+				placeList:[],
+				diaryList:[]
 			}
 		},
 		methods: {
 			showinfo() {
 				this.iSinfo = !this.iSinfo
+			},
+			async initPage(){
+				const city = await this.$myRequest({
+					url: '/v1/api/homepage/getCityIntroductionById?cityid=',
+					data: {
+						cityid: 0
+						}
+				})
+				// 给页面的数据赋值
+				this.city =city.data;
+				const food = await this.$myRequest({
+					url: '/v1/api/homepage/getCityFood?cityid=',
+					data: {
+						cityid: 0
+						}
+				})
+				// 给页面的数据赋值
+				this.specialFood =food.data.data;
+				const shop = await this.$myRequest({
+					url: '/v1/api/homepage/getCityShop?cityid=',
+					data: {
+						cityid: 0
+						}
+				})
+				// 给页面的数据赋值
+				this.placeList =shop.data.data;
+				const diary = await this.$myRequest({
+					url: '/v1/api/homepage/getCityFoodRecord?cityid=',
+					data: {
+						cityid: 0
+						}
+				})
+				// 给页面的数据赋值
+				this.diaryList =diary.data.data;
 			}
+		},
+		onLoad() {
+			this.initPage();
 		}
 	}
 </script>
@@ -275,10 +213,11 @@
 		vertical-align: top;
 	}
 	
-	.placeBlock {
-		margin-right: 200;
+	.placeBlock {		
 		display: inline-block;
-		//vertical-align: top;
+		margin-right: 20upx;
+		border: 1px solid #999;
+		border-radius: 10px;;
 	}
 	
 	.content-column {
@@ -298,10 +237,8 @@
 	.picture {
 		height: 100px;
 		width: 100px;
-		margin-top: 0px;
-		margin-left: 0px;
-		margin-right: auto;
-		margin-bottom: 0px;
+		border-radius: 10px 0 0 10px;
+		vertical-align: middle;
 	}
 </style>
 
