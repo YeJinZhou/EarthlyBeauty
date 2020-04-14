@@ -14,11 +14,11 @@
 		</scroll-view>
 		<view v-show="TabCur==0">
 			<scroll-view scroll-y="true" class="scroll-Y" @scrolltoupper="scroll" @scrolltolower="scroll" @scroll="scroll">
-				<view v-for="(item, index) in card">
+				<view v-for="(item, index) in countryranks">
 					<view v-if="index<3">
 						<view class="other_row">
 							<image :src="'../../static/wode/'+(index+1)+'.png'" style="width:25px; height:25px; margin:6px;"></image>
-							<view class="cu-avatar lg round" style="margin-right:6px; " :style="[{ backgroundImage:'url(' + item.imageURL + ')' }]"></view>
+							<view class="cu-avatar lg round" style="margin-right:6px; " :style="[{ backgroundImage:'url(' + item.headportrait + ')' }]"></view>
 							<view class="name">{{item.name}}</view>
 							<view class="score">{{item.score}}分</view>
 						</view>
@@ -26,16 +26,16 @@
 					<view v-if="index>=3">
 						<view class="other_row">
 							<view class="rank" style="width:25px; height:25px; margin:6px; justify-content: center;">{{index+1}}</view>
-							<view class="cu-avatar lg round"style="margin-right:6px; " :style=" [{ backgroundImage:'url(' + item.imageURL + ')' }]"></view>
+							<view class="cu-avatar lg round"style="margin-right:6px; " :style=" [{ backgroundImage:'url(' + item.headportrait + ')' }]"></view>
 							<view class="name">{{item.name}}</view>
 							<view class="score">{{item.score}}分</view>
 						</view>
 					</view>
-				</view>
+				</view> 
 				<view class="my_row">
-					<view class="my" v-for="(item, index) in master">
+					<view class="my" v-for="(item, index) in countrymaster">
 						<view class="rank" style="width:25px; height:25px; margin:6px; justify-content: center;">{{item.rank}}</view>
-						<view class="cu-avatar lg round" style="margin-right:6px; " :style=" [{ backgroundImage:'url(' + item.imageURL + ')' }]"></view>
+						<view class="cu-avatar lg round" style="margin-right:6px; " :style=" [{ backgroundImage:'url(' + item.headportrait + ')' }]"></view>
 						<view class="name">{{item.name}}</view>
 						<view class="score">{{item.score}}分</view>
 					</view>
@@ -44,11 +44,11 @@
 		</view>
 		<view v-show="TabCur==1">
 			<scroll-view scroll-y="true" class="scroll-Y" @scrolltoupper="scroll" @scrolltolower="scroll" @scroll="scroll">
-				<view v-for="(item, index) in card">
+				<view v-for="(item, index) in cityranks">
 					<view v-if="index<3">
 						<view class="other_row">
 							<image :src="'../../static/wode/'+(index+1)+'.png'" style="width:25px; height:25px; margin:6px;"></image>
-							<view class="cu-avatar lg round" style="margin-right:6px; " :style=" [{ backgroundImage:'url(' + item.imageURL + ')' }]"></view>
+							<view class="cu-avatar lg round" style="margin-right:6px; " :style=" [{ backgroundImage:'url(' + item.headportrait + ')' }]"></view>
 							<view class="name">{{item.name}}</view>
 							<view class="score">{{item.score}}分</view>
 						</view>
@@ -56,16 +56,16 @@
 					<view v-if="index>=3">
 						<view class="other_row">
 							<view class="rank" style="width:25px; height:25px; margin:6px; justify-content: center;">{{index+1}}</view>
-							<view class="cu-avatar lg round" style="margin-right:6px; " :style=" [{ backgroundImage:'url(' + item.imageURL + ')' }]"></view>
+							<view class="cu-avatar lg round" style="margin-right:6px; " :style=" [{ backgroundImage:'url(' + item.headportrait + ')' }]"></view>
 							<view class="name">{{item.name}}</view>
 							<view class="score">{{item.score}}分</view>
 						</view>
 					</view>
 				</view>
 				<view class="my_row">
-					<view class="my" v-for="(item, index) in master">
+					<view class="my" v-for="(item, index) in citymaster">
 						<view class="rank" style="width:25px; height:25px; margin:6px; justify-content: center;">{{item.rank}}</view>
-						<view class="cu-avatar lg round" style="margin-right:6px; " :style=" [{ backgroundImage:'url(' + item.imageURL + ')' }]"></view>
+						<view class="cu-avatar lg round" style="margin-right:6px; " :style=" [{ backgroundImage:'url(' + item.headportrait + ')' }]"></view>
 						<view class="name">{{item.name}}</view>
 						<view class="score">{{item.score}}分</view>
 					</view>
@@ -76,50 +76,84 @@
 </template>
 
 <script>
+	import uniSearchBar from '@/components/uni-search-bar/uni-search-bar.vue'
+	import uniSection from '@/components/uni-section/uni-section.vue'
+	import uniSwipeAction from '@/components/uni-swipe-action/uni-swipe-action.vue'
+	import uniSwipeActionItem from '@/components/uni-swipe-action-item/uni-swipe-action-item.vue'
+	import {
+		mapState
+	} from 'vuex'
+	
 	export default {
+		computed: mapState(['userName']),
+		components: {
+			uniSearchBar,
+			uniSection,
+			uniSwipeAction,
+			uniSwipeActionItem
+		},
 		data() {
 			return {
 				TabCur: 0,
 				scrollLeft: 0,
 				lists: ['全国', '当前城市'],
-				card: [{
-					imageURL:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=107058113,2695546856&fm=11&gp=0.jpg',
-					name: '张若昀',
-					score: '10000'
-				}, {
-					imageURL:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=107058113,2695546856&fm=11&gp=0.jpg',
-					name: '张的的',
-					score: '1000'
-				}, {
-					imageURL:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=107058113,2695546856&fm=11&gp=0.jpg',
-					name: '张显宗',
-					score: '998'
-				}, {
-					imageURL:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=107058113,2695546856&fm=11&gp=0.jpg',
-					name: '陈山',
-					score: '111'
-				}, {
-					imageURL:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=107058113,2695546856&fm=11&gp=0.jpg',
-					name: '鹿飞',
-					score: '12'
-				}, {
-					imageURL:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=107058113,2695546856&fm=11&gp=0.jpg',
-					name: '范闲',
-					score: '8'
-				}, {
-					imageURL:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=107058113,2695546856&fm=11&gp=0.jpg',
-					name: 'zry',
-					score: '2'
-				}],
-				master:[{
-					rank:'100',
-					imageURL:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=107058113,2695546856&fm=11&gp=0.jpg',
-					name:'xiaotuitui',
-					score:'111',
+				cityranks: [{ 
+					headportrait:'',
+					name: '',
+					score: '' 
+				},]
+				,countryranks: [{
+					headportrait:'',
+					name: '',
+					score: '' 
+				},],
+				citymaster:[{
+					rank:'',
+					headportrait:'',
+					name:'',
+					score:'',
+					}],
+					countrymaster:[{
+					rank:'',
+					headportrait:'',
+					name:'',
+					score:'' 
 					}]
 			};
-		},
+		},onLoad() {
+					this.initPage(); 
+				},
 		methods: {
+			async initPage(){
+							const res = await this.$myRequest({
+								url: '/v1/api/mypage/getCityRank', //仅为示例，并非真实接口地址。
+								data: {
+						 			account: this.userName,
+								},
+							})
+							console.log(res.data);
+							let plans = [];
+							for(let i=0;i<res.data.data.length-1;i++){
+								plans.push(res.data.data[i]);
+							}
+							this.cityranks = plans;
+							this.citymaster=[res.data.data[res.data.data.length-1]];
+						
+							
+							const res1 = await this.$myRequest({
+								url: '/v1/api/mypage/getNationalRank', //仅为示例，并非真实接口地址。
+								data: {
+									account: this.userName,
+								},
+							})
+							let plans1 = [];
+							for(let i=0;i<res1.data.data.length-1;i++){
+								plans1.push(res1.data.data[i]);
+							}
+							this.countryranks = plans1;
+							this.countrymaster=[res1.data.data[res1.data.data.length-1]];
+							
+						},
 			tabSelect(index, e) {
 				this.TabCur = index;
 				console.log(this.TabCur);
