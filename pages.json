@@ -76,6 +76,18 @@
             "path" : "pages/post/createPost",
             "style" : {}
         }
+		,{
+		    "path" : "pages/post/create",
+		    "style" : {}
+		}
+		,{
+		    "path" : "pages/post/fabu",
+		    "style" : {}
+		}
+		,{
+		    "path" : "pages/post/yijian",
+		    "style" : {}
+		}
         ,{
             "path" : "pages/oneDay/oneDay",
             "style" : {}
