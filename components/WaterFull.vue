@@ -7,7 +7,7 @@
 					<view class="water-sub" v-for="(items,index) in waterList" :key="index">
 						<view class="water-item" v-for="(item,idx) in items" :key="idx">
 							<view class="water-top">
-								<image class="top-cover" :src="item.cover" @tap="previewImg(item.cover,idx)" :onerror="errorImg" mode="widthFix"></image>
+								<image class="top-cover" :src="item.cover" @tap="todiary" :onerror="errorImg" mode="widthFix"></image>
 								<h3 class="top-title">{{item.title}}</h3>
 							</view>
 							<view class="water-bottom">
@@ -96,14 +96,11 @@
 				}
 			},
 			// 查看图片详情
-			previewImg(img, index) {
-				let arr = [];
-				arr.push(img);
-				uni.previewImage({
-					current: index,
-					urls: arr
-				})
-			}
+		todiary(){
+			uni.navigateTo({
+				url: '/pages/discover/diary'
+			})
+		}
 		},
 	}
 </script>

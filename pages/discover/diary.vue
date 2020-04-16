@@ -1,6 +1,9 @@
 <template>
 	<view>
-		<cu-custom bgColor="bg-gradual-orange" :isBack="true"><block slot="backText">返回</block><block slot="content"></block></cu-custom>
+		
+	
+		
+		
 		<!-- 主图轮播 -->
 		<view class="swiper-box">
 			<swiper circular="true" autoplay="true" @change="swiperChange">
@@ -11,32 +14,77 @@
 			<view class="indicator">{{currentSwiper+1}}/{{swiperList.length}}</view>
 		</view>
 		<!-- 用户信息 -->
-		<view class="info-box goods-info">
-			用户信息
+		
+		<view class="user-xinxi">
+			<view class="face"><image :src="user.face"></image></view>
+			<view class="username">{{user.name}}</view>
+			<button class="follow" size="mini" plain="true" >关注</button>
 		</view>
 		
-		<view class ="content">
-			{{goodsData.xinxi}}
+		<view class ="pingjia">
+			{{user.xinxi}}
 		</view>
+		
+		<view class="biaoqian">
+			{{biaoqian.tag}}
+		</view>
+		
+		<view class="plan"> 
+			<view class="shop">
+				<image class="shop-avatar" src="../../static/23.png">
+				<text class="shop-name"> 羊肉泡馍
+				鼎盛兴</text></view>
+				<view class="jia"  >+</view>
+			<view class="shop">
+				<image class="shop-avatar" src="../../static/img/3.png">
+				<text class="shop-name"> 陕西凉皮
+				长安美食坊</text></view>
+				<view class="jia"  >+</view>
+			<view class="shop">
+				<image class="shop-avatar" src="../../static/img/2.png">
+					<text class="shop-name"> 臊子面
+					李氏臊子面</text>
+			
+			</view>
+		
+		
+		</view>
+		
+		<button class="button_1"@click="tocreatePost">作为我的一日方案</button>
+		
 		<!-- 评价 -->
 		<view class="info-box comments" id="comments">
 			<view class="row">
-				<view class="text">评论({{goodsData.comment.number}})</view>
-				<view class="arrow" @tap="toRatings">
-					<view class="show" @tap="showComments(goodsData.id)">
-						查看全部
-						<view class="icon xiangyou"></view>
-					</view>
-				</view>
+				<view class="text">评论</view>
 			</view>
-			<view class="comment" @tap="toRatings">
+			
+			<view class="comment">
 				<view class="user-info">
 					<view class="face"><image :src="goodsData.comment.userface"></image></view>
-					<view class="username">{{goodsData.comment.username}}</view>
+					<view class="username">{{backendData[0].id}}</view>
 				</view>
 				<view class="content">
 					{{goodsData.comment.content}}
 				</view>
+			</view>
+			
+			
+			
+			<view>
+				
+				
+				
+				
+				
+				
+			</view>
+			
+			<view class="dibu">
+				<text class="middle" @click="toggleMask('show')" size="" plain="true"  >说点什么吧...</text>
+				<uni-fav :checked="checkList[0]" class="shoucang" circle="true" bg-color="#ffd174" bg-color-checked="#ffd174" @click="onClick(0)"></uni-fav>
+				<ygc-comment ref="ygcComment"
+				    :placeholder="'发布评论'" 
+					@pubComment="pubComment"></ygc-comment>
 			</view>
 		</view>
 		
@@ -45,17 +93,27 @@
 </template>
 
 <script>
+	
+import ygcComment from '@/components/ygc-comment/ygc-comment.vue';
+
+import uniFav from '@/components/uni-fav/uni-fav.vue';
+
+ var mockURL = "https://nei.netease.com/api/apimock-v2/7f58f7ccd8b5b6da5d9af6a1bd5edf68/v1/api/comment/getFoodRecordCommentByFoodRecordId?foodrecordid= "
 export default {
+	components:{
+		ygcComment,
+		uniFav
+	},
 	data() {
 		return {
-			
+			checkList: [false],
 			//是否显示返回按钮
 			// #ifndef MP
 			showBack:true,
 			// #endif
 			//轮播主图数据
 			swiperList: [
-				{ id: 1, img: '/static/1.jpg' },
+				{ id: 1, img: '/static/23.png' },
 				{ id: 2, img: '/static/2.jpg' },
 				{ id: 3, img: '/static/3.jpg' },
 				{ id: 4, img: '/static/4.jpg' }
@@ -67,31 +125,51 @@ export default {
 			serviceClass: '',//服务弹窗css类，控制开关动画
 			specClass: '',//规格弹窗css类，控制开关动画
 			shareClass:'',//分享弹窗css类，控制开关动画
-			// 商品信息
+			
+			biaoqian:{
+	
+				tag:'#西安#'
+			},
+			
+			user:{
+				name:'随芝所乐',
+				face:'/static/face.jpg',
+				xinxi:'说到西安,你脑袋中第一浮现出来的是什么呢？我脑袋中浮现出来的就是美食！！！大凡到过西安的人，都会去品尝一下西安的牛羊肉泡馍。由于羊肉泡馍经济实惠，而极富有地方特色，来西安不吃牛羊肉泡，似乎就白来西安一趟.',
+			},
+			
+			// 评论信息
 			goodsData:{
 				id:1,
-				xinxi:'说到西安,你脑袋中第一浮现出来的是什么呢？',
+				
 				
 				comment:{
-					number:102,
 					userface:'/static/face.jpg',
 					username:'大黑哥',
-					content:'很不错，之前吃了很多次了！'
+					content:'看起来很好吃啊，感谢分享！我也好喜欢西安这座城市！西安带给我好多美好的回忆！'
 				}
 			},
 			
-			};
+			backendData:[
+				{
+					id:1,
+					
+				},
+				{
+					id:2,
+				}
+			],
+				
+			
+			
+			}
 	},
-	onLoad(option) {
-		// #ifdef MP
-		//小程序隐藏返回按钮
-		this.showBack = false;
-		// #endif
-		//option为object类型，会序列化上个页面传递的参数
-		console.log(option.cid); //打印出上个页面传递的参数。
+	onLoad() {
+		this.initPage();
+		
+		
 	},
 	onReady(){
-		this.calcAnchor();//计算锚点高度，页面数据是ajax加载时，请把此行放在数据渲染完成事件中执行以保证高度计算正确
+		//this.calcAnchor();//计算锚点高度，页面数据是ajax加载时，请把此行放在数据渲染完成事件中执行以保证高度计算正确
 	},
 	onPageScroll(e) {
 		
@@ -101,9 +179,28 @@ export default {
 		
 	},
 	methods: {
+		
+		async initPage(foodrecordid){
+			const res =await this.$myRequest({
+				url:'/v1/api/comment/getFoodRecordCommentByFoodRecordId?foodrecordid=',
+				data:{
+					foodrecordid:'1'
+					
+				},
+			})
+			console.log('back end data:');
+			console.log(res.data);
+			this.backendData =res.data.data;
+		},
+		
 		//轮播图指示器
 		swiperChange(event) {
 			this.currentSwiper = event.detail.current;
+		},
+		
+		onClick(index) {
+			this.checkList[index] = !this.checkList[index]
+			this.$forceUpdate()
 		},
 		
 		//评论，跳转页面
@@ -113,10 +210,25 @@ export default {
 			})
 		},
 		
+		tocreatePost(){
+			uni.navigateTo({
+				url:'../createPost/yijian'
+			})
+		},
+		
 		//返回上一页
 		back() {
 			uni.navigateBack();
 		},
+		toggleMask(type) {
+			this.$refs.ygcComment.toggleMask(type);
+		},
+		pubComment(commentContent1) {
+			this.$refs.ygcComment.toggleMask();
+			console.log(commentContent1);
+			this.commentContent = commentContent1;
+			this.$refs.ygcComment.content = '';
+		}
 		
 		
 	}
@@ -159,6 +271,50 @@ page {
 			transform: translateY(0);
 		}
 	}
+ 
+.button_1{
+				width: 100%;
+				height: 80upx;
+				border-radius: 80upx;
+				background-color: #ff9966;
+				line-height: 80upx
+			}
+.plan{
+	height: 200upx;
+	width: 80%;
+	display: flex;
+	align-items: center;
+	.jia {
+		font-size: 30px;
+		color: #ff0000;
+		margin-left: 20upx;
+		margin-bottom: 8%;
+		align-self: center;
+	}
+	.shop{
+		display: flex;
+		flex-direction: column;
+		margin-left: 60upx;
+	}
+	.shop-name{
+		font-size: 25upx;
+		align-self:center;
+	}
+	.shop-avatar{
+		width: 100upx;
+		height: 100upx;
+		align-self: center;
+		margin-left: 30upx;
+		border-radius: 100%	;
+		image {
+			width: 100upx;
+			height: 100upx;
+			border-radius: 100%;
+		}
+	}
+}
+
+
 
 .icon {
 	font-size: 26upx;
@@ -290,14 +446,14 @@ page {
 .swiper-box {
 	position: relative;
 	width: 100%;
-	height: 100vw;
+	height: 500upx;
 	swiper {
 		width: 100%;
-		height: 100vw;
+		height: 500upx;
 		swiper-item {
 			image {
 				width: 100%;
-				height: 100vw;
+				height: 500upx;
 			}
 		}
 	}
@@ -323,6 +479,70 @@ page {
 	margin-bottom: 20upx;
 }
 
+.dibu{
+	width: 100%;
+	position: fixed;
+	bottom: var(--window-bottom);
+	height:80upx;
+	background-color: #ffffff;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	.shoucang{
+		align-self: center;
+		margin-left: 200upx;
+		
+	}
+	.middle{
+		align-self: center;
+		font-size: 30upx;
+		color:  #d9d9d9;
+		
+	}
+	
+}
+
+.biaoqian{
+	display: flex;
+	flex-direction: row;
+	color: #ff6600;
+	margin-left: 30upx;
+}
+
+.pingjia{
+	font-size: 30upx;
+	margin-left: 30upx;
+	color: #8F8F94;
+}
+.user-xinxi{
+	margin-top: 20upx;
+	flex-direction: row;
+	display: flex;
+	height: 140upx;
+	justify-content: center;
+	.face{
+		width: 120upx;
+		height: 120upx;
+		align-self: center;
+		margin-left: 30upx;
+		image {
+			width: 120upx;
+			height: 120upx;
+			border-radius: 100%;
+		}
+	}
+	.username{
+		align-self: center;
+		color: #333333;
+		margin-left: 30upx;
+	}
+	.follow{
+		height:40%;
+		color: #ff3600;
+		margin-right: 20upx;
+		align-self: center;
+	}
+}
 .goods-info {
 	.price {
 		font-size: 46upx;
@@ -401,6 +621,7 @@ page {
 			}
 		}
 	}
+	
 	.comment {
 		width: 100%;
 		.user-info {
@@ -429,6 +650,7 @@ page {
 		}
 	}
 }
+
 .description {
 	.title {
 		width: 100%;

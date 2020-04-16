@@ -1,32 +1,57 @@
 <template>
-	<view class="content">
-		
-		<WaterFull ref="waterFull" />
-		
+
 	
+	<view class="content">
+		<uni-search-bar :radius="100" @confirm="search"></uni-search-bar>
+		<uni-segmented-control :current="current" :values="items" @clickItem="onClickItem" style-type="button" radius="100%" width="80%" active-color="#dd524d" ></uni-segmented-control>
+		<view class="content">
+		    <view v-show="current === 0">
+		        <WaterFull ref="waterFull" />
+		    </view>
+		    <view v-show="current === 1">
+			    <WaterFull ref="guanzhu" />
+		    </view>
+		</view>
 		
 	</view>
 </template>
 
 <script>
 	import WaterFull from '../../components/WaterFull.vue'
+	
+	import uniSearchBar from '@/components/uni-search-bar/uni-search-bar.vue'
+	import uniSegmentedControl from "@/components/uni-segmented-control/uni-segmented-control.vue"
+	
 	export default {
 		data() {
 			return {
-				PageCur: "discover",
 				title: 'Hello',
-				dataList: []
+				dataList: [],
+				items: ['热门','关注'],
+				current: 0
 			}
 		},
 		components: {
-			WaterFull
+			WaterFull,
+			uniSearchBar,
+			uniSegmentedControl
 		},
 		methods: {
-			// 给waterfill赋值
+			onClickItem(e) {
+			    if (this.current !== e.currentIndex) {
+			        this.current = e.currentIndex;
+			    }
+			},
+			// 给waterfull赋值
 			giveData(arr) {
 				let that = this;
 				that.$refs.waterFull.handleLoad(arr);
+				that.$refs.guanzhu.handleLoad(arr);
+
 			},
+			
+			
+			
 			
 			// 获取网络信息
 			getNetWork() {
