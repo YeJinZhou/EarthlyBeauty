@@ -32,11 +32,7 @@
 			"path": "pages/me/attention",
 			"style": {
 			}
-		}, {
-			"path": "pages/me/attentionDiary",
-			"style": {
-			}
-		}, {
+		},  {
 			"path": "pages/me/ranking",
 			"style": {
 			}
@@ -117,11 +113,6 @@
         },{
        "path" : "pages/food/place",
        "style" : {}
-        }
- 
-        ,{
-            "path" : "pages/test",
-            "style" : {}
         }
     ],
 	"globalStyle": {

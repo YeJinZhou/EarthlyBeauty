@@ -1,0 +1,149 @@
+/* 人间烟火自定义CSS | by 叶锦洲 2020年4月14日11:40:55
+ *
+ * 文件设置目的：尽可能实现结构与样式相分离
+ *
+ * 内容包含：colorUI没有的针对性样式
+ *
+ * 样式命名：统一以 'eb-' (EarthlyBeauty简写)开头
+ *
+ * 因为俺也没有写过CSS文件，就先把用到的所有样式都写在这里，
+ * 书写顺序暂时按照页面来排序
+ */
+/* ==================
+        食地
+ ==================== */
+ /* 顶部的饭店信息 */
+.eb-place-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20upx;
+  padding: 20upx;
+  border-bottom: 1px solid rgba(0,0,0,.05);
+}
+/* 饭店基本信息 */
+.eb-place-info .basic {
+  display: flex;
+  flex-direction: column;
+}
+
+.eb-place-info .basic .name {
+  font-weight: 700;
+  font-size: 34upx;
+  color: #333333;
+}
+
+.eb-place-info .basic .info {
+  display: flex;
+  align-items: center;
+  margin-top: 10upx;
+  font-size: 24upx;
+}
+
+.eb-place-info .basic .uni-rate {
+  margin-top: 7upx;
+}
+
+.eb-place-info .basic .score {
+  margin: auto 30upx auto 15upx;
+}
+
+.eb-place-info .icon-shoucang {
+  margin-right: 20upx;
+  font-size: 50upx;
+  color: #e0e0e0;
+}
+
+.eb-place-info .red {
+  color: #ff0000;
+}
+
+.eb-location-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20upx;
+  padding: 0 20upx 20upx 20upx;
+  border-bottom: 1px solid rgba(0,0,0,.05);
+}
+
+.eb-location-box .icon-weizhi {
+  font-size: 40upx;
+  color: #f07464;
+}
+
+.eb-location-box .location {
+  font-size: 24upx;
+  color: #aaaaaa;
+}
+
+.eb-location-box .location .place-name {
+  font-weight: 700;
+  font-size: 28upx;
+  color: #333333;
+}
+
+.eb-commentContent {
+  margin-top: 10upx;
+  margin-bottom: 20upx;
+  font-size: 30upx;
+  display: -webkit-box;			/* 好像是个必要的元素 */
+  -webkit-box-orient: vertical;	/* 作用未知,删除没有影响 */
+  -webkit-line-clamp: 2;			/* 文字截断的行数 */
+  word-break:break-all;
+  padding: 0 30upx 0;
+  max-height: 6.4em;
+  overflow: hidden; 				/* 溢出部分隐藏 */
+}
+
+.thumbnailImage {
+  margin-right: 30upx;
+  width: 30%;
+  height: 200upx;
+  border-radius: 10upx;
+}
+/* ==================
+        城市
+ ==================== */
+.cityTitle{
+  font-size: 40upx;
+  //font-weight: 100;
+  color: #000000;
+  line-height: 100upx;
+  padding: 0 30upx;
+  font-family: 'FZXiaoBiaoSong-B05S';
+}
+
+.item {
+  margin-right: 40upx;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.placeBlock {
+  display: inline-block;
+  margin-right: 20upx;
+  border: 1px solid #999;
+  border-radius: 10px;;
+}
+
+.content-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.content-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+}
+.picture {
+  height: 100px;
+  width: 100px;
+  border-radius: 10px 0 0 10px;
+  vertical-align: middle;
+}
