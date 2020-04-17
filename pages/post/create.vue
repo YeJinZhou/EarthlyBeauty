@@ -2,7 +2,7 @@
 	<view @click="close" class="mask">
 		<view @click.stop="onClick" class="content">
 			<button class="btn" @click="toPlan"><text class="text">方案自动生成游记</text></button>
-			<button class="btn" ><text class="text">自由发表游记</text></button>
+			<button class="btn" @click="tocreate"><text class="text">自由发表游记</text></button>
 		</view>
 	</view>
 </template>
@@ -16,15 +16,18 @@
 		},
 		methods: {
 			onClick(e) {
-				uni.navigateTo({
-					url:'createPost'
-				})
+				
 				
 				e.stopPropagation()
 				
 			},
 			close() {
 				uni.navigateBack()
+			},
+			tocreate(){
+				uni.navigateTo({
+					url:"../post/createPost"
+				})
 			},
 			toPlan(){
 				uni.navigateTo({

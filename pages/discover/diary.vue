@@ -212,7 +212,7 @@ export default {
 		
 		tocreatePost(){
 			uni.navigateTo({
-				url:'../createPost/yijian'
+				url:'../post/yijian'
 			})
 		},
 		
