@@ -92,6 +92,8 @@
 		<menuroute v-show='sixFinish' class="left" :planitems="items.planitems"></menuroute>
 		<view style="height: 4px;"></view>
 
+		<button class="button_1"@click="tocreatePost">一键生成食记</button>
+
 		<view class="cu-modal" :class="modalName=='DialogModal1'?'show':''">
 			<view class="cu-dialog">
 				<view class="cu-bar bg-white justify-end">
@@ -214,6 +216,13 @@
 			this.initPage();
 		},
 		methods: {
+			
+			tocreatePost(){
+				uni.navigateTo({
+					url:'/pages/post/yijian'
+				})
+			},
+			
 			async initPage() {
 				console.log("init customize: " + this.planid);
 				if (this.planid == '') {
@@ -387,6 +396,13 @@
 		border-radius: 10px;
 	}
 
+.button_1{
+				width: 100%;
+				height: 80upx;
+				border-radius: 80upx;
+				background-color: #ff9966;
+				line-height: 80upx
+			}
 
 	.plus {
 		height: 20px;

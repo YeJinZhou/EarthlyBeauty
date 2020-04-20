@@ -31,7 +31,7 @@
 			},
 			toPlan(){
 				uni.navigateTo({
-					url:"../discover/diary"
+					url:"/pages/me/plan"
 				})
 			}
 		}

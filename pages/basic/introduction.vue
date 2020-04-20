@@ -3,7 +3,8 @@
 	
 		<view class="content">
 			 
-			 <navigator url="../home/city" open-type="switchTab"><image src="../../static/23.png" mode="scaleToFill" style="width: 100%; " >
+			 <navigator url="/pages/home/city" open-type="switchTab"><image src="../../static/img/timg.png" mode="scaleToFill" style="width: 100%; " >
+				
 				<text class="info">西</text>
 				<text class="info">安</text>
 				<text class="info">·</text>
@@ -15,7 +16,7 @@
 				 
 		</view>
 		<view class="example-body" >
-			<image class="img-logo" src="../../static/logo.png" >
+			<image class="img-logo" src="../../static/22.png"  mode="scaleToFill" style="height: 100%;">
 			<button class="button_1" type="" plain="true" size="mini"  @click="toPage" ><uni-countdown :show-day="false" :second="5"  @timeup="timeup" />
 			</button>
 			
@@ -48,12 +49,12 @@
 		},
 		methods: {
 			timeup() {
-				uni.switchTab({
-				    url: '/pages/home/city'
+				uni.navigateTo({
+				    url: '/pages/home/country'
 				})
 			},
 			toPage(){
-				uni.switchTab({
+				uni.navigateTo({
 					url: '/pages/home/country'
 				})
 			}
@@ -79,7 +80,7 @@
 		display: flex;
 		flex-direction: column;
 		box-sizing: border-box;
-		background-color: #ff9966;
+		background-color: #E87E62;
 		min-height: 100%;
 		height: auto;
 	}
@@ -92,9 +93,10 @@
 	
 	.button_1{
 		flex-direction: row;
-		background-color: #2C405A;
+		background-color: #ffffff;
 		border-radius: 50rpx;
 		margin-bottom: 20rpx;
+		border-color: #E87E62;
 		
 		
 	}
@@ -110,8 +112,9 @@
 		flex-wrap: wrap;
 		justify-content: center;
 		padding: 0;
+		
 	
-		margin-top: 150rpx;;
+		margin-top: 200rpx;;
 		font-size: 14rpx;
 	
 	}
@@ -139,7 +142,8 @@
 		padding: 0;
 		font-size: 14rpx;
 		background-color: #ffffff;
-		height: 100rpx;
+		height: 150rpx;
+		margin-top: 100rpx;
 	}
 
 	/* #endif */
