@@ -63,18 +63,6 @@
 </script>
 
 <style>
-	/* 头条小程序组件内不能引入字体 */
-	/* #ifdef MP-TOUTIAO */
-	
-	@font-face {
-		font-family: uniicons;
-		font-weight: normal;
-		font-style: normal;
-		src: url('~@/static/uni.ttf') format('truetype');
-	}
-
-	/* #endif */
-
 	/* #ifndef APP-NVUE */
 	page {
 		display: flex;
