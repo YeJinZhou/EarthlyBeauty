@@ -24,7 +24,7 @@
 			</block>
 		</scroll-view>
 		<view class="contain solid-bottom">
-			<view v-if="MenuSelect!=-1">
+			<view v-if="MenuSelect!=-1" style="display: flex; flex-direction: row;">
 				<view style=" width:50%;height:100%; font-size:15px;">{{list[MenuSelect].introduction}}</view>
 				<image style="border-radius: 6px; width:50%;height:100%;" :src="list[MenuSelect].picture"></image>
 			</view>
