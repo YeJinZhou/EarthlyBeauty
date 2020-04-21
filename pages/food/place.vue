@@ -1,41 +1,35 @@
 <template>
 	<view>
-		<!-- 顶部导航栏 -->
+		<!-- 顶部导航栏部分开始 -->
 		<cu-custom bgColor="bg-gradual-orange" :isBack="true">
 			<block slot="backText">返回</block>
 			<block slot="content">食地</block>
 		</cu-custom>
+		<!-- 顶部导航栏部分结束 -->
+		<!-- 店铺信息部分开始 -->
 		<!-- 店铺名、评分、人均消费等信息 -->
 		<div class="eb-place-info">
 			<div class="basic">
 				<div class="name">{{place.name}}</div>
 				<div class="info">
-					<uni-rate :value='place.score' disabled="true" size="10"></uni-rate>
+					<uni-rate disabled="true" size="10" :value="place.score"></uni-rate>
 					<div class="score">{{place.score}}分</div>
-					<text>¥{{place.perConsumption}}/人</text>
+					<text>¥{{place.price}}/人</text>
 				</div>	
 			</div>
-			<div @tap="collect" class="iconfont icon-shoucang" :class="place.isLike==true?'red':'gray'"></div>
-		</div>
-		<!-- 特色菜品滚动条 -->
-			<!-- 只写出了bug -->
-			
+			<div @tap="collect" class="iconfont icon-shoucang" :class="place.isLike?'red':'gray'"></div>
+		</div>			
 		<!-- 店铺地址 -->
 		<div class="eb-location-box">
 			<div class="iconfont icon-weizhi"></div>
-			<div class="location">
-				<div class="place-name">
-					{{place.location.location}}
-				</div>
-				<div>
-					距离{{place.location.nearbyPlace}}{{place.location.dist2nearby}}米
-				</div>
+			<div class="place-name">
+				{{place.address}}
 			</div>
 			<div class="dist"></div>
 			<div class="iconfont icon-you"></div>
 		</div>
-			
-		<!-- 精选评论 -->
+		<!-- 店铺信息部分结束 -->	
+		<!-- 精选评论部分开始 -->
 		<view class="text-lg text-bold margin-left margin-top">精选评论</view>
 		<view class="cu-card dynamic">
 			<view class="cu-item shadow">
@@ -61,8 +55,8 @@
 				<view class=" padding"></view>
 			</view>
 		</view>
-		
-		<!-- 点评 -->
+		<!-- 精选评论部分结束 -->
+		<!-- 点评部分开始 -->
 		<view class="text-lg text-bold margin-left">点评</view>
 		<view class="cu-card dynamic">
 			<view class="cu-item shadow">
@@ -88,7 +82,10 @@
 				<view class=" padding"></view>
 			</view>
 		</view>
-		<!-- 底部评论栏 -->
+		<!-- 点评部分结束 -->
+		<!-- 防止评论栏遮挡最下方评论的空白部分 -->
+		<view style="height: 100upx;"></view>
+		<!-- 底部评论栏部分开始 -->
 		<view class="cu-bar foot bg-white">
 			<view class="search-form round">
 				<input class="margin-left" @focus="InputFocus" @blur="InputBlur" :adjust-position="false" type="text" placeholder="说点什么吧..." ></input>
@@ -97,7 +94,7 @@
 				<button class="cu-btn bg-red shadow-blur round">评论</button>
 			</view>
 		</view>
-		
+		<!-- 底部评论栏部分结束 -->
 	</view>
 </template>
 
@@ -108,15 +105,7 @@
 		data() {
 			return {
 				place: {
-					name:"清真鼎盛兴饭店",
-					score: 4.7,
-					perConsumption: "30",
-					isLike: false,
-					location: {
-						location: "劳动南路10号汉中大厦一层底商2号店铺",
-						nearbyPlace: "西市生活广场",
-						dist2nearby: "650",
-					}
+					score: 4.8
 				},
 				specialFood:[],
 				commentList: []
@@ -131,15 +120,24 @@
 				console.log('isLike: '+ this.place.isLike)
 			},
 			async initPage(){
-				const res = await this.$myRequest({
+				const comment = await this.$myRequest({
 					url: '/v1/api/comment/getShopCommentByShopId?shopid=',
 					data: {
 						shopid: '0'
 						}
 				})
-				console.log(res.data);
+				console.log(comment.data);
 				// 给页面的数据赋值
-				this.commentList =res.data.data;
+				this.commentList =comment.data.data;
+				const info = await this.$myRequest({
+					url: '/v1/api/homepage/getshopbyshopid?shopid=',
+					data: {
+						shopid: '0'
+						}
+				})
+				console.log('info: ', info.data.data);
+				// 给页面的数据赋值
+				this.place =info.data.data;
 			}
 		},
 		onLoad() {

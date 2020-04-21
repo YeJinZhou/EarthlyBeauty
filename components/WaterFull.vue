@@ -66,10 +66,6 @@
 				} else {
 					console.log('写请求数据接口，将数据赋值给waterList')
 				}
-				uni.showToast({
-					title: '刷新啦',
-					icon: 'none'
-				})
 			},
 			// 监听页面下拉刷新
 			//触摸开始
