@@ -24,7 +24,7 @@
 		<view style="display: flex;">
 		    <scroll-view scroll-y="true" style="height: 1330upx;flex:1;width:680upx;">
 		        <view v-for="(item,index) in food" class="content" :key="index">
-					<view style=" height:auto; flex;flex-direction: column;border-radius: 20upx;"
+					<view style=" height:auto; display:flex;flex-direction: column;border-radius: 20upx;"
 		        	class="bg-white content">
 						<!--点击图片跳转-->
 		        		<image class="picture" @tap="jumpfood(index)" :src="item.picture"></image>
