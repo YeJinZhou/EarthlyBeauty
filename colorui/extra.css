@@ -63,7 +63,7 @@
   justify-content: space-between;
   align-items: center;
   margin: 20upx;
-  padding: 0 20upx 20upx 20upx;
+  padding: 20upx 20upx 30upx 20upx;
   border-bottom: 1px solid rgba(0,0,0,.05);
 }
 
@@ -73,11 +73,11 @@
 }
 
 .eb-location-box .location {
-  font-size: 24upx;
+  font-size: 22upx;
   color: #aaaaaa;
 }
 
-.eb-location-box .location .place-name {
+.eb-location-box .place-name {
   font-weight: 700;
   font-size: 28upx;
   color: #333333;
@@ -141,9 +141,55 @@
   justify-content: center;
   width: auto;
 }
+
 .picture {
   height: 100px;
   width: 100px;
   border-radius: 10px 0 0 10px;
   vertical-align: middle;
+}
+/* ==================
+    进行评论的小页面
+ ==================== */
+.eb-comment-header {
+  display: flex;
+  justify-content: space-between;
+  margin: 5%;
+  padding-bottom: 20upx;
+  color: #a5a5a5;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+}
+
+.eb-comment-header .back-btn {
+
+}
+
+.eb-comment-header .post-btn {
+   color: #ee5253;
+}
+
+.eb-comment-content {
+  margin: 5%;
+  width: 90%;
+}
+
+.eb-comment-img {
+  margin: 5%;
+}
+
+.eb-comment-img .thumb-img {
+  display: inline-block;
+  margin-right: 20upx;
+  width: 125upx;
+  height: 125upx;
+  text-align: center;
+  line-height: 125upx;
+  background: url('/static/plus.png') center/40upx no-repeat;
+  border-radius: 10upx;
+  border: 1px solid rgba(0,0,0,.1);
+}
+
+.eb-comment-img .thumb-img image {
+  width: 100%;
+  height: 100%;
 }
