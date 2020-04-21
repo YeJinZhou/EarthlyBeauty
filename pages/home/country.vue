@@ -1,7 +1,6 @@
 <template>
 	<view class="page">
-		<view style="height: 70upx;"></view>
-		<view class="uni-flex" style="height: 100upx;color: #fff;">
+		<view class="uni-flex" style="height: 100upx;color: #fff; padding-top: 30upx;">
 			<view class="center" style="font-size: 42upx;">精选特色菜品</view>
 			<view class="flex justify-end" style="font-size: 25upx;width: 720upx;">
 				<navigator url="../home/city">前往我的城市></navigator>
@@ -9,7 +8,7 @@
 		</view>
 		
 		<!--搜索框-->
-		<view class="cu-bar search">
+		<view class="cu-bar search" style="padding: 40upx 0;">
 			<view class="search-form round">
 				<text class="cuIcon-search"></text>
 				<input @focus="InputFocus" @blur="InputBlur" :adjust-position="false" type="text" 

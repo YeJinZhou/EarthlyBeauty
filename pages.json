@@ -114,6 +114,10 @@
        "path" : "pages/food/place",
        "style" : {}
         }
+        ,{
+            "path" : "pages/food/comment",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",

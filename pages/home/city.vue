@@ -60,11 +60,10 @@
 		<view class="cityTitle ">发现{{city.name}}</view>.
 		<view v-for="(item,index) in diaryList"  :key="item.index" style="width:46%;float: left;margin:2%;">
 			<!-- 卡片组 -->
-			<view class="cu-card case" :class="isCard?'no-card':''" style="border-radius: 10px;" >
+			<view class="cu-card case" style="border-radius: 10px;" >
 				<navigator :url="'../discover/diary?id='+index">
 					<view class="image" style="height:240px;" >
-						<image   :src="item.picture"
-						 mode="heightFix" ></image>
+						<image :src="item.picture" mode="heightFix" ></image>
 						<view class="cu-bar bg-shadeBottom"> <text class="text-cut"  >{{item.title}}</text></view>				
 					</view>
 					<view class="cu-list menu-avatar" style="height: 35px;">
@@ -210,7 +209,7 @@
 	.item {
 		margin-right: 40upx;
 		display: inline-block;
-		vertical-align: top;
+		vertical-align: middle;
 	}
 	
 	.placeBlock {		
@@ -238,7 +237,7 @@
 		height: 100px;
 		width: 100px;
 		border-radius: 10px 0 0 10px;
-		vertical-align: middle;
+		vertical-align: top;
 	}
 </style>
 

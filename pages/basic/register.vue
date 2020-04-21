@@ -5,7 +5,6 @@
 			<img class="photo1 main-logo"  style="" src='../../static/img/logo2.png' ></image>
 		</view>
 		
-			
 			<view class="input-row">
 				<text class="title">邮箱：</text>
 				<input class="inputbox" type="text" focus clearable v-model="acount" placeholder="请输入邮箱"></input>
@@ -24,10 +23,8 @@
 			</view>
 		
 			<view class="input-row" >
-		    	
 					<text class="title">省市：</text>
-		    		
-		    		<view class="inputbox" style="width: 67%;">
+		    		<view class="inputbox">
 		    			<view class="uni-list-cell">
 		    				<view class="uni-list-cell-db">
 		    					<picker mode="multiSelector" @columnchange="bindMultiPickerColumnChange" :value="multiIndex" :range="multiArray">
@@ -36,7 +33,6 @@
 		    				</view>
 		    			</view>
 		    		</view>
-		    	
 		    </view>	
 	
 		<view class="btn-row">
@@ -319,14 +315,15 @@
 	}
 
 	
-    .inputbox
-		{
-			background-color: #ffffff;
-			border-radius: 10px;
-			height: 70upx;
-			font-size: 16px;
-		}
-		.input-row {
+    .inputbox {
+		height: 70upx;
+		width: 80%;
+		padding-left: 20upx;
+		font-size: 28upx;
+		background-color: #ffffff;
+		border-radius: 10px;
+	}
+	.input-row {
 		width: 80%;
 		margin-top: 15upx;
 		margin-left: 10%;

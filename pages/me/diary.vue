@@ -18,7 +18,7 @@
 				</view>
 			</view>	
 		</view>
-		<view v-for="(item,index) in diaryList" :key="index" style="margin:3%;border-radius: 10px;">
+		<view v-for="(item,index) in diaryList" :key="index" style="border-radius: 10px;">
 			<navigator url="/pages/discover/diary">
 				<view  class="cu-card case" :class="isCard?'no-card':''" style="width:100%;">
 					<view class="cu-item shadow">

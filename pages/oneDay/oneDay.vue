@@ -1,17 +1,17 @@
 <template>
 	<view>
 		<view class="head-nav">
-					<image class="nav-button" @tap="click1">
-						<button class="nav-text customize" @tap="click1" :class="modalName=='DialogModal1'?'D1':'D2'">
-							推荐方案
-						</button>
-					</image>
-					<image class="nav-button" @tap="click2">
-						<button class="nav-text plan" @tap="click2" :class="modalName=='DialogModal2'?'D1':'D2'">
-						我的计划
-						</button>
-					</image>
-				</view>
+			<image class="nav-button" @tap="click1">
+				<button class="nav-text customize" @tap="click1" :class="modalName=='DialogModal1'?'D1':'D2'">
+					推荐方案
+				</button>
+			</image>
+			<image class="nav-button" @tap="click2">
+				<button class="nav-text plan" @tap="click2" :class="modalName=='DialogModal2'?'D1':'D2'">
+				我的计划
+				</button>
+			</image>
+		</view>
 		
 
 
@@ -132,6 +132,8 @@
 				<button class="menu cu-btn bg-red margin-tb-sm lg" @click="oneclick()">一键生成一日美食</button>
 			</navigator>
 		</view>
+		<!-- 我的计划底部空白部分以防按钮遮挡 -->
+		<view style="height: 230upx;"></view>
 	</view>
 </template>
 
@@ -410,7 +412,7 @@
 		margin-right: auto;
 		position: fixed;
 
-		bottom: 40px;
+		bottom: 130upx;
 		width: 80%;
 	}
 .head-nav {
