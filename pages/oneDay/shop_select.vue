@@ -128,6 +128,7 @@
 			HighLight(index) {
 				this.shop_select = index;
 				this.plan.shopname = this.list[index].name;
+				this.plan.shopscore = this.list[index].score;
 			},
 			async setPlan(plan) {
 				this.plan = plan;
