@@ -151,7 +151,11 @@
 /* ==================
     进行评论的小页面
  ==================== */
-.eb-comment-header {
+.eb-comment {
+  text-align: left;
+}
+
+.eb-comment .header {
   display: flex;
   justify-content: space-between;
   margin: 5%;
@@ -160,24 +164,24 @@
   border-bottom: 1px solid rgba(0,0,0,.1);
 }
 
-.eb-comment-header .back-btn {
+.eb-comment .header .back-btn {
 
 }
 
-.eb-comment-header .post-btn {
+.eb-comment .header .post-btn {
    color: #ee5253;
 }
 
-.eb-comment-content {
+.eb-comment .content {
   margin: 5%;
   width: 90%;
 }
 
-.eb-comment-img {
+.eb-comment .img {
   margin: 5%;
 }
 
-.eb-comment-img .thumb-img {
+.eb-comment .img .thumb-img {
   display: inline-block;
   margin-right: 20upx;
   width: 125upx;
@@ -189,7 +193,7 @@
   border: 1px solid rgba(0,0,0,.1);
 }
 
-.eb-comment-img .thumb-img image {
+.eb-comment .img .thumb-img image {
   width: 100%;
   height: 100%;
 }
