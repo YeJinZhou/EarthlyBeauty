@@ -45,8 +45,19 @@
 			"style" : {
             	"app-plus": {"titleNView": false}
             }
-		}
-		,{
+		},
+		{
+			"path": "pages/me/describe",
+			"style" : {
+		    	"app-plus": {"titleNView": false}
+		    }
+		},
+		{
+			"path": "pages/me/information",
+			"style": {
+				"app-plus": {"titleNView": false}
+			}
+		},{
             "path" : "pages/me/me",
             "style" : {
             	"app-plus": {"titleNView": false}
@@ -113,10 +124,6 @@
         },{
        "path" : "pages/food/place",
        "style" : {}
-        }
-        ,{
-            "path" : "pages/food/comment",
-            "style" : {}
         }
     ],
 	"globalStyle": {
