@@ -7,27 +7,27 @@
 			</block>
 		</cu-custom>
 		
-		<view class="size cu-form-group margin-top">
+		<view class="size cu-form-group margin-top" @tap="change('1')">
 			账号与安全
 		</view>
 		
-		<view class="cu-form-group size margin-top">
+		<view class="cu-form-group size margin-top" @tap="change('2')">
 			通用
 		</view>
 		
-		<view class="cu-form-group size">
+		<view class="cu-form-group size" @tap="information()">
 			个人资料
 		</view>
 		
-		<view class="cu-form-group size">
+		<view class="cu-form-group size" @tap="change('3')">
 			隐私
 		</view>
 		
-		<view class="cu-form-group size margin-top">
+		<view class="cu-form-group size margin-top" @tap="change('4')">
 			意见反馈
 		</view>
 		
-		<view class="cu-form-group size">
+		<view class="cu-form-group size" @tap="change('5')">
 			关于人间烟火
 		</view>
 		<view class="content">
@@ -52,18 +52,24 @@
 		},
 		data() {
 			return {
-			
 			}
 		},
-		methods: {
-			
+		methods: {	
 			bindLogout() {
-				
-					uni.reLaunch({
-						url: '../basic/login',
-					});
-			
-			}
+				uni.reLaunch({
+					url: '../basic/login',
+				});
+			},
+			change(e) {
+				uni.navigateTo({
+				    url: '../me/describe?id='+e,
+				});
+			},
+			information() {
+				uni.navigateTo({
+				    url: '../me/information',
+				});
+			},
 		}
 	}
 </script>
@@ -73,14 +79,14 @@
 		height: auto;
 		font-size: 15px;
 	}
+	
 	.content {
 		justify-content: center;
 	}
-	.btn-row {
 	
+	.btn-row {
 		display: block;
 		width: 70%;
 		margin: 25upx auto;
-
 	}
 </style>
