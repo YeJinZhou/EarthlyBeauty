@@ -58,7 +58,7 @@
 				</view>
 			</view>
 			<view style="height: 10px;"></view>
-			<navigator :url="'./customized?planid='">
+			<navigator :url="'../oneDay/customized?planid='">
 				<view style="display: flex;justify-content: center;" class="bg-red shadow-blur ">
 					<view class="bg-white" style="height: 130px; width:90%; border-radius: 10px;display: flex;flex-direction: column;justify-content: space-around;">
 						<view style="display: flex;flex-direction: row;justify-content: space-around;align-items: center;">
@@ -95,8 +95,8 @@
 					<view class="cu-list menu-avatar">
 						<view class="cu-item" style="display: flex;height:100%; flex-direction: row; align-items: center; justify-content: center;border-radius: 10px;">
 							<view style='display: flex;justify-content: center;'>
-								<navigator :url="'./customized?planid='+jihualist[index].id">
-									<view class="contain" style="width: 96%; border-radius: 10px;">
+								<navigator :url="'../oneDay/customized?planid='+jihualist[index].id">
+									<view class="contain" style="width: 96%;background-color: #FFFFFF; border-radius: 10px;">
 
 										<view class="word" style="color: #FFFFFF; height: 100%; border-radius: 10px; background-color:#F76260; width:10%; display: flex; flex-direction: row; align-items: center; justify-content: space-around;">
 											<view style="margin-left: 16px; display: flex; align-items: center; justify-content: center;">方案{{index+1}}</view>
@@ -275,7 +275,7 @@
 				}]
 			};
 		},
-		onLoad() {
+		mounted() {
 			this.initPage();
 		},
 		methods: {

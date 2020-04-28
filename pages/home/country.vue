@@ -78,7 +78,7 @@
 				this.showText = !this.showText
 			},
 		},
-		onLoad() {
+		mounted() {
 			this.initPage()
 		},
 	}

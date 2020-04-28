@@ -104,7 +104,7 @@
 				files: [],	
 			}
 		},
-		onLoad() {
+		mounted() {
 			this.initPage()
 		},
 		components: {
