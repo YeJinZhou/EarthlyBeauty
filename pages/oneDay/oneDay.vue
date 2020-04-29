@@ -27,22 +27,20 @@
 
 			<view v-for="(item,index) in diarylist" :key="item.index" :options="item.options" style="width:46%;float: left;margin:2%;">
 				<!-- 卡片组 -->
-				<view class="cu-card case" :class="isCard?'no-card':''" style="border-radius: 10px;">
+				<view class="cu-card case" style="border-radius: 10px;" >
 					<navigator :url="'../discover/diary?id='+index">
+						<!-- 图片加阴影标题 -->
 						<view class="image" style="height:240px;">
 							<image :src="item.picture" mode="heightFix"></image>
 							<view class="cu-bar bg-shadeBottom"> <text class="text-cut">{{item.title}}</text></view>
 						</view>
-						<view class="cu-list menu-avatar" style="height: 35px;">
-							<view class="cu-item" style="bottom: 50%;">
+						<!-- 用户信息 -->
+						<view class="dynamic-info">
+							<view class="user">
 								<view class="cu-avatar round" :style="[{ backgroundImage:'url(' + item.userBriefInformation.headPortrait + ')' }]"></view>
-
-								<view class="text-grey" style="font-size:12px;margin-right:auto;margin-left: 30%;">{{item.userBriefInformation.name}}</view>
-								<view class="text-gray text-sm">
-									<text class="cuIcon-appreciatefill margin-lr-xs"></text> {{item.praisenumber}}
-								</view>
-
-							</view>
+								<view class="username">{{item.userBriefInformation.name}}</view>
+							</view>	
+							<text class="cuIcon-appreciatefill">{{item.praisenumber}}</text> 
 						</view>
 					</navigator>
 				</view>
@@ -66,19 +64,19 @@
 								<view class="cu-avatar xl round" style="background-image:url(https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3253192378,2348729612&fm=26&gp=0.jpg);"></view>
 								<view>早餐</view>
 							</view>
-							<view style="color:#FF0000; font-size: 24px;">+</view>
+							<view style="color:#e54d42; font-size: 24px;">+</view>
 							<view class="food_row">
 								<view class="cu-avatar xl round" style="background-image:url(https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=302585888,3129081542&fm=15&gp=0.jpg);"></view>
 
 								<view>中餐</view>
 							</view>
-							<view style="color:#FF0000; font-size: 24px;">+</view>
+							<view style="color:#e54d42; font-size: 24px;">+</view>
 							<view class="food_row">
 								<view class="cu-avatar xl round" style="background-image:url(https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1105787745,4004189151&fm=15&gp=0.jpg);"></view>
 								<view>晚餐</view>
 							</view>
 						</view>
-						<view style="display: flex;justify-content: center;font-size: 17px; color: #FF0000;">点击定制我的一日计划</view>
+						<view style="display: flex;justify-content: center;font-size: 17px; color: #e54d42;">点击定制我的一日计划</view>
 					</view>
 				</view>
 			</navigator>
@@ -95,24 +93,24 @@
 					<view class="cu-list menu-avatar">
 						<view class="cu-item" style="display: flex;height:100%; flex-direction: row; align-items: center; justify-content: center;border-radius: 10px;">
 							<view style='display: flex;justify-content: center;'>
-								<navigator :url="'../oneDay/customized?planid='+jihualist[index].id">
+								<navigator hover-class="none" :url="'../oneDay/customized?planid='+jihualist[index].id">
 									<view class="contain" style="width: 96%;background-color: #FFFFFF; border-radius: 10px;">
 
-										<view class="word" style="color: #FFFFFF; height: 100%; border-radius: 10px; background-color:#F76260; width:10%; display: flex; flex-direction: row; align-items: center; justify-content: space-around;">
-											<view style="margin-left: 16px; display: flex; align-items: center; justify-content: center;">方案{{index+1}}</view>
+										<view class="word" style="text-align: center;color: #FFFFFF; height: 100%; border-radius: 10px 0 0 10px; background-color:#F76260; width:10%; display: flex; flex-direction: row; align-items: center; justify-content: space-around;">
+											<view style="margin-left: 16px;">方案{{index+1}}</view>
 										</view>
 										<view class="food_row">
 											<view class="cu-avatar xl round" :style="[{ backgroundImage:'url(' + item[0].foodurl + ')' }]"></view>
 											<view>{{item[0].foodname}}</view>
 											<view>{{item[0].shopname}}</view>
 										</view>
-										<view class="plus" style="color:#FF0000; font-size: 24px;">+</view>
+										<view class="plus" style="color:#e54d42; font-size: 24px;">+</view>
 										<view class="food_row">
 											<view class="cu-avatar xl round" :style="[{ backgroundImage:'url(' + item[1].foodurl + ')' }]"></view>
 											<view>{{item[1].foodname}}</view>
 											<view>{{item[1].shopname}}</view>
 										</view>
-										<view class="plus" style="color:#FF0000; font-size: 24px;">+</view>
+										<view class="plus" style="color:#e54d42; font-size: 24px;">+</view>
 										<view class="food_row">
 											<view class="cu-avatar xl round" :style="[{ backgroundImage:'url(' + item[2].foodurl + ')' }]"></view>
 											<view>{{item[2].foodname}}</view>
@@ -164,7 +162,7 @@
 				options: [{
 					text: '删除',
 					style: {
-						backgroundColor: 'rgb(255,58,49)'
+						backgroundColor: '#e54d42'
 					}
 				}],
 				jihualist: [{
@@ -393,13 +391,13 @@
 <style>
 	.D1 {
 		color: #FFFFFF;
-		background-color: #FF0000;
+		background-color: #e54d42;
 		position: absolute;
 		z-index: 100;
 	}
 
 	.D2 {
-		color: #FF0000;
+		color: #e54d42;
 		background-color: #FFFFFF;
 		position: absolute;
 		z-index: 100;
@@ -446,7 +444,7 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		justify-content: space-around;
+		justify-content: space-between;
 		height: 130px;
 	}
 
