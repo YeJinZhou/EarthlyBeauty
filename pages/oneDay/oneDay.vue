@@ -126,7 +126,7 @@
 					</view>
 				</uniSwipeActionItem>
 			</uniSwipeAction>
-			<navigator url="../post/createPost">
+			<navigator url="../post/yijian">
 				<button class="menu cu-btn bg-red margin-tb-sm lg" @click="oneclick()">一键生成一日美食</button>
 			</navigator>
 		</view>

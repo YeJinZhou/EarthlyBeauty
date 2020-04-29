@@ -3,7 +3,7 @@
 	<cu-custom bgColor="bg-gradual-red1" :isBack="true"><block slot="backText">返回</block><block slot="content">我的计划</block></cu-custom>
 	
 	<uniSwipeActionItem v-for="(item,index) in planlist.map(x=>x.briefPlanItems)" v-if="item[0].foodurl&&item[0].foodname&&item[0].shopname" @click="swipeClick($event,index)"  :key="item.index" :options="options"  @change="swipeChange" style="margin:4%;height: 130px;border-radius: 10px;">
-		<navigator hover-class="none" :url="'../oneDay/customized?id='+index">
+		<navigator hover-class="none" :url="'../oneDay/customized?planid='+planlist[index].id">
 			<view class="cu-list menu-avatar" style="height:130px">
 				<view class="cu-item item">
 					<view class="plan-block">

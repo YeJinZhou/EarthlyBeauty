@@ -50,12 +50,12 @@
 		methods: {
 			timeup() {
 				uni.navigateTo({
-				    url: '/pages/home/country'
+				    url: '/pages/index/index'
 				})
 			},
 			toPage(){
 				uni.navigateTo({
-					url: '/pages/home/country'
+					url: '/pages/index/index'
 				})
 			}
 		}

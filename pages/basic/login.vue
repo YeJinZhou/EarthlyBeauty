@@ -56,7 +56,7 @@
 			}
 		},
 		computed: mapState(['forcedLogin']),
-		onLoad() {
+		onLoad () {
 					this.addDefaultAccount()
 				},
 		methods: {
@@ -189,11 +189,11 @@
 				 */
 				if (this.forcedLogin) {
 					uni.reLaunch({
-						url: '../index/index',
+						url: '../basic/introduction',
 					});
 				} else {
 					uni.reLaunch({
-						url: '../index/index',
+						url: '../basic/introduction',
 					});
 				}
 
