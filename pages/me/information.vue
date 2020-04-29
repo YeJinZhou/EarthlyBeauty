@@ -1,10 +1,8 @@
 <template>
 	<view>
-		<cu-custom style="background-color: #fff;" :isBack="true">
-			<block slot="backText">返回</block>
-			<block slot="content">
-				<view style="font-size: 20px;">个人资料</view>
-			</block>
+		<cu-custom bgColor="bg-gradual-red1" :isBack="true">
+			<block slot="backText"></block>
+			<block slot="content">个人资料</block>
 		</cu-custom>
 		
 		<view class="content-column" style="background-color: #fff;">

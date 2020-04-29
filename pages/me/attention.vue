@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<cu-custom bgColor="bg-gradual-red" :isBack="true">
+		<cu-custom bgColor="bg-gradual-red1" :isBack="true">
 			<block slot="backText"></block>
 			<block slot="content">关注的人</block>
 		</cu-custom>
@@ -8,15 +8,15 @@
 			<uniSwipeActionItem v-for="(item,index) in lists" @click="swipeClick($event,index)" :key="item.index" :options="options"
 			 @change="swipeChange">
 				<view class="cu-list menu-avatar" style="width:100%">
-					<view class="cu-item" :class="modalName=='move-box-'+ index?'move-cur':''" :data-target="'move-box-' + index">
-						<view class="cu-avatar round lg" :style="[{backgroundImage:'url('+item.headportrait+')'}]"></view>
+					<view class="cu-item" :class="modalName=='move-box-'+ index?'move-cur':''" :data-target="'move-box-' + index" style="padding: 0 50upx">
+						<view class="cu-avatar round lg solid-bottom" :style="[{backgroundImage:'url('+item.headportrait+')'}]"></view>
 
 						<view class="content">
 							<view class="text-black">{{item.name}}</view>
 						</view>
 
 						<view class="action">
-							<view class="cu-tag round bg-red light">已关注</view>
+							<view class="cu-tag round bg-red light ">已关注</view>
 						</view>
 					</view>
 				</view>

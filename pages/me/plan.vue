@@ -1,41 +1,39 @@
 <template>
-	<view>
-		<cu-custom bgColor="bg-gradual-orange" :isBack="true"><block slot="backText">返回</block><block slot="content">我的计划</block></cu-custom>
-		
-		<uniSwipeAction>
-        	<uniSwipeActionItem v-for="(item,index) in planlist.map(x=>x.briefPlanItems)" v-if="item[0].foodurl&&item[0].foodname&&item[0].shopname" @click="swipeClick($event,index)"  :key="item.index" :options="options"  @change="swipeChange" style="margin:4%;height: 130px;border-radius: 10px;">
-					<navigator :url="'../oneDay/customized?id='+index">
-						<view class="cu-list menu-avatar" style="height:130px">
-							<view class="cu-item" style="display: flex; flex-direction: row; align-items: center; justify-content: center;margin-top: 10%;border-radius: 10px;">
-						<view class="con solid-right" style="color: #FFFFFF; height: 130%; border-radius: 10px; background-color:#F76260; width:8%;margin-left: 5%; display: flex; flex-direction: row; align-items: center; justify-content: space-around;">
-					 		<view style="margin-left: 16upx; display: flex; align-items: center; justify-content: center;">方案{{(index+1)}}</view>
-					 	</view>
-				    	<view class="contain" style="width: 90%;">
-							<view class="t">
-								<view class="cu-avatar xl round" :style="[{ backgroundImage:'url(' + item[0].foodurl + ')' }]"></view>
-								<view>{{item[0].foodname}}</view>
-								<view>{{item[0].shopname}}</view>
-							</view>
-							<view class="jia"  >+</view>
-							<view class="t">
-								<view class="cu-avatar xl round" :style="[{ backgroundImage:'url(' + item[1].foodurl + ')' }]"></view>
-								<view>{{item[1].foodname}}</view>
-								<view>{{item[1].shopname}}</view>
-							</view>
-							<view class="jia"  >+</view>
-							<view class="t">
-								<view class="cu-avatar xl round" :style="[{ backgroundImage:'url(' + item[2].foodurl + ')' }]"></view>
-								<view>{{item[2].foodname}}</view>
-								<view>{{item[2].shopname}}</view>
-							</view>
-							<view class="hua"  >《</view>
-        			    </view>
+<view>
+	<cu-custom bgColor="bg-gradual-red1" :isBack="true"><block slot="backText">返回</block><block slot="content">我的计划</block></cu-custom>
+	
+	<uniSwipeActionItem v-for="(item,index) in planlist.map(x=>x.briefPlanItems)" v-if="item[0].foodurl&&item[0].foodname&&item[0].shopname" @click="swipeClick($event,index)"  :key="item.index" :options="options"  @change="swipeChange" style="margin:4%;height: 130px;border-radius: 10px;">
+		<navigator hover-class="none" :url="'../oneDay/customized?id='+index">
+			<view class="cu-list menu-avatar" style="height:130px">
+				<view class="cu-item item">
+					<view class="plan-block">
+						<view class="plan">方案{{(index+1)}}</view>
+					</view>
+					<view class="contain" style="width: 90%;">
+						<view class="t">
+							<view class="cu-avatar xl round" :style="[{ backgroundImage:'url(' + item[0].foodurl + ')' }]"></view>
+							<view>{{item[0].foodname}}</view>
+							<view>{{item[0].shopname}}</view>
 						</view>
-        	          </view>
-					</navigator>
-        	</uniSwipeActionItem>
-			</uniSwipeAction>
-	</view>
+						<view class="jia"  >+</view>
+						<view class="t">
+							<view class="cu-avatar xl round" :style="[{ backgroundImage:'url(' + item[1].foodurl + ')' }]"></view>
+							<view>{{item[1].foodname}}</view>
+							<view>{{item[1].shopname}}</view>
+						</view>
+						<view class="jia"  >+</view>
+						<view class="t">
+							<view class="cu-avatar xl round" :style="[{ backgroundImage:'url(' + item[2].foodurl + ')' }]"></view>
+							<view>{{item[2].foodname}}</view>
+							<view>{{item[2].shopname}}</view>
+						</view>
+						<view class="hua"  >《</view>
+					</view>
+				</view>
+			</view>
+		</navigator>
+	</uniSwipeActionItem>
+</view>
 </template>
 
 <script>
@@ -62,7 +60,7 @@
 				options: [{
 					          	text: '删除',
 					          	style: {
-					          		backgroundColor: 'rgb(255,58,49)'
+					          		backgroundColor: '#e54d42'
 					          	}
 					          }],
 				planlist:[{
@@ -203,40 +201,63 @@
 </script>
 
 <style>
+	.item {
+		display: flex; 
+		flex-direction: row; 
+		align-items: center; 
+		justify-content: center;
+		margin: 0 30upx;
+		margin-top: 10%;
+	}
+	.plan-block {
+		display: flex; 
+		flex-direction: row; 
+		margin-left: 5%; 
+		padding-left: 10upx;
+		height: 130%; 
+		width: 60upx;
+		align-items: center; 
+		font-size: 17px;
+		color: #FFFFFF; 
+		background-color:#e54d42; 
+		border-radius: 6px; 
+		word-wrap: break-word;
+		letter-spacing: 20upx;
+		text-align: center;
+	}
+	.plan {
+		display: flex; 
+		align-items: center; 
+		justify-content: center;
+	}
 	.contain {
-			background-color: #FFFFFF;
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-			justify-content: space-around;
-		}
+		background-color: #FFFFFF;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-around;
+	}
 	
-		.jia {
-			font-size: 20px;
-			color: #ff0000;
-			margin-bottom: 8%;
-		}
+	.jia {
+		font-size: 20px;
+		color: #e54d42;
+		margin-bottom: 8%;
+	}
+
+	.hua {
+		margin-bottom: 8%;
+		margin-left: -16upx;
+		width: 5%;
+		color:#b9b9b9;
+		font-size: 20px;
+	}
 	
-	    .hua {
-	    	font-size: 20px;
-			width: 5%;
-	    	color:#b9b9b9;
-	    	margin-bottom: 8%;
-	    }
-		
-		.t {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-		}
-	
-		.con {
-	
-			width: 17upx;
-			font-size: 17px;
-			word-wrap: break-word;
-			letter-spacing: 20upx;
-		}
+	.t {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin: 0 20upx;
+		font-size: 26upx;
+	}
 	
 </style>

@@ -1,18 +1,19 @@
 <template>
 	<view>
 		<!-- 顶部导航栏 -->
-		<cu-custom bgColor="bg-gradual-orange" :isBack="true"><block slot="backText">返回</block><block slot="content">收藏</block></cu-custom>
+		<cu-custom bgColor="bg-gradual-red1" :isBack="true">
+			<block slot="backText"></block>
+			<block slot="content">收藏</block>
+		</cu-custom>
 		<!-- /搜索栏/ -->
-		<view class="cu-bar bg-white solid-bottom">
+		<view class="cu-bar bg-white">
 			<view class="action">
-				<view class="example-body">
-					<uni-search-bar radius="100" placeholder="搜索食记" bgColor="#EEEEEE" @confirm="search" />
-				</view>
+				<uni-search-bar radius="100" placeholder="搜索食记" bgColor="#EEEEEE" @confirm="search" />
 			</view>
 		</view>
 		<!-- /左滑删除/ -->
 		<uniSwipeAction>
-        <uniSwipeActionItem v-for="(item,index) in diarylist"  @click="swipeClick($event,index)" :key="item.index" :options="options"  @change="swipeChange" style="backgroundColor: 'rgb(255,58,49)';margin:3%;border-radius: 10px;">
+        <uniSwipeActionItem v-for="(item,index) in diarylist"  @click="swipeClick($event,index)" :key="item.index" :options="options"  @change="swipeChange" style="backgroundColor: '#e54d42';margin:3%;border-radius: 10px;">
         	<!-- 卡片组 -->
 			
 			<view class="cu-card case" :class="isCard?'no-card':''" style="width:100%;" >
@@ -75,91 +76,54 @@
 				options: [{
 					          	text: '删除',
 					          	style: {
-					          		backgroundColor: 'rgb(255,58,49)'
+					          		backgroundColor: '#e54d42'
 					          	}
 					          }],
-				diarylist:[{
-					          
-					          id: 10,
-							  userBriefInformation:{
-								  name: '随芝所乐',
-								  headPortrait:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=107058113,2695546856&fm=11&gp=0.jpg'
-							  },
-					   	      title: '吃货慎重！点进来你就无法自拔了！',
-						      picture:"../../static/img/7.png",
-						      viewnumber:'15',
-						      praisenumber:'25',
-						      commentnumber:'35',
-						   },{
-						       id: 1,
-						     
-						 userBriefInformation:{
-							 name: 'SiSi',
-							 headPortrait:'../../static/img/qq_pic_merged_1583398711824.jpg'
-							 },
-					   	       title: '西安美食大搜罗！去了很多地方才收集到的哦！',
-						       picture:"../../static/img/12.png",
-						       
-						       viewnumber:'30',
-						       praisenumber:'22',
-						       commentnumber:'18',
-						   },{
-							   id: 2,
-							   
-					           
-							   userBriefInformation:{
-								   name: '独白',
-								   headPortrait:'../../static/img/qq_pic_merged_1583398729577.jpg'
-								   },
-					   	       title: '这家的面真的太好吃啦！',
-						       picture:"../../static/img/2.png",
-						       viewnumber:'11',
-						       praisenumber:'15',
-						       commentnumber:'3',
-						   }]
+				diarylist:[]
 			};
-		},onLoad() {
-					this.initPage(); 
-				},
+		},
+		onLoad() {
+			this.initPage(); 
+		},
 		methods: {
 			async initPage(){
-							const res = await this.$myRequest({
-								url: '/v1/api/mypage/getCollectionFoodRecord?account=', //仅为示例，并非真实接口地址。
-								data: {
-									account: this.userName
-								},
-							})
-							console.log(res.data);
-							console.log(this.userName);
-							let plans = [];
-							for(let i=0;i<res.data.data.length;i++){
-								plans.push(res.data.data[i]);
-							}
-							plans.push(plans[0]);
-							
-							this.diarylist = plans;
-							
-							console.log(this.diarylist);
-							
-							
-							// 给页面的数据赋值
-							
-						},
+				const res = await this.$myRequest({
+					url: '/v1/api/mypage/getCollectionFoodRecord?account=', //仅为示例，并非真实接口地址。
+					data: {
+						account: this.userName
+					},
+				})
+				console.log(res.data);
+				console.log(this.userName);
+				let plans = [];
+				for(let i=0;i<res.data.data.length;i++){
+					plans.push(res.data.data[i]);
+				}
+				plans.push(plans[0]);
+				
+				this.diarylist = plans;
+				
+				console.log(this.diarylist);
+				
+				
+				// 给页面的数据赋值
+				
+			},
 			async disCollect(id){
-							const res = await this.$myRequest({
-								url: '/v1/api/mypage/disCollectFoodRecord?userId=&foodRecordId=', //仅为示例，并非真实接口地址。
-								data: {
-									userId: this.userName,
-									foodRecordId:id
-								},
-							})
-							console.log(res.data);
-							console.log(id);
-							
-							
-							// 给页面的数据赋值
-							
-						},
+				const res = await this.$myRequest({
+					url: '/v1/api/mypage/disCollectFoodRecord?userId=&foodRecordId=', //仅为示例，并非真实接口地址。
+					data: {
+						userId: this.userName,
+						foodRecordId:id
+					},
+				})
+				console.log(res.data);
+				console.log(id);
+				
+				
+				// 给页面的数据赋值
+				
+			},
 			goDetail() {
 				// 				if (!/前|刚刚/.test(e.published_at)) {
 				// 					e.published_at = dateUtils.format(e.published_at);
