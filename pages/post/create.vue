@@ -1,5 +1,5 @@
 <template>
-	<view @click="close" class="mask">
+	<view>
 		<view @click.stop="onClick" class="content">
 			<button class="btn" @click="toPlan"><text class="text">方案自动生成游记</text></button>
 			<button class="btn" @click="tocreate"><text class="text">自由发表游记</text></button>
@@ -21,9 +21,6 @@
 				e.stopPropagation()
 				
 			},
-			close() {
-				uni.navigateBack()
-			},
 			tocreate(){
 				uni.navigateTo({
 					url:"../post/createPost"
@@ -39,25 +36,8 @@
 </script>
 
 <style>
-	.mask {
-		position: fixed;
-		left: 0;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		/* #ifndef APP-NVUE */
-		display: flex;
-		/* #endif */
-		justify-content: center;
-		align-items: center;
-		background-color: rgba(0, 0, 0, 0.4);
-		color: #FFFFFF;
-	}
-
 	.content {
-		width: 200px;
-		height: 200px;
-		color: #FFFFFF;
+		margin-top: 60%;
 	}
 
 	.text {
@@ -70,10 +50,10 @@
 	}
 	
 	.btn{
-		background-color: #ff9966;
-		border-color: #FF9966;
+		background-color: #E54D42;
+		border-color: #E54D42;
 		margin-top: 30px;
-	
+		width: 60%;
 	}
 </style>
 

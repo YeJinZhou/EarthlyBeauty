@@ -1,38 +1,37 @@
 <template>
 	<view class="content">
-		<cu-custom bgColor="bg-gradual-orange" :isBack="true"><block slot="backText">返回</block><block slot="content">发表</block></cu-custom>
+		<cu-custom bgColor="bg-white" :isBack="true"><block slot="backText">返回</block><block slot="content">发表</block></cu-custom>
 		<view class='issue'>
 			<view class="issue-head">
 				<textarea v-if="textareaShow" @blur="headblur" :value="head.headtextareaValue" :placeholder="headareaPlaceholder"/>
 			</view>
 			 
+			<textarea v-if="textareaShow" @blur="blur" :value="infoReceive.textareaValue" :placeholder="textareaPlaceholder"/>
 			
-				<textarea v-if="textareaShow" @blur="blur" :value="infoReceive.textareaValue" :placeholder="textareaPlaceholder"/>
-		
-			 <view class="plan">
-			 	<view class="shop">
-			 		<image class="shop-avatar" src="../../static/23.png">
-			 		<text class="shop-name"> 羊肉泡馍
-			 		鼎盛兴</text></view>
-			 		<view class="jia"  >+</view>
-			 	<view class="shop">
-			 		<image class="shop-avatar" src="../../static/img/3.png">
-			 		<text class="shop-name"> 陕西凉皮
-			 		长安美食坊</text></view>
-			 		<view class="jia"  >+</view>
-			 	<view class="shop">
-			 		<image class="shop-avatar" src="../../static/img/2.png">
-			 			<text class="shop-name"> 臊子面
-			 			李氏臊子面</text>
-			 	
-			 	</view>
-			 
-			 
-			 </view>
-			 <view class="issue-btn-box">
-			 	<button v-if="submitShow1" class="submit-btn" type="primary" @click="doSubmit">{{submitText1}}</button>
-			 			<slot name="submit"></slot>
-			 </view>
+			<!-- 这里要改，死数据方案部分开始 -->
+			<view class="plan">
+				<view class="shop">
+					<image class="shop-avatar" src="../../static/23.png">
+					<text class="food-name">羊肉泡馍</text>
+					<text class="shop-name">鼎盛兴</text>
+				</view>
+				<view class="jia">+</view>
+				<view class="shop">
+					<image class="shop-avatar" src="../../static/img/3.png">
+					<text class="food-name">陕西凉皮</text>
+					<text class="shop-name">长安美食坊</text>
+				</view>
+				<view class="jia">+</view>
+				<view class="shop">
+					<image class="shop-avatar" src="../../static/img/2.png">
+					<text class="food-name">臊子面</text>
+					<text class="shop-name">李氏臊子面</text>
+				</view>
+			</view>
+			<!-- 这里要改，死数据方案部分结束 -->
+			
+			<button v-if="submitShow1" class="button_1" type="primary" @click="doSubmit">{{submitText1}}</button>
+			<slot name="submit"></slot>
 		</view>
 		
 		<robby-tags v-model="tagList" @add="addTag" @delete="delTag" @click="clickTag" :enable-del="enableDel" :enable-add="enableAdd"></robby-tags>
@@ -49,13 +48,10 @@
 		components:{},
 		props:{
 			
-			
-		
 			headareaPlaceholder:{
 				type:[String],
 				default:"标题（选填）"
 			},
-			
 			
 			
 			textareaShow:{ // 多行文本显示
@@ -67,8 +63,6 @@
 				default:"说到西安,你脑袋中第一浮现出来的是什么呢？我脑袋中浮现出来的就是美食！！！大凡到过西安的人，都会去品尝一下西安的牛羊肉泡馍。由于羊肉泡馍经济实惠，而极富有地方特色，来西安不吃牛羊肉泡，似乎就白来西安一趟."
 			},
 			
-			
-		
 			
 			submitShow1:{ // 发布按钮
 				type:[String,Boolean],
@@ -156,58 +150,20 @@
 	$backgroundC:#f9f9f9;
 	$borderColor:#f5f5f5;
 	$white:#ffffff;
-	$fontSize:28upx;
-	.plan{
-		height: 200upx;
-		width: 80%;
-		display: flex;
-		align-items: center;
-		.jia {
-			font-size: 30px;
-			color: #ff0000;
-			margin-left: 20upx;
-			margin-bottom: 8%;
-			align-self: center;
-		}
-		.shop{
-			display: flex;
-			flex-direction: column;
-			margin-left: 60upx;
-		}
-		.shop-name{
-			font-size: 25upx;
-			align-self:center;
-		}
-		.shop-avatar{
-			width: 100upx;
-			height: 100upx;
-			align-self: center;
-			margin-left: 30upx;
-			border-radius: 100%	;
-			image {
-				width: 100upx;
-				height: 100upx;
-				border-radius: 100%;
-			}
-		}
-	}
-	
+	$fontSize:28upx;	
 	.content{
 		height: 100%;
 	}
 	
 	.issue {
 		background-color: $backgroundC;
-		
 		&-head{
 			background-color: $white;
-			height: 100upx;
+			height: 80upx;
 			border-top: 1upx solid $borderColor;
 			border-bottom: 1upx solid $borderColor;
-			
-			padding: 0 25upx;
-			
-			
+			font-size: 50upx;
+			font-weight: 700;
 			&-title{
 				line-height: 100upx;
 				font-size: 30upx;
@@ -222,7 +178,7 @@
 			background-color: $white;
 			font-size: $fontSize;
 			color: #898989;
-			padding: 24upx;
+			padding: 30upx;
 			border-top: 1upx solid $borderColor;
 			border-bottom: 1upx solid $borderColor;
 			
@@ -242,5 +198,47 @@
 			}
 		}
 	}
+	.plan {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0 45upx;
+		margin: 20upx auto;
+		height: 200upx;
+		width: 90%;
+		border: 1px solid rgba(0, 0, 0, .1);
+		border-radius: 20upx;
+		.jia {
+			font-size: 30px;
+			color: #e54d42;
+			margin-left: 20upx;
+			margin-bottom: 8%;
+			align-self: center;
+		}
+		.shop{
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+		}
+		.food-name,
+		.shop-name{
+			font-size: 25upx;
+		}
+		.shop-avatar{
+			width: 100upx;
+			height: 100upx;
+			border-radius: 50%	;
+		}
+	}
 	
+	.button_1{
+		margin: 10upx auto;
+		width: 90%;
+		height: 80upx;
+		color: #fff;
+		border-radius: 10upx;
+		background-color: #e54d42;
+		line-height: 80upx
+	}
 </style>
