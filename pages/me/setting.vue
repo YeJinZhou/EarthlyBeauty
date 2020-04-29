@@ -1,10 +1,8 @@
 <template>
 	<view>
-		<cu-custom style="background-color: #fff;" :isBack="true">
-			<block slot="backText">返回</block>
-			<block slot="content">
-				<view style="font-size: 20px;">设置</view>
-			</block>
+		<cu-custom bgColor="bg-gradual-red1" :isBack="true">
+			<block slot="backText"></block>
+			<block slot="content">设置</block>
 		</cu-custom>
 		
 		<view class="size cu-form-group margin-top" @tap="change('1')">

@@ -1,7 +1,7 @@
 <template>
 	
 	<view class="content">
-		<cu-custom bgColor="bg-gradual-orange" :isBack="true"><block slot="backText">返回</block><block slot="content">发表</block></cu-custom>
+		<cu-custom bgColor="bg-white" :isBack="true"><block slot="backText">返回</block><block slot="content">发表</block></cu-custom>
 		<view class='issue'>
 			<view class="issue-head">
 				<textarea v-if="textareaShow" @blur="headblur" :value="head.headtextareaValue" :placeholder="headareaPlaceholder"/>
@@ -11,10 +11,8 @@
 				<textarea v-if="textareaShow" @blur="blur" :value="infoReceive.textareaValue" :placeholder="textareaPlaceholder"/>
 		
 			 
-			 <view class="issue-btn-box">
-			 	<button v-if="submitShow1" class="submit-btn" type="primary" @click="doSubmit">{{submitText1}}</button>
-			 			<slot name="submit"></slot>
-			 </view>
+			<button v-if="submitShow1" class="button_1" type="primary" @click="doSubmit">{{submitText1}}</button>
+					<slot name="submit"></slot>
 		</view>
 		
 		<robby-tags v-model="tagList" @add="addTag" @delete="delTag" @click="clickTag" :enable-del="enableDel" :enable-add="enableAdd"></robby-tags>
@@ -138,6 +136,15 @@
 	$borderColor:#f5f5f5;
 	$white:#ffffff;
 	$fontSize:28upx;
+	.button_1{
+		margin: 10upx auto;
+		width: 90%;
+		height: 80upx;
+		color: #fff;
+		border-radius: 10upx;
+		background-color: #e54d42;
+		line-height: 80upx
+	}
 	
 	.content{
 		height: 100%;
@@ -145,16 +152,13 @@
 	
 	.issue {
 		background-color: $backgroundC;
-		
 		&-head{
 			background-color: $white;
-			height: 100upx;
+			height: 80upx;
 			border-top: 1upx solid $borderColor;
 			border-bottom: 1upx solid $borderColor;
-			
-			padding: 0 25upx;
-			
-			
+			font-size: 50upx;
+			font-weight: 700;
 			&-title{
 				line-height: 100upx;
 				font-size: 30upx;
@@ -169,7 +173,7 @@
 			background-color: $white;
 			font-size: $fontSize;
 			color: #898989;
-			padding: 24upx;
+			padding: 30upx;
 			border-top: 1upx solid $borderColor;
 			border-bottom: 1upx solid $borderColor;
 			

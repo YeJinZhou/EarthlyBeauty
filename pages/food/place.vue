@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<!-- 顶部导航栏部分开始 -->
-		<cu-custom bgColor="bg-gradual-orange" :isBack="true">
+		<cu-custom bgColor="bg-gradual-red1" :isBack="true">
 			<block slot="backText">返回</block>
 			<block slot="content">食地</block>
 		</cu-custom>

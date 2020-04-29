@@ -62,18 +62,18 @@
 			<!-- 卡片组 -->
 			<view class="cu-card case" style="border-radius: 10px;" >
 				<navigator :url="'../discover/diary?id='+index">
+					<!-- 图片加阴影标题 -->
 					<view class="image" style="height:240px;" >
 						<image :src="item.picture" mode="heightFix" ></image>
 						<view class="cu-bar bg-shadeBottom"> <text class="text-cut"  >{{item.title}}</text></view>				
 					</view>
-					<view class="cu-list menu-avatar" style="height: 35px;">
-						<view class="cu-item" style="bottom: 50%;">
+					<!-- 用户信息 -->
+					<view class="dynamic-info">
+						<view class="user">
 							<view class="cu-avatar round"  :style="[{ backgroundImage:'url(' + item.userBriefInformation.headportrait + ')' }]"></view>
-							<view class="text-grey" style="font-size:12px;margin-right:auto;margin-left: 30%;">{{item.userBriefInformation.name}}</view>			   			    		
-							<view class="text-gray text-sm">			   			    		
-								<text class="cuIcon-appreciatefill margin-lr-xs"></text> {{item.praisenumber}}
-							</view>
+							<view class="username">{{item.userBriefInformation.name}}</view>		
 						</view>
+						<text class="cuIcon-appreciatefill"> {{item.praisenumber}}</text>
 					</view>
 				</navigator>
 			</view>

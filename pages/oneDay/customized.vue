@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<cu-custom bgColor="bg-gradual-red" :isBack="true">
+		<cu-custom bgColor="bg-gradual-red1" :isBack="true">
 			<block slot="backText"></block>
 			<block slot="content">定制</block>
 		</cu-custom>
@@ -396,14 +396,15 @@
 		border-radius: 10px;
 	}
 
-.button_1{
-				width: 100%;
-				height: 80upx;
-				border-radius: 80upx;
-				background-color: #ff9966;
-				line-height: 80upx
-			}
-
+	.button_1{
+		margin: 10upx auto;
+		width: 90%;
+		height: 80upx;
+		color: #fff;
+		border-radius: 10upx;
+		background-color: #e54d42;
+		line-height: 80upx
+	}
 	.plus {
 		height: 20px;
 		width: 20px;

@@ -1,10 +1,12 @@
 <template>
 	<view>
-		<view class="bg-white">
-			<view class="action" style="padding-op: 4px;">
+		<!-- 标题 -->
+		<view class="cu-bar bg-white solid-bottom ">
+			<view class="action">
 				<text class="cuIcon-title text-red"></text> 请选择你想要去的店铺
 			</view>
 		</view>
+		<!-- 搜索框 -->
 		<view class="cu-bar search bg-white">
 			<view class="search-form round">
 				<text class="cuIcon-search"></text>
@@ -14,30 +16,30 @@
 				<button class="cu-btn bg-red shadow-blur round">搜索</button>
 			</view>
 		</view>
-		<view>
-			<view style="display: flex; height: 240px;">
-
-
-				<scroll-view scroll-y="true" style="flex:1;">
-					<view v-for="(item,index) in list">
-						<view class="bg-white" :class="shop_select==index?'shopselect':''" style=" height:95px; display: flex;flex-direction: row;align-items: center; justify-content:space-between ; border-radius: 6px;"
-						 @tap="HighLight(index)">
-							<image style="width: 40%;height:100%;" :src="item.pictures[0]"></image>
-							<view style="display:flex ;flex-direction: column; width: 40%;height:100%;justify-content:space-between;">
-								<view class="text-lg">{{item.name}}</view>
-								<view class="text-black text-sm">
-									<text class="cuIcon-hotfill text-red "></text>评分{{item.score}}</view>
-								<view class="text-black text-sm">
-									<text class="cuIcon-recharge text-red "></text>{{item.price}}/人</view>
-								<view>地址：{{item.address}}</view>
+		<!-- 店铺列表 -->
+		<view class="shop-list">
+			<scroll-view scroll-y="true" style="flex:1;">
+				<view v-for="(item,index) in list">
+					<!-- 每个店铺的内容 -->
+					<view class="shop" :id="shop_select==index?'shopselect':''" @tap="HighLight(index)">
+						<!-- 店铺图片 -->
+						<image :src="item.pictures[0]"></image>
+						<!-- 店铺信息 -->
+						<view class="shop-info">
+							<view class="text-lg text-bold">{{item.name}}</view>
+							<view class="text-sm ">
+								<text class="cuIcon-hotfill text-red"></text>
+								评分{{item.score}}
 							</view>
-<view style="display: flex;flex-direction: row;align-items: center; width: 20%;height:100%;" class="text-black text-sm">
-								
+							<view class="text-sm">
+								<text class="cuIcon-recharge text-red"></text>
+								{{item.price}}/人
+							</view>
+							<view class="text-sm">地址：{{item.address}}</view>
 						</view>
-							<view style="height: 7px;"></view>
-						</view></view>
-				</scroll-view>
-			</view>
+					</view>
+				</view>
+			</scroll-view>
 		</view>
 
 		<!-- <view class="padding" style=" display:flex ;justify-content: space-around;">
@@ -126,6 +128,7 @@
 				this.num = this.num == this.numList.length - 1 ? 0 : this.num - 1
 			},
 			HighLight(index) {
+				console.log('highlight');
 				this.shop_select = index;
 				this.plan.shopname = this.list[index].name;
 				this.plan.shopscore = this.list[index].score;
@@ -150,9 +153,38 @@
 </script>
 
 <style>
-	.shopselect {
-		border-style: solid;
-		border-color: #FF0000;
-
+	.shop-list {
+		display: flex; 
+		height: 240px;
+	}
+	
+	#shopselect {
+		border: 1px solid #e54d42;
+	}
+	
+	.shop {
+		display: flex;
+		flex-direction: row;
+		align-items: center; 
+		margin: 15upx 3%;
+		height:95px; 
+		border-radius: 6px;
+		background-color: #fff;
+		border: 1px solid transparent;
+		overflow: hidden;
+	}
+	
+	.shop image {
+		width: 40%;
+		height:100%;
+	}
+	
+	.shop .shop-info {
+		display: flex;
+		flex-direction: column; 
+		justify-content: space-between;
+		padding: 10upx 0;
+		margin-left: 30upx;
+		height: 100%;
 	}
 </style>

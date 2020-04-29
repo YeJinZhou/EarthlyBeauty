@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<cu-custom bgColor="bg-gradual-red" :isBack="true">
+		<cu-custom bgColor="bg-gradual-red1" :isBack="true">
 			<block slot="backText"></block>
 			<block slot="content">排行榜</block>
 		</cu-custom>
