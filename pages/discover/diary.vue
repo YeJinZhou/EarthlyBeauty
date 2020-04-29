@@ -1,11 +1,12 @@
 <template>
+	<!-- 为了照顾食记主体的需要，所有的内容margin-left的值为41upx -->
 	<view>
-		
-	<cu-custom bgColor="bg-gradual-orange" :isBack="true"><block slot="backText">返回</block><block slot="content">食记</block></cu-custom>
-		
-		
+		<!-- 顶部导航 -->
+		<!-- <cu-custom bgColor="bg-gradual-orange" :isBack="true"><block slot="backText">返回</block><block slot="content">食记</block></cu-custom> -->
+
 		<!-- 主图轮播 -->
 		<view class="swiper-box">
+			<view class="cuIcon-back back" @tap="back()"></view>
 			<swiper circular="true" autoplay="true" @change="swiperChange">
 				<swiper-item v-for="swiper in swiperList" :key="swiper.id">
 					<image :src="swiper.img"></image>
@@ -14,17 +15,16 @@
 			<view class="indicator">{{currentSwiper+1}}/{{swiperList.length}}</view>
 		</view>
 		<!-- 用户信息 -->
-		
 		<view class="user-xinxi">
 			<view class="face"><image :src="user.face"></image></view>
 			<view class="username">{{user.name}}</view>
 			<button class="follow" size="mini" plain="true" >关注</button>
 		</view>
-		
+		<!-- 食记主体 -->
 		<view class ="pingjia">
 			{{user.xinxi}}
 		</view>
-		
+		<!-- 标签 -->
 		<view class="biaoqian">
 			{{biaoqian.tag}}
 		</view>
@@ -32,28 +32,27 @@
 		<view class="plan"> 
 			<view class="shop">
 				<image class="shop-avatar" src="../../static/23.png">
-				<text class="shop-name"> 羊肉泡馍
-				鼎盛兴</text></view>
-				<view class="jia"  >+</view>
+				<text class="food-name">羊肉泡馍</text>
+				<text class="shop-name">鼎盛兴</text>
+			</view>
+			<view class="jia">+</view>
 			<view class="shop">
 				<image class="shop-avatar" src="../../static/img/3.png">
-				<text class="shop-name"> 陕西凉皮
-				长安美食坊</text></view>
-				<view class="jia"  >+</view>
+				<text class="food-name">陕西凉皮</text>
+				<text class="shop-name">长安美食坊</text>
+			</view>
+			<view class="jia">+</view>
 			<view class="shop">
 				<image class="shop-avatar" src="../../static/img/2.png">
-					<text class="shop-name"> 臊子面
-					李氏臊子面</text>
-			
+				<text class="food-name">臊子面</text>
+				<text class="shop-name">李氏臊子面</text>
 			</view>
-		
-		
 		</view>
 		
-		<button class="button_1"@click="tocreatePost">作为我的一日方案</button>
+		<button class="button_1" @click="tocreatePost">作为我的一日方案</button>
 		
 		<!-- 评价 -->
-		<view class="info-box comments" id="comments">
+		<view class="info-box comments margin-top" id="comments">
 			<view class="row">
 				<view class="text">评论</view>
 			</view>
@@ -68,27 +67,15 @@
 				</view>
 			</view>
 			
-			
-			
-			<view>
-				
-				
-				
-				
-				
-				
-			</view>
-			
-			<view class="dibu">
-				<text class="middle" @click="toggleMask('show')" size="" plain="true"  >说点什么吧...</text>
-				<uni-fav :checked="checkList[0]" class="shoucang" circle="true" bg-color="#ffd174" bg-color-checked="#ffd174" @click="onClick(0)"></uni-fav>
-				<ygc-comment ref="ygcComment"
-				    :placeholder="'发布评论'" 
-					@pubComment="pubComment"></ygc-comment>
-			</view>
 		</view>
 		
-		
+		<view class="dibu">
+			<text class="middle" @click="toggleMask('show')" size="" plain="true"  >说点什么吧...</text>
+			<uni-fav :checked="checkList[0]" class="shoucang" circle="true" bg-color="#fff" bg-color-checked="#e54d42" @click="onClick(0)"></uni-fav>
+			<ygc-comment ref="ygcComment"
+			    :placeholder="'发布评论'" 
+				@pubComment="pubComment"></ygc-comment>
+		</view>
 	</view>
 </template>
 
@@ -127,14 +114,13 @@ export default {
 			shareClass:'',//分享弹窗css类，控制开关动画
 			
 			biaoqian:{
-	
 				tag:'#西安#'
 			},
 			
 			user:{
 				name:'随芝所乐',
 				face:'/static/face.jpg',
-				xinxi:'说到西安,你脑袋中第一浮现出来的是什么呢？我脑袋中浮现出来的就是美食！！！大凡到过西安的人，都会去品尝一下西安的牛羊肉泡馍。由于羊肉泡馍经济实惠，而极富有地方特色，来西安不吃牛羊肉泡，似乎就白来西安一趟.',
+				xinxi:'说到西安，你脑袋中第一浮现出来的是什么呢？我脑袋中浮现出来的就是美食！！！大凡到过西安的人，都会去品尝一下西安的牛羊肉泡馍。由于羊肉泡馍经济实惠，而极富有地方特色，来西安不吃牛羊肉泡，似乎就白来西安一趟.',
 			},
 			
 			// 评论信息
@@ -239,6 +225,16 @@ export default {
 page {
 	background-color: #f8f8f8;
 }
+.back {
+	position: absolute;
+	left: 10upx;
+	top: 10upx;
+	font-size: 50upx;
+	color: rgba(255, 255, 255, .7);
+	z-index: 5;
+	border-radius: 50%;
+	background-color: rgba(0, 0, 0, .3);
+}
 @keyframes showPopup {
 		0% {
 			opacity: 0;
@@ -273,20 +269,27 @@ page {
 	}
  
 .button_1{
-				width: 100%;
-				height: 80upx;
-				border-radius: 80upx;
-				background-color: #ff9966;
-				line-height: 80upx
-			}
+	margin: 10upx auto;
+	width: 90%;
+	height: 80upx;
+	color: #fff;
+	border-radius: 10upx;
+	background-color: #e54d42;
+	line-height: 80upx
+}
 .plan{
-	height: 200upx;
-	width: 80%;
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
+	padding: 0 45upx;
+	margin: 20upx auto;
+	height: 200upx;
+	width: 90%;
+	border: 1px solid rgba(0, 0, 0, .1);
+	border-radius: 20upx;
 	.jia {
 		font-size: 30px;
-		color: #ff0000;
+		color: #e54d42;
 		margin-left: 20upx;
 		margin-bottom: 8%;
 		align-self: center;
@@ -294,23 +297,17 @@ page {
 	.shop{
 		display: flex;
 		flex-direction: column;
-		margin-left: 60upx;
+		justify-content: center;
+		align-items: center;
 	}
+	.food-name,
 	.shop-name{
 		font-size: 25upx;
-		align-self:center;
 	}
 	.shop-avatar{
 		width: 100upx;
 		height: 100upx;
-		align-self: center;
-		margin-left: 30upx;
-		border-radius: 100%	;
-		image {
-			width: 100upx;
-			height: 100upx;
-			border-radius: 100%;
-		}
+		border-radius: 50%	;
 	}
 }
 
@@ -473,25 +470,23 @@ page {
 	}
 }
 .info-box {
-	width: 92%;
 	padding: 20upx 4%;
 	background-color: #fff;
 	margin-bottom: 20upx;
 }
 
 .dibu{
-	width: 100%;
 	position: fixed;
 	bottom: var(--window-bottom);
-	height:80upx;
 	background-color: #ffffff;
 	display: flex;
-	flex-direction: row;
-	justify-content: center;
+	justify-content: space-between;
+	padding: 0 30upx;
+	height: 80upx;
+	width: 100%;
 	.shoucang{
 		align-self: center;
-		margin-left: 200upx;
-		
+		border: 1px solid #E54D42;
 	}
 	.middle{
 		align-self: center;
@@ -506,13 +501,13 @@ page {
 	display: flex;
 	flex-direction: row;
 	color: #ff6600;
-	margin-left: 30upx;
+	margin-left: 41upx;
 }
 
 .pingjia{
 	font-size: 30upx;
-	margin-left: 30upx;
-	color: #8F8F94;
+	margin: 20upx 41upx;
+	color: #666;
 }
 .user-xinxi{
 	margin-top: 20upx;
@@ -521,26 +516,28 @@ page {
 	height: 140upx;
 	justify-content: center;
 	.face{
-		width: 120upx;
-		height: 120upx;
+		width: 100upx;
+		height: 100upx;
 		align-self: center;
-		margin-left: 30upx;
+		margin-left: 41upx;
 		image {
-			width: 120upx;
-			height: 120upx;
+			width: 100upx;
+			height: 100upx;
 			border-radius: 100%;
 		}
 	}
 	.username{
 		align-self: center;
-		color: #333333;
 		margin-left: 30upx;
+		color: #666;
+		font-weight: 600;
 	}
 	.follow{
 		height:40%;
-		color: #ff3600;
-		margin-right: 20upx;
+		color: #e54d42;
+		margin-right: 41upx;
 		align-self: center;
+		border-radius: 28upx;
 	}
 }
 .goods-info {
@@ -598,13 +595,14 @@ page {
 	}
 }
 .comments {
+	margin-bottom: 100upx;
 	.row {
-		width: 100%;
-		height: 40upx;
+		margin-bottom: 10upx;
+		height: 50upx;
 		display: flex;
 		align-items: center;
-		margin: 0 0 30upx 0;
 		.text {
+			margin-bottom: 10upx;
 			font-size: 30upx;
 		}
 		.arrow {
@@ -623,16 +621,16 @@ page {
 	}
 	
 	.comment {
-		width: 100%;
+		border-top: 1upx solid rgba(0, 0, 0, .1);
 		.user-info {
-			width: 100%;
+			margin-top: 15upx;
 			height: 40upx;
 			display: flex;
 			align-items: center;
 			.face {
 				width: 40upx;
 				height: 40upx;
-				margin-right: 8upx;
+				margin-right: 12upx;
 				image {
 					width: 40upx;
 					height: 40upx;
@@ -645,8 +643,9 @@ page {
 			}
 		}
 		.content {
-			margin-top: 10upx;
+			margin-top: 12upx;
 			font-size: 26upx;
+			
 		}
 	}
 }
@@ -956,4 +955,6 @@ page {
 		}
 	}
 }
+
+
 </style>
