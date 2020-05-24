@@ -306,12 +306,12 @@
 	}
 	.content {
 		    background-image:url(../../static/img/untitled.png) ;
-			margin-top: 45%;
-			margin-bottom: 45%;
+			margin-top: 50%;
+			margin-bottom: 50%;
 			margin-left: 7%;
 			margin-right: 7%;
 			width: 60%;
-			border-radius: 250px;
+			border-radius: 50%;
 		
 			backgroundPosition: "center";
 			display: flex;

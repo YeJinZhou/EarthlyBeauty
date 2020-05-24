@@ -281,7 +281,7 @@
 				const res1 = await this.$myRequest({
 					url: '/v1/api/onedayyfoodpage/getbriefplanbyuserid', //仅为示例，并非真实接口地址。
 					data: {
-						userid: this.userName,
+						userid: '123',
 					},
 				})
 				console.log(res1.data);

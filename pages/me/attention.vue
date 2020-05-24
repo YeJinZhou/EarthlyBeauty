@@ -70,7 +70,7 @@
 				const res = await this.$myRequest({
 					url: '/v1/api/mypage/getFocusList', //仅为示例，并非真实接口地址。
 					data: {
-						acount: this.userName,
+						account: '123',
 					},
 				})
 				console.log(res.data);

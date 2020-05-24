@@ -128,7 +128,7 @@
 							const res = await this.$myRequest({
 								url: '/v1/api/mypage/getCityRank', //仅为示例，并非真实接口地址。
 								data: {
-						 			account: this.userName,
+						 			account: 111,
 								},
 							})
 							console.log(res.data);
@@ -143,7 +143,7 @@
 							const res1 = await this.$myRequest({
 								url: '/v1/api/mypage/getNationalRank', //仅为示例，并非真实接口地址。
 								data: {
-									account: this.userName,
+									account: 111,
 								},
 							})
 							let plans1 = [];

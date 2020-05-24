@@ -90,7 +90,7 @@
 				const res = await this.$myRequest({
 					url: '/v1/api/mypage/getCollectionFoodRecord?account=', //仅为示例，并非真实接口地址。
 					data: {
-						account: this.userName
+						account: 'hi'
 					},
 				})
 				console.log(res.data);

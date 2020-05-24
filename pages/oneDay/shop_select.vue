@@ -103,7 +103,7 @@
 				const res = await this.$myRequest({
 					url: '/v1/api/homepage/getShopByFood', //仅为示例，并非真实接口地址。
 					data: {
-						foodid: this.plan.id
+						foodid:'1' 
 					},
 				})
 				console.log(res.data);

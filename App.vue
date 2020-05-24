@@ -6,10 +6,11 @@
 				success: function(e) {
 					// #ifndef MP
 					Vue.prototype.StatusBar = e.statusBarHeight;
+					console.log(e.platform);
 					if (e.platform == 'android') {
-						Vue.prototype.CustomBar = e.statusBarHeight + 50;
+						Vue.prototype.CustomBar = e.statusBarHeight + 60;
 					} else {
-						Vue.prototype.CustomBar = e.statusBarHeight + 45;
+						Vue.prototype.CustomBar = e.statusBarHeight + 60;
 					};
 					// #endif
 			

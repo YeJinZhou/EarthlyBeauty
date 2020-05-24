@@ -96,14 +96,14 @@
 				const res = await this.$myRequest({
 					url: '/v1/api/homepage/getCityFood', //仅为示例，并非真实接口地址。
 					data: {
-						cityid: 1
+						cityid:1
 					},
 				})
-				console.log(res.data);
 				let plans = [];
 				for (let i = 0; i < res.data.data.length; i++) {
 					plans.push(res.data.data[i]);
 				}
+				console.log(plans);
 				this.list = plans;
 			},
 			NumSteps() {
