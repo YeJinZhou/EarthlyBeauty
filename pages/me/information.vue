@@ -2,123 +2,151 @@
 	<view>
 		<cu-custom bgColor="bg-gradual-red1" :isBack="true">
 			<block slot="backText"></block>
-			<block slot="content">个人资料</block>
+			<block slot="content">修改个人资料</block>
 		</cu-custom>
 		
-		<view class="content-column" style="background-color: #fff;">
-			<view>
-				<view>
-					<view v-for="(item,i) in files" :key="i">
-						<view class="weui-uploaderfile" @tap="chooseImage" :id="item">
-							<image class="weui-uploaderimg" :src="item" mode="aspectFill" style="height: 130upx;width: 130upx;border-radius: 50%;" />
-						</view>
-					</view>
-					
-					<view v-if="files.length < 1 && files.length>=0" class="weui-uploader__input-box">  
-						<view class="weui-uploader__input" @tap="chooseImage">  
-							<image :src="personInfo.headportrait" class="img" mode="aspectFill" style="height: 250upx;width: 250upx;border-radius: 50%;"></image>  
-						</view>  
-					</view> 
+		<view class="margin-top">
+			<view class="content-column" style="background-color: #ddd;">
+				<view@tap="upload" style="background-color: #fff;border-radius: 50%;">
+					<image :src="img" mode="aspectFill" style="height: 200upx;width: 200upx;border-radius: 50%;" />
 				</view>
 			</view>
-		</view>
-		
-		<view class="size cu-form-group margin-top content-column">
-			<view class="flex">
-				<text class="iconfont iconxinzeng" @click="prompt('uni-prompt')">
-					<view style="font-size: 36upx;font-weight: bold;">
-						{{personInfo.name}}
-					</view>
-				</text>
-				<prompt ref="prompt" @onConfirm="onConfirm" @onCancel="onCancel" :text="promptText"></prompt>
-			</view>	
-		</view>
-		
-		<view class="size cu-form-group margin-top content-column">
-			<view class="flex">
-				<text>性别</text>
-			</view>	
-		</view>
-		
-		<view class="size cu-form-group margin-top content-column">
-			<view class="flex">
-				<text>年龄</text>
-			</view>	
+			
+			<view class="cu-form-group margin-top content-row">
+				<view class="content-row" style="font-size: 30upx;font-weight: bold;">
+					姓名:<input style="width: 330upx;" type="text" v-model="people.name" value="" :placeholder=personInfo.name />
+				</view>
+			</view>
+			
+			<view class="cu-form-group margin-top content-row">
+				<view class="content-row" style="font-size: 30upx;font-weight: bold;">
+					性别:<input style="width: 330upx;" type="text" value="" :placeholder=personInfo.sex v-model="people.sex"/>
+				</view>	
+			</view>
+			
+			<view class="cu-form-group margin-top content-row">
+				<view class="content-row" style="font-size: 30upx;font-weight: bold;">
+					年龄:<input style="width: 330upx;" type="number" value="" :placeholder=personInfo.age v-model="people.age"/>
+				</view>	
+			</view>
+			
+			<button class="margin-top btn" @tap="confirm">提交</button>
 		</view>
 	</view>	
 </template>
 
 <script>
-	import prompt from '@/components/prompt.vue';
+	let img;
+	var person;
 	export default {
 		data() {
 			return {	
+				img:img,
 				personInfo: [],
-				files: [],	
+				people:{
+					name:'',
+					sex:'',
+					age:'',
+				}
 			}
 		},
-		onLoad() {
+		onLoad(e) {
+			person = e;
+			console.log(person.id)
 			this.initPage()
-		},
-		components: {
-			prompt,
 		},
 		methods: {
 			async initPage(){
 				const res = await this.$myRequest({
 					url: '/v1/api/mypage/getPersonInfo',
 					data: {
-						account: 'oL9hKFg4Ou',
+						account: person.id,
 					}
 				})
-				// 给页面的数据赋值
 				this.personInfo =res.data.data;
+				this.img = this.personInfo.headportrait;
 			},
-			prompt:function(){
-				this.$refs.prompt.show();
+			
+			confirm() {
+				console.log(person.id)
+				// let data = this.people;
+				// console.log(JSON.stringify(data));
+				//console.log(this.img)
+				//console.log(data.name);	
+			    this.changeUser();
 			},
-			onConfirm:function(e){
-				console.log(e);
-				let _cost = e;
-				if (_cost == '') {
-				 console.log('你还未输入');
-				 return;
-				}
-				else{
-				  this.$refs.prompt.hide();
-				  uni.showModal({ 
-				  	title: '提示',
-				  	content: '你输入的是:'+_cost,
-				  	showCancel: false,
-				  	confirmText: "确定"
-				  })
-				}
+		
+			async changeUser(){
+				console.log(person.id)
+				// const res = await this.$myRequest({
+				// 	url: '/v1/api/mypage/updatePersonalInformation', 
+				// 	data: {
+				// 		acount: '982157286@qq.com',
+				// 		//name:this.people.name,
+				// 		sex:this.people.sex,
+				// 		age:this.people.age,
+				// 	},
+				// 	header: {
+				// 		'content-type': 'application/x-www-form-urlencoded', 
+				// 	},
+				// 	"method":"POST"
+				// })
+				// console.log(1111)
+				// // console.log(this.name);	
+				// // console.log(this.data);			
+				// console.log(this.people.name);		
+				//console.log(this.people.sex)
+				uni.uploadFile({
+				    url: 'http://10.21.234.73:8080/v1/api/mypage/updatePersonalInformation', //仅为示例，非真实的接口地址
+				    filePath: this.img,
+				    name: 'file',
+				    formData: {
+				        acount: person.id,
+						name: this.people.name,
+						sex: this.people.sex,
+						age: this.people.age,
+				    },
+					success: function () {
+					    console.log('头像上传成功');
+					},
+				});
+			
 			},
-			onCancel:function(){
-				this.$refs.prompt.hide();
-				this.$refs.prompt.cost = '';
-			},
-			chooseImage(e){
+				
+			upload(){
 				let that = this;
 				uni.chooseImage({
-					count:1,
-					sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-					sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-					success: function (res) {
-						if(res.tempFiles[0].size > 2097152 ){
-							PUBLIC.SHOWTOAST('上传图片不能超过2M~')
-							return false
-						}
-						// 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-						that.files = that.files.concat(JSON.parse(JSON.stringify(res.tempFilePaths)))
-					}
-				})
+				    success: function (chooseImageRes) {
+				        const tempFilePaths = chooseImageRes.tempFilePaths;
+						that.img = chooseImageRes.tempFilePaths[0];
+				       /* uni.uploadFile({
+				            url: 'http://10.21.234.73:8080/v1/api/mypage/updatePersonalInformation', //仅为示例，非真实的接口地址
+				            filePath: tempFilePaths[0],
+				            name: 'file',
+				            formData: {
+				                acount: '982157286@qq.com',
+								sex: '男',
+								age: 1,
+				            },
+							success: function () {
+							    console.log('头像上传成功');
+							},
+				        }); */
+				    }
+				});
+				console.log(person.id)
 			},
 		}
 	}
 </script>
 
 <style>
+	.btn{
+		width: 400upx;
+		color: #ffffff;
+		background-color: #ea0b3f;
+		border-radius: 15px;
+	}
 	.content-row {
 		display: flex;
 		flex-direction: row;
@@ -130,17 +158,5 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-	}
-	.head{
-		height: 200upx;
-		width: 200upx;
-	}
-	.size{
-		font-size: 32upx;
-	}
-	.icon{
-		height: 50upx;
-		width: 50upx;
-		border-radius: 50%;
 	}
 </style>
