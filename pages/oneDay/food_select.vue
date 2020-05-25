@@ -10,7 +10,7 @@
 		<scroll-view scroll-x="true" class="bookshelf-content">
 			<block v-for="(item, index) in list" :key="item.id" >
 				<view class="item" @tap="goDetail(index)" >
-					<image class="cu-avatar round lg" :id="MenuSelect==index?'menuselect':''" :src="item.picture"></image>
+					<image class="cu-avatar round lg" :id="MenuSelect==index?'menuselect':''" :src="item.pictures"></image>
 					<text class="text-df foodname">{{item.name}}</text>
 				</view>
 			</block>
@@ -18,7 +18,7 @@
 		<!-- 食物介绍 -->
 		<view class="contain" v-if="MenuSelect!=-1">
 			<view class="desc">{{list[MenuSelect].introduction}}</view>
-			<image :src="list[MenuSelect].picture"></image>
+			<image :src="list[MenuSelect].pictures"></image>
 		</view>
 	</view>
 </template>
@@ -47,31 +47,31 @@
 						"id": 78035,
 						"name": "hMjr4LA8Xk",
 						"introduction": "热干面是中国十大面条之一。是湖北省武汉最出名的小吃之一，有多重做法。通常以油、盐、芝麻酱、色拉油、香油、细香葱、大蒜子、萝卜丁等构成。",
-						"picture": "/static/food4.png"
+						"pictures": "/static/food4.png"
 					},
 					{
 						"id": 48035,
 						"name": "hMjr4LA8Xk",
 						"introduction": "dBS1KcZ7ip",
-						"picture": "/static/food3.png"
+						"pictures": "/static/food3.png"
 					},
 					{
 						"id": 7535,
 						"name": "hMjr4LA8Xk",
 						"introduction": "热干面是中国十大面条之一。是湖北省武汉最出名的小吃之一，有多重做法。通常以油、盐、芝麻酱、色拉油、香油、细香葱、大蒜子、萝卜丁等构成。",
-						"picture": "/static/food1.png"
+						"pictures": "/static/food1.png"
 					},
 					{
 						"id": 7453,
 						"name": "hMjr4LA8Xk",
 						"introduction": "dBS1KcZ7ip",
-						"picture": "/static/food5.png"
+						"pictures": "/static/food5.png"
 					},
 					{
 						"id": 966,
 						"name": "hMjr4LA8Xk",
 						"introduction": "dBS1KcZ7ip",
-						"picture": "/static/food4.png"
+						"pictures": "/static/food4.png"
 					}
 				],
 				MenuSelect: 0,
@@ -116,7 +116,7 @@
 				console.log('func goDetail');
 				this.MenuSelect = index;
 				this.plan.foodname = this.list[index].name;
-				this.plan.foodurl = this.list[index].picture;
+				this.plan.foodurl = this.list[index].pictures;
 			},
 			async setPlan(plan) {
 				this.plan = plan;

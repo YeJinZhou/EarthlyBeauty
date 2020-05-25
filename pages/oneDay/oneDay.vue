@@ -31,13 +31,13 @@
 					<navigator :url="'../discover/diary?id='+index">
 						<!-- 图片加阴影标题 -->
 						<view class="image" style="height:240px;">
-							<image :src="item.picture" mode="heightFix"></image>
+							<image :src="item.pictures" mode="heightFix"></image>
 							<view class="cu-bar bg-shadeBottom"> <text class="text-cut">{{item.title}}</text></view>
 						</view>
 						<!-- 用户信息 -->
 						<view class="dynamic-info">
 							<view class="user">
-								<view class="cu-avatar round" :style="[{ backgroundImage:'url(' + item.userBriefInformation.headPortrait + ')' }]"></view>
+								<view class="cu-avatar round" :style="[{ backgroundImage:'url(' + item.userBriefInformation.headportrait + ')' }]"></view>
 								<view class="username">{{item.userBriefInformation.name}}</view>
 							</view>	
 							<text class="cuIcon-appreciatefill">{{item.praisenumber}}</text> 
@@ -237,10 +237,10 @@
 					id: 10,
 					userBriefInformation: {
 						name: '随芝所乐',
-						headPortrait: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=107058113,2695546856&fm=11&gp=0.jpg'
+						headportrait: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=107058113,2695546856&fm=11&gp=0.jpg'
 					},
 					title: '吃货慎重！点进来你就无法自拔了！',
-					picture: "../../static/img/7.png",
+					pictures: "../../static/img/7.png",
 
 					praisenumber: '25',
 
@@ -249,10 +249,10 @@
 
 					userBriefInformation: {
 						name: 'SiSi',
-						headPortrait: '../../static/img/qq_pic_merged_1583398711824.jpg'
+						headportrait: '../../static/img/qq_pic_merged_1583398711824.jpg'
 					},
 					title: '西安美食大搜罗！去了很多地方才收集到的哦！',
-					picture: "../../static/img/12.png",
+					pictures: "../../static/img/12.png",
 
 
 					praisenumber: '22',
@@ -263,10 +263,10 @@
 
 					userBriefInformation: {
 						name: '独白',
-						headPortrait: '../../static/img/qq_pic_merged_1583398729577.jpg'
+						headportrait: '../../static/img/qq_pic_merged_1583398729577.jpg'
 					},
 					title: '这家的面真的太好吃啦！',
-					picture: "../../static/img/2.png",
+					pictures: "../../static/img/2.png",
 
 					praisenumber: '5',
 
@@ -281,16 +281,21 @@
 				const res1 = await this.$myRequest({
 					url: '/v1/api/onedayyfoodpage/getbriefplanbyuserid', //仅为示例，并非真实接口地址。
 					data: {
-						userid: '123',
+						userid: '472296000@qq.com',
 					},
 				})
 				console.log(res1.data);
-				this.jihualist = res1.data.data;
+				// this.jihualist = res1.data.data;
+				if(Array.isArray(res1.data.data)) {
+									this.jihualist = res1.data.data;
+								}else{
+									this.jihualist = [];
+								}
 
 				const res = await this.$myRequest({
 					url: '/v1/api/onedayyfoodpage/getrecommendfoodrecord?cityid=', //仅为示例，并非真实接口地址。
 					data: {
-						cityid: 1
+						cityid: '1'
 					},
 				})
 				console.log(res.data);

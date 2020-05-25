@@ -47,7 +47,7 @@
 		<view style="display: flex;justify-content: center;">
 			<view class="contain">
 				<view>附近景点有：{{items.planitems[0].sceneryname}}</view>
-				<image style="width: 40%;height:100%;" :src="items.planitems[0].sceneryurl"></image>
+				<image style="width: 40%;height:100%;" :src="items.planitems[0].pictures"></image>
 			</view>
 		</view>
 
@@ -67,7 +67,7 @@
 		<view style="display: flex;justify-content: center;">
 			<view class="contain">
 				<view>附近景点有：{{items.planitems[1].sceneryname}}</view>
-				<image style="width: 40%;height:100%;" :src="items.planitems[1].sceneryurl"></image>
+				<image style="width: 40%;height:100%;" :src="items.planitems[1].pictures"></image>
 			</view>
 		</view>
 		<view style="height: 4px;"></view>
@@ -86,7 +86,7 @@
 		<view style="display: flex;justify-content: center;">
 			<view class="contain">
 				<view>附近景点有：{{items.planitems[2].sceneryname}}</view>
-				<image style="width: 40%;height:100%;" :src="items.planitems[2].sceneryurl"></image>
+				<image style="width: 40%;height:100%;" :src="items.planitems[2].pictures"></image>
 			</view>
 		</view>
 		<menuroute v-show='sixFinish' class="left" :planitems="items.planitems"></menuroute>
@@ -181,7 +181,7 @@
 							"kind": 1,
 							"shopscore": "",
 							"sceneryname": "",
-							"sceneryurl": ""
+							"pictures": ""
 						},
 						{
 							"id": 1,
@@ -191,7 +191,7 @@
 							"kind": 1,
 							"shopscore": "",
 							"sceneryname": "",
-							"sceneryurl": ""
+							"pictures": ""
 						},
 						{
 							"id": 1,
@@ -201,7 +201,7 @@
 							"kind": 1,
 							"shopscore": "",
 							"sceneryname": "",
-							"sceneryurl": ""
+							"pictures": ""
 						}
 					]
 				},
@@ -276,8 +276,9 @@
 						shopid: 1
 					},
 				})
-				this.items.planitems[index].sceneryname = res.data.data.name;
-				this.items.planitems[index].sceneryurl = res.data.data.picture;
+				this.items.planitems[index].sceneryname = res.data.data[0].name;
+				this.items.planitems[index].pictures = res.data.data[0].pictures;
+				console.log(this.items.planitems[index].pictures);
 			},
 			LoadModal(scroll = true) {
 				this.savePlan();
