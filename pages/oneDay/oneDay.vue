@@ -17,14 +17,10 @@
 
 		<view v-if="modalName=='DialogModal1'">
 			<!-- /搜索栏/ -->
-			<view class="cu-bar bg-white solid-bottom">
-				<view class="action">
-					<view class="example-body">
-						<uni-search-bar radius="100" style="margin-top:5px;width: 130%;" placeholder="搜索食记" bgColor="#EEEEEE" @confirm="search" />
-					</view>
-				</view>
+			<view style="background-color: #FFFFFF;">
+				<uni-search-bar radius="100" placeholder="搜索食记"  bgColor="#EEEEEE" @input="input"/>
+				<text >{{words}}</text>
 			</view>
-
 			<view v-for="(item,index) in diarylist" :key="item.index" :options="item.options" style="width:46%;float: left;margin:2%;">
 				<!-- 卡片组 -->
 				<view class="cu-card case" style="border-radius: 10px;" >
@@ -157,6 +153,7 @@
 				PageCur: "oneDay",
 				isCard: false,
 				searchVal: '',
+				words:'',
 				ischeck: -1,
 				modalName: 'DialogModal1',
 				options: [{
@@ -232,51 +229,41 @@
 						]
 					}
 				],
-				diarylist: [{
-
-					id: 10,
-					userBriefInformation: {
-						name: '随芝所乐',
-						headportrait: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=107058113,2695546856&fm=11&gp=0.jpg'
-					},
-					title: '吃货慎重！点进来你就无法自拔了！',
-					pictures: "../../static/img/7.png",
-
-					praisenumber: '25',
-
-				}, {
-					id: 1,
-
-					userBriefInformation: {
-						name: 'SiSi',
-						headportrait: '../../static/img/qq_pic_merged_1583398711824.jpg'
-					},
-					title: '西安美食大搜罗！去了很多地方才收集到的哦！',
-					pictures: "../../static/img/12.png",
-
-
-					praisenumber: '22',
-
-				}, {
-					id: 2,
-
-
-					userBriefInformation: {
-						name: '独白',
-						headportrait: '../../static/img/qq_pic_merged_1583398729577.jpg'
-					},
-					title: '这家的面真的太好吃啦！',
-					pictures: "../../static/img/2.png",
-
-					praisenumber: '5',
-
-				}]
+				diarylist: []
 			};
 		},
 		mounted() {
 			this.initPage();
 		},
 		methods: {
+			input(res) {
+				this.searchVal = res.value;
+				this.searchRecord();
+			},
+			async searchRecord(){
+				const res = await this.$myRequest({
+					url: '/v1/api/onedayyfoodpage/queryfoodrecord',
+					data: {
+						foodrecordtitle:this.searchVal,
+					}
+				})
+				console.log(res.data);
+				if(res.data.code==-1)
+				{
+					this.words='抱歉，未找到相关结果，为你推荐：';
+				}
+				else
+				{
+					this.words='';
+					let records = [];
+			    	for (let i = 0; i < res.data.data.length; i++) {
+				    	records.push(res.data.data[i]);
+			    	}
+				    records.push(records[0]);
+			    	records.push(records[0]);
+			    	this.diarylist = records;
+			   	}		
+			},
 			async initPage() {
 				const res1 = await this.$myRequest({
 					url: '/v1/api/onedayyfoodpage/getbriefplanbyuserid', //仅为示例，并非真实接口地址。

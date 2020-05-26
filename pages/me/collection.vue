@@ -5,12 +5,7 @@
 			<block slot="backText"></block>
 			<block slot="content">收藏</block>
 		</cu-custom>
-		<!-- /搜索栏/ -->
-		<view class="cu-bar bg-white">
-			<view class="action">
-				<uni-search-bar radius="100" placeholder="搜索食记" bgColor="#EEEEEE" @confirm="search" />
-			</view>
-		</view>
+		
 		<!-- /左滑删除/ -->
 		<uniSwipeAction>
         <uniSwipeActionItem v-for="(item,index) in diarylist"  @click="swipeClick($event,index)" :key="item.index" :options="options"  @change="swipeChange" style="backgroundColor: '#e54d42';margin:3%;border-radius: 10px;">
