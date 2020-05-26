@@ -28,7 +28,7 @@
 			<view v-for="(item,index) in diarylist" :key="item.index" :options="item.options" style="width:46%;float: left;margin:2%;">
 				<!-- 卡片组 -->
 				<view class="cu-card case" style="border-radius: 10px;" >
-					<navigator :url="'../discover/diary?id='+index">
+					<navigator :url="'../discover/diary?foodrecordid='+diarylist[index].id">
 						<!-- 图片加阴影标题 -->
 						<view class="image" style="height:240px;">
 							<image :src="item.pictures" mode="heightFix"></image>

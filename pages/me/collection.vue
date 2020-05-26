@@ -17,7 +17,7 @@
         	<!-- 卡片组 -->
 			
 			<view class="cu-card case" :class="isCard?'no-card':''" style="width:100%;" >
-				<navigator :url="'../discover/diary?id='+index">
+				<navigator :url="'../discover/diary?foodrecordid='+diarylist[index].id">
         	    <view class="image">
         		    <image  :src="item.picture"
         		     mode="widthFix"></image>
