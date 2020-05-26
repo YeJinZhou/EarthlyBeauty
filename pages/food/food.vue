@@ -104,7 +104,8 @@
 			this.mainFood = food,
 			this.mainFood--,
 			console.log(typeof this.mainFood)
-			this.mainFood = this.mainFood+7-city*7,
+			this.mainFood = this.ch(this.mainFood,city)
+			//this.mainFood = this.mainFood+7-city*7,
 			console.log(this.mainFood),
 			this.initPage()
 			
@@ -114,6 +115,19 @@
 		// 	this.initPage()
 		// },
 		methods: {
+			ch(a,e){
+				if(e == 1){
+					a = a - 14;
+				}
+				if(e == 2){
+					a = a;
+				}
+				if(e == 3){
+					a = a - 7;
+				}
+				return a;
+			},
+			
 			async initPage(){
 				var that = this;
 				console.log(city)
