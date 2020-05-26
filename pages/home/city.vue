@@ -3,7 +3,7 @@
 		<!-- 城市简介 -->
 		<view class="solid-bottom">
 			<view class="flex justify-between">
-				<view class=" margin-xs cityTitle">{{city.name}}</view>
+				<view class="cityTitle">{{city.name}}</view>
 				<navigator url="../index/index">
 					<view class="padding margin-xs text-sm">前往全国精选></view>
 				</navigator>
@@ -23,13 +23,11 @@
 		<view class="solid-bottom">
 			<view class="cityTitle ">{{city.name}}特色</view>	
 			<!-- 滚动条 -->
-			<scroll-view scroll-x class="bg-white padding response cu-steps steps-bottom">
+			<scroll-view scroll-x class="padding response cu-steps steps-bottom">
 				<block v-for="(item,index) in specialFood" :key="index">
-					<view class="item">
-						<navigator url="../food/food">
-							<view class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + item.picture + ')' }]"></view>
-							<text class="text-sm margin-top-xs" style="height: 30upx; display: flex; justify-content: center;">{{item.name}}</text>
-						</navigator>
+					<view class="item" @tap="jump2food(index)">
+						<view class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + item.pictures[0] + ')' }]"></view>
+						<text class="text-sm margin-top-xs" style="height: 30upx; display: flex; justify-content: center;">{{item.name}}</text>
 					</view>
 				</block>
 			</scroll-view>
@@ -38,33 +36,31 @@
 		<view class="cityTitle ">知名食地</view>
 		<scroll-view scroll-x class="bg-white padding response cu-steps steps-bottom">
 			<block v-for="(item,index) in placeList" :key="index">
-				<view class="placeBlock">
-					<navigator url="../food/place" hover-class="navigator-hover">
-						<view class="flex" >
-							<image class="picture" :style="[{ backgroundImage:'url(' + item.pictures[0] + ')' }]"></image>
-							<view class="margin-left margin-right">
-								<view class="text-lg text-bold margin-top-xs" >{{item.name}}</view>
-								<view class="flex justify-start margin-top-xs">
-									<view class="text-sm">评分{{item.score}}</view>
-									<view class="text-sm margin-left">人均 ¥{{item.price}}</view>		
-								</view>
-								<view class="text-sm">距离：1.2 km</view>
-								<view class="text-sm margin-top-xs"><text>{{item.introduction}}</text></view>
-							</view>							
-						</view>
-					</navigator>					
+				<view class="placeBlock" @tap="jump2place(index)">
+					<view class="flex" >
+						<image class="picture" :style="[{ backgroundImage:'url(' + item.pictures[0] + ')' }]"></image>
+						<view class="margin-left margin-right">
+							<view class="text-lg text-bold margin-top-xs" >{{item.name}}</view>
+							<view class="flex justify-start margin-top-xs">
+								<view class="text-sm">评分{{item.score}}</view>
+								<view class="text-sm margin-left">人均 ¥{{item.price}}</view>		
+							</view>
+							<view class="text-sm">距离：1.2 km</view>
+							<view class="text-sm margin-top-xs"><text>{{item.introduction}}</text></view>
+						</view>							
+					</view>
 				</view>
 			</block>	
 		</scroll-view>
 		<!-- 发现城市 -->
-		<view class="cityTitle ">发现{{city.name}}</view>.
+		<view class="cityTitle city-title-discover">发现{{city.name}}</view>.
 		<view v-for="(item,index) in diaryList"  :key="item.index" style="width:46%;float: left;margin:2%;">
 			<!-- 卡片组 -->
 			<view class="cu-card case" style="border-radius: 10px;" >
 				<navigator :url="'../discover/diary?id='+index">
 					<!-- 图片加阴影标题 -->
 					<view class="image" style="height:240px;" >
-						<image :src="item.picture" mode="heightFix" ></image>
+						<image :src="item.pictures" mode="heightFix" ></image>
 						<view class="cu-bar bg-shadeBottom"> <text class="text-cut"  >{{item.title}}</text></view>				
 					</view>
 					<!-- 用户信息 -->
@@ -87,6 +83,7 @@
 			return {
 				PageCur:"home",
 				iSinfo: false,
+				cityid: 1,
 				city: [],
 				specialFood:[],
 				placeList:[],
@@ -98,26 +95,31 @@
 				this.iSinfo = !this.iSinfo
 			},
 			async initPage(){
+				// 获取城市信息
 				const city = await this.$myRequest({
 					url: '/v1/api/homepage/getCityIntroductionById?cityid=',
 					data: {
-						cityid: 0
+						cityid: this.cityid
 						}
 				})
 				// 给页面的数据赋值
-				this.city =city.data;
+				this.city =city.data.data;
+				console.log('this.city: ');
+				console.log(this.city);
+				// 获取特色美食
 				const food = await this.$myRequest({
 					url: '/v1/api/homepage/getCityFood?cityid=',
 					data: {
-						cityid: 0
+						cityid: this.cityid
 						}
 				})
 				// 给页面的数据赋值
 				this.specialFood =food.data.data;
+				console.log('special food: ' + this.specialFood);
 				const shop = await this.$myRequest({
 					url: '/v1/api/homepage/getCityShop?cityid=',
 					data: {
-						cityid: 0
+						cityid: this.cityid
 						}
 				})
 				// 给页面的数据赋值
@@ -125,11 +127,29 @@
 				const diary = await this.$myRequest({
 					url: '/v1/api/homepage/getCityFoodRecord?cityid=',
 					data: {
-						cityid: 0
+						cityid: this.cityid
 						}
 				})
 				// 给页面的数据赋值
 				this.diaryList =diary.data.data;
+			},
+			jump2food(index) {
+				let foodid = this.specialFood[index].id;
+				let cityid = this.city.id;
+				console.log('jump to food, the foodid is: ' + foodid);
+				console.log('-the name of food is: ' + this.specialFood[index].name);
+				console.log('-the city id is: ' + cityid);
+				uni.navigateTo({
+					url: '../food/food?foodid=' + foodid + '&cityid=' + cityid,
+				})
+			},
+			jump2place(index) {
+				let shopid = this.placeList[index].id;
+				console.log('jump to shop, the shopid is: ' + shopid);
+				console.log('-the name of shop is: ' + this.placeList[index].name);
+				uni.navigateTo({
+					url: '../food/place?shopid=' + shopid,
+				})
 			}
 		},
 		onLoad() {
@@ -147,7 +167,7 @@
 		display: flex;
 		flex-direction: column;
 		background-color: #fff;
-		padding: 30upx;
+		padding: 0 30upx 15upx 30upx;
 		position: relative;
 
 		.info {
@@ -173,8 +193,8 @@
 				background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 50%);
 				color: #0078FF;
 				position: absolute;
-				bottom: 30upx;
-				right: 30upx;
+				bottom: 15upx;
+				right: 35upx;
 			}
 		}
 
@@ -197,26 +217,10 @@
 		-webkit-box-orient: vertical;
 	}
 	
-	.cityTitle{
-		font-size: 40upx;
-		//font-weight: 100;
-		color: #000000;
-		line-height: 100upx;
-		padding: 0 30upx;
-		font-family: 'FZXiaoBiaoSong-B05S';
-	}
-	
 	.item {
 		margin-right: 40upx;
 		display: inline-block;
 		vertical-align: middle;
-	}
-	
-	.placeBlock {		
-		display: inline-block;
-		margin-right: 20upx;
-		border: 1px solid #999;
-		border-radius: 10px;;
 	}
 	
 	.content-column {
@@ -233,11 +237,6 @@
 		justify-content: center;
 		width: auto;
 	}
-	.picture {
-		height: 100px;
-		width: 100px;
-		border-radius: 10px 0 0 10px;
-		vertical-align: top;
-	}
+
 </style>
 

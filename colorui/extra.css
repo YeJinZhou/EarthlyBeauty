@@ -94,6 +94,7 @@
   align-items: center;
   margin: 20upx;
   padding: 20upx 20upx 30upx 20upx;
+	width: 90%;
   border-bottom: 1px solid rgba(0,0,0,.05);
 }
 
@@ -108,7 +109,8 @@
 }
 
 .eb-location-box .place-name {
-  font-weight: 700;
+	width: 75%;
+  font-weight: 600;
   font-size: 28upx;
   color: #333333;
 }
@@ -135,13 +137,15 @@
 /* ==================
         城市
  ==================== */
-.cityTitle{
+.cityTitle {
   font-size: 40upx;
-  //font-weight: 100;
   color: #000000;
-  line-height: 100upx;
-  padding: 0 30upx;
+  padding: 40upx 30upx 0 30upx;
   font-family: 'FZXiaoBiaoSong-B05S';
+}
+
+.city-title-discover {
+	padding: 20upx 0 20upx 30upx;
 }
 
 .item {
@@ -153,7 +157,8 @@
 .placeBlock {
   display: inline-block;
   margin-right: 20upx;
-  border: 1px solid #999;
+	width: 500upx;	
+  border: 1px solid rgba(0, 0, 0, .2);
   border-radius: 10px;;
 }
 
@@ -176,6 +181,7 @@
   height: 100px;
   width: 100px;
   border-radius: 10px 0 0 10px;
+	background: url() 0 0/ 100% 100% no-repeat;
   vertical-align: middle;
 }
 /* ==================
