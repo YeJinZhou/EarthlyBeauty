@@ -56,7 +56,7 @@
 			},
 			submitText1:{
 				type:String,
-				default:"自由发表游记",
+				default:"自由发表食记",
 			},
 			
 			head:{ // 获取值
@@ -123,7 +123,13 @@
 			doSubmit(){
 				this.$emit('submit',this.infoReceive);
 				this.$emit('submit',this.head);
-				console.log(this.head,this.infoReceive)
+				console.log(this.head,this.infoReceive,this.tagList);
+				uni.showToast({
+					title: '食记发表成功！',
+				});
+				uni.navigateTo({
+					url:'../discover/discover'
+				})
 				
 			}
 		}

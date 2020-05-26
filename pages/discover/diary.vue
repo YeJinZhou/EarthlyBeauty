@@ -8,48 +8,52 @@
 		<view class="swiper-box">
 			<view class="cuIcon-back back" @tap="back()"></view>
 			<swiper circular="true" autoplay="true" @change="swiperChange">
-				<swiper-item v-for="swiper in swiperList" :key="swiper.id">
-					<image :src="swiper.img"></image>
+				<swiper-item v-for="(swiper,index) in backendData.pictures" :key="index">
+					<image :src="swiper"></image>
+					<!-- <view>{{swiper}}</view> -->
 				</swiper-item>
 			</swiper>
-			<view class="indicator">{{currentSwiper+1}}/{{swiperList.length}}</view>
+			<view class="indicator">{{currentSwiper+1}}/{{backendData.pictures.length}}</view>
 		</view>
 		<!-- 用户信息 -->
 		<view class="user-xinxi">
-			<view class="face"><image :src="user.face"></image></view>
-			<view class="username">{{user.name}}</view>
+			<view class="face"><image  :src="backendData.userBriefInformation.headportrait"></image></view>
+			<view class="username" v-if='backendData.userBriefInformation.name'>{{backendData.userBriefInformation.name}}</view>
 			<button class="follow" size="mini" plain="true" >关注</button>
 		</view>
 		<!-- 食记主体 -->
 		<view class ="pingjia">
-			{{user.xinxi}}
+			{{backendData.content}}
 		</view>
 		<!-- 标签 -->
 		<view class="biaoqian">
-			{{biaoqian.tag}}
+			{{backendData.label}}
 		</view>
 		
-		<view class="plan"> 
+		<view class="plan" v-if="showPlan"> 
 			<view class="shop">
-				<image class="shop-avatar" src="../../static/23.png">
-				<text class="food-name">羊肉泡馍</text>
-				<text class="shop-name">鼎盛兴</text>
+				<image class="shop-avatar" :src="backendData.resultBriefPlan.briefPlanItems[0].foodurl">
+				<text class="food-name">{{backendData.resultBriefPlan.briefPlanItems[0].foodname}}</text>
+				<text class="shop-name">{{backendData.resultBriefPlan.briefPlanItems[0].shopname}}</text>
 			</view>
 			<view class="jia">+</view>
 			<view class="shop">
-				<image class="shop-avatar" src="../../static/img/3.png">
-				<text class="food-name">陕西凉皮</text>
-				<text class="shop-name">长安美食坊</text>
+				<image class="shop-avatar" :src="backendData.resultBriefPlan.briefPlanItems[1].foodurl">
+				<text class="food-name">{{backendData.resultBriefPlan.briefPlanItems[1].foodname}}</text>
+				<text class="shop-name">{{backendData.resultBriefPlan.briefPlanItems[1].shopname}}</text>
 			</view>
 			<view class="jia">+</view>
 			<view class="shop">
-				<image class="shop-avatar" src="../../static/img/2.png">
-				<text class="food-name">臊子面</text>
-				<text class="shop-name">李氏臊子面</text>
+				<image class="shop-avatar" :src="backendData.resultBriefPlan.briefPlanItems[2].foodurl">
+				<text class="food-name">{{backendData.resultBriefPlan.briefPlanItems[2].foodname}}</text>
+				<text class="shop-name">{{backendData.resultBriefPlan.briefPlanItems[2].shopname}}</text>
 			</view>
+			
+			
+			
 		</view>
 		
-		<button class="button_1" @click="tocreatePost">作为我的一日方案</button>
+		<button class="button_1" @click="tocreatePost" v-if="showPlan">作为我的一日方案</button>
 		
 		<!-- 评价 -->
 		<view class="info-box comments margin-top" id="comments">
@@ -57,13 +61,13 @@
 				<view class="text">评论</view>
 			</view>
 			
-			<view class="comment">
+			<view class="comment" v-for="(item,index) in commentData" :key="index">
 				<view class="user-info">
-					<view class="face"><image :src="goodsData.comment.userface"></image></view>
-					<view class="username">{{backendData[0].id}}</view>
+					<view class="face"><image :src="item.userBriefInformation.headportrait"></image></view>
+					<view class="username">{{item.userBriefInformation.name}}</view>
 				</view>
 				<view class="content">
-					{{goodsData.comment.content}}
+					{{item.content}}
 				</view>
 			</view>
 			
@@ -92,7 +96,10 @@ export default {
 		uniFav
 	},
 	data() {
+		
 		return {
+			showPlan:false,
+			
 			checkList: [false],
 			//是否显示返回按钮
 			// #ifndef MP
@@ -138,22 +145,40 @@ export default {
 			backendData:[
 				{
 					id:1,
+					userBriefInformation:{},
 					
-				},
-				{
-					id:2,
 				}
-			],
+					
 				
+		
+			],
 			
+			commentData:[
+				
+			],
+			
+			idData:{
+				foodrecordid:"",
+			},
 			
 			}
 	},
-	onLoad() {
-		this.initPage();
+	onLoad(options) {
+		console.log(options.foodrecordid);
+		var j = parseInt(options.foodrecordid);
 		
+		this.initPage(j);
+		this.idData=options;
+		console.log(this.idData);
 		
 	},
+	
+	// onLoad:function(options){
+	// 	this.setData({
+	// 	      foodrecordid: foodrecordid    
+	// 	    })
+	// },
+	
 	onReady(){
 		//this.calcAnchor();//计算锚点高度，页面数据是ajax加载时，请把此行放在数据渲染完成事件中执行以保证高度计算正确
 	},
@@ -168,17 +193,42 @@ export default {
 		
 		async initPage(foodrecordid){
 			const res =await this.$myRequest({
-				url:'/v1/api/comment/getFoodRecordCommentByFoodRecordId?foodrecordid=',
+				url:'/v1/api/publishpage/seltectDetailFoodRecord',
 				data:{
-					foodrecordid:'1'
+					foodrecordid:foodrecordid
+					
+				},
+			}) 
+			
+			console.log('back end data:');
+			console.log(res.data.data.userBriefInformation.name);
+			console.log(res.data.data.userBriefInformation);
+			this.backendData =res.data.data;
+			this.changeStatus();
+			// this.backendData.userBriefInformation = JSON.parse(t.data.data.userBriefInformation);
+			console.log(this.backendData.userBriefInformation.name);
+			// console.log(JSON.parse(this.backendData.userBriefInformation));
+			
+			const record =await this.$myRequest({
+				url:'/v1/api/comment/getFoodRecordCommentByFoodRecordId',
+				data:{
+					foodrecordid:foodrecordid
 					
 				},
 			})
-			console.log('back end data:');
-			console.log(res.data);
-			this.backendData =res.data.data;
+			this.commentData =record.data.data;
+			
+		  
+			console.log(this.idData);
+			
 		},
 		
+		changeStatus(){
+			  if(this.backendData.resultBriefPlan.id){
+				  
+				  this.showPlan = true;  
+			  }
+		},
 		//轮播图指示器
 		swiperChange(event) {
 			this.currentSwiper = event.detail.current;
