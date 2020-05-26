@@ -26,6 +26,7 @@
 				</scroll-view>
 			</view>
 		</view>
+		
 		<!-- 食物介绍 -->
 		<view class="food-title">{{foodInfo[mainFood].name}}</view>	
 		<view class="food-desc">			
