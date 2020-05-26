@@ -11,13 +11,16 @@
 		<view class="cu-bar search" style="padding: 40upx 0;">
 			<view class="search-form round">
 				<text class="cuIcon-search"></text>
-				<input @focus="InputFocus" @blur="InputBlur" :adjust-position="false" type="text" 
-				placeholder="请输入搜索内容" confirm-type="search"></input>
+				<!-- <input @focus="InputFocus" @blur="InputBlur" :adjust-position="false" type="text" 
+				placeholder="请输入搜索内容" confirm-type="search"></input> -->
+				<input type="text" focus v-model="changeVaule" @confirm="searchFun" placeholder="qin"/>
 			</view>
 			<view class="action">
 				<button class="cu-btn bg-red shadow-blur round">搜索</button>
 			</view>
 		</view>
+		<!-- <input type="text" focus v-model="changeVaule" @confirm="searchFun" placeholder="qin"/> -->
+		
 		
 		<!--食物介绍-->
 		<view style="display: flex;">
@@ -25,7 +28,7 @@
 		        <view v-for="(item,index) in food" class="content" :key="index">
 					<view class="bg-white content country-card">
 						<!--点击图片跳转-->
-		        		<image class="picture" @tap="jumpfood(index)" :src="item.picture"></image>
+		        		<image class="picture" @tap="jumpfood(index)" :src="item.pictures[0]"></image>
 		        		<view style="display:flex ;flex-direction: column; width: 680upx;">
 		        			<view class="content title">{{item.name}}</view>
 		        			<view class="text">
@@ -48,15 +51,47 @@
 			return {	
 				showText: false,
 				food: [],
+				changeVaule: '',    // 输入框输入的值
+				searchAll: [],
 			}
 		},
+		onLoad() {
+			const than = this        // 注意this的指向
+				uni.getStorage({
+					key: 'searchAll_key',
+					success(res) {
+						than.searchAll = res.data.data
+					}
+				}
+			)
+		},
 		methods: {
+			searchFun() {
+				if(this.changeVaule != '') {    // 输入框的值不为空时
+			        const than = this;
+					this.searchAll.push(this.changeVaule),   // 将输入框的值添加到搜索记录数组中存储
+					uni.setStorage({
+						key: 'searchAll_key',
+						data: than.searchAll,    
+						success: function () {
+							// console.log(changeVaule)
+						}
+					}),
+					this.changeVaule = ''
+				}
+			},
+
 			//初始化页面，从接口获取数据
 			async initPage(){
 				const res = await this.$myRequest({
 					url: '/v1/api/homepage/getNationalSelection',
 				})
 				this.food =res.data.data;
+				
+				// const res1 = await this.$myRequest1({
+				// 	url: '/v1/api/homepage/getNationalSelection',
+				// })
+				// this.food =res.data.data;
 			},
 			//搜索框弹出键盘样式修改
 			InputFocus(e) {
@@ -70,8 +105,11 @@
 			jumpfood(e) {   
 				var that = this;
 				var foodid = that.food[e].id;
+				var cityid = that.food[e].cityid;
+				console.log(foodid);
+				console.log(cityid);
 				uni.navigateTo({
-				    url: '../food/food?foodid='+foodid,
+				    url: '../food/food?foodid='+foodid+'&cityid='+cityid,
 				});
 			},
 			//多余文字隐藏
