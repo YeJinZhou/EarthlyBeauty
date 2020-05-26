@@ -35,7 +35,7 @@
 		</view>
 		
 		
-			<view class="size cu-form-group margin-top uni-flex uni-row" @tap="jumpRank()">
+			<view class="size cu-form-group margin-top uni-flex uni-row" @tap="jumpRanking()">
 				<view class="flex" style="width: 800upx;">
 					<image src="/static/leaderBoard.png" class="icon">
 						<text class="margin-left">排行榜</text>
