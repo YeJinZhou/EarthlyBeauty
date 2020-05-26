@@ -56,22 +56,20 @@
 		<view class="cityTitle city-title-discover">发现{{city.name}}</view>.
 		<view v-for="(item,index) in diaryList"  :key="item.index" style="width:46%;float: left;margin:2%;">
 			<!-- 卡片组 -->
-			<view class="cu-card case" style="border-radius: 10px;" >
-				<navigator :url="'../discover/diary?id='+index">
-					<!-- 图片加阴影标题 -->
-					<view class="image" style="height:240px;" >
-						<image :src="item.pictures" mode="heightFix" ></image>
-						<view class="cu-bar bg-shadeBottom"> <text class="text-cut"  >{{item.title}}</text></view>				
+			<view class="cu-card case" style="border-radius: 10px;" @tap="jump2diary(index)">
+				<!-- 图片加阴影标题 -->
+				<view class="image" style="height:240px;" >
+					<image :src="item.pictures" mode="heightFix" ></image>
+					<view class="cu-bar bg-shadeBottom"> <text class="text-cut"  >{{item.title}}</text></view>				
+				</view>
+				<!-- 用户信息 -->
+				<view class="dynamic-info">
+					<view class="user">
+						<view class="cu-avatar round"  :style="[{ backgroundImage:'url(' + item.userBriefInformation.headportrait + ')' }]"></view>
+						<view class="username">{{item.userBriefInformation.name}}</view>		
 					</view>
-					<!-- 用户信息 -->
-					<view class="dynamic-info">
-						<view class="user">
-							<view class="cu-avatar round"  :style="[{ backgroundImage:'url(' + item.userBriefInformation.headportrait + ')' }]"></view>
-							<view class="username">{{item.userBriefInformation.name}}</view>		
-						</view>
-						<text class="cuIcon-appreciatefill"> {{item.praisenumber}}</text>
-					</view>
-				</navigator>
+					<text class="cuIcon-appreciatefill"> {{item.praisenumber}}</text>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -149,6 +147,13 @@
 				console.log('-the name of shop is: ' + this.placeList[index].name);
 				uni.navigateTo({
 					url: '../food/place?shopid=' + shopid,
+				})
+			},
+			jump2diary(index) {
+				let diaryid = this.diaryList[index].id;
+				console.log('jump to diary, the diaryid is: ' + diaryid);
+				uni.navigateTo({
+					url: '../discover/diary?foodrecordid=' + diaryid,
 				})
 			}
 		},
