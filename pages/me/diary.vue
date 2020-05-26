@@ -7,23 +7,23 @@
 		</cu-custom>
 		<!-- 用户信息 -->
 		<view class="solids-bottom padding flex align-center">
-			<view class="cu-avatar lg round" :style="[{ backgroundImage:'url(' + headPortrait + ')' }]"></view>
+			<view class="cu-avatar lg round" :style="[{ backgroundImage:'url(' + user.headportrait + ')' }]"></view>
 			<view >
 				<view class="text-lg margin-left">
-					<text class="text-black text-bold">{{UserName}}</text>
+					<text class="text-black text-bold">{{user.name}}</text>
 				</view>
 				<view class="text-sm margin-left">
-					<text>粉丝{{numFan}}</text> 
-					<text>|关注{{numAtten}}</text> 
+					<text>粉丝{{user.fansNumber}}</text> 
+					<text>|关注{{user.focusNumber}}</text> 
 				</view>
 			</view>	
 		</view>
 		<view v-for="(item,index) in diaryList" :key="index" style="border-radius: 10px;">
 			<navigator url="/pages/discover/diary">
-				<view  class="cu-card case" :class="isCard?'no-card':''" style="width:100%;">
+				<view  class="cu-card case" style="width:100%;">
 					<view class="cu-item shadow">
 						<view class="image">
-							<image :src= "item.picture" 
+							<image :src= "item.pictures" 
 							mode="scaleToFill"></image>
 							<view class="cu-bar bg-shadeBottom"> <text class="text-cut">{{item.title}}</text></view>
 						</view>
@@ -57,28 +57,40 @@
 	export default {
 		data() {
 			return {
-				UserName:"叶小洲",
-				headPortrait: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=865100368,2934340936&fm=26&gp=0.jpg',
-				numAtten: 80,
-				numFan: 54,
-				diaryList : []
-				
+				userid: '472296000@qq.com',
+				user: [],
+				diaryList : []				
 			}
 		},
 		methods: {
 			async initPage(){
+				// 获取用户信息
+				const user = await this.$myRequest({
+					url: '/v1/api/mypage/getPersonInfo?account=',
+					data: {
+						account: this.userid
+						}
+				})
+				// 给页面的数据赋值
+				this.user = user.data.data;
+				// 获取食记
 				const res = await this.$myRequest({
 					url: '/v1/api/discoverpage/getFocusFoodRecord?account=',
 					data: {
-						account: '0'
+						account: this.userid
 						}
 				})
+				console.log('diaryList');
 				console.log(res.data);
 				// 给页面的数据赋值
 				this.diaryList =res.data.data;
 			}
 		},
-		onLoad() {
+		onLoad(e) {
+			console.log('page Diary loaded...');
+			console.log('e = ');
+			console.log(e);
+			this.userid = e.id;
 			this.initPage();
 		}
 	}
