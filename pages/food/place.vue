@@ -7,7 +7,7 @@
 		</cu-custom>
 		<!-- 顶部导航栏部分结束 -->
 		<!-- 店铺信息部分开始 -->
-		<!-- 店铺名、评分、人均消费等信息 -->
+			<!-- 店铺名、评分、人均消费等信息 -->
 		<div class="eb-place-info">
 			<div class="basic">
 				<div class="name">{{place.name}}</div>
@@ -19,7 +19,7 @@
 			</div>
 			<div @tap="collect" class="iconfont icon-shoucang" :class="place.isLike?'red':'gray'"></div>
 		</div>			
-		<!-- 店铺地址 -->
+			<!-- 店铺地址 -->
 		<div class="eb-location-box">
 			<div class="iconfont icon-weizhi"></div>
 			<div class="place-name">
@@ -47,17 +47,17 @@
 				<view class="eb-commentContent">
 					{{commentList[0].content}}
 				</view>
-				<view class="flex padding-lr">
+<!-- 				<view class="flex padding-lr">
 					<image class="thumbnailImage" :src='commentList[0].pectures[0]'></image>
 					<image class="thumbnailImage" :src='commentList[0].pectures[1]'></image>
 					<image class="thumbnailImage" style="margin-right: 0;" :src='commentList[0].pectures[2]'></image>
-				</view>
+				</view> -->
 				<view class=" padding"></view>
 			</view>
 		</view>
 		<!-- 精选评论部分结束 -->
 		<!-- 点评部分开始 -->
-		<view class="text-lg text-bold margin-left">点评</view>
+		<!-- <view class="text-lg text-bold margin-left">点评</view>
 		<view class="cu-card dynamic">
 			<view class="cu-item shadow">
 				<view class="cu-list menu-avatar">
@@ -81,7 +81,7 @@
 				</view>
 				<view class=" padding"></view>
 			</view>
-		</view>
+		</view> -->
 		<!-- 点评部分结束 -->
 		<!-- 防止评论栏遮挡最下方评论的空白部分 -->
 		<view style="height: 100upx;"></view>
@@ -135,6 +135,7 @@
 	export default {
 		data() {
 			return {
+				placeid: 1,
 				place: {
 					score: 4.8
 				},
@@ -162,16 +163,17 @@
 				const comment = await this.$myRequest({
 					url: '/v1/api/comment/getShopCommentByShopId?shopid=',
 					data: {
-						shopid: '0'
+						shopid: this.shopid
 						}
 				})
-				console.log(comment.data);
+				console.log('comment');
+				console.log( comment.data);
 				// 给页面的数据赋值
 				this.commentList =comment.data.data;
 				const info = await this.$myRequest({
 					url: '/v1/api/homepage/getshopbyshopid?shopid=',
 					data: {
-						shopid: '0'
+						shopid: this.shopid
 						}
 				})
 				console.log('info: ', info.data.data);
@@ -237,7 +239,10 @@
 				// 有需要再写吧。
 			}
 		},
-		onLoad() {
+		onLoad(e) {
+			this.shopid = e.shopid;
+			console.log('page place.vue loaded...');
+			console.log('the shop id is: ' + this.shopid);
 			this.initPage();
 		}
 	}
