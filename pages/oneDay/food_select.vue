@@ -1,43 +1,34 @@
 <template>
 	<view style="background-color: #FFFFFF;">
-		<!-- <view class="bg-white ">
-			<view class="cu-steps">
-				<view class="cu-item" :class="index>num?'':'text-red'" v-for="(item,index) in numList" :key="index">
-					<text class="num" :data-index="index + 1"></text> {{item}}
-				</view>
-			</view>
-		</view> -->
-
+		<!-- 标题 -->
 		<view class="cu-bar bg-white solid-bottom ">
 			<view class="action">
 				<text class="cuIcon-title text-red"></text> 请选择你要吃的美食
 			</view>
 		</view>
+		<!-- 食物滚动条 -->
 		<scroll-view scroll-x="true" class="bookshelf-content">
-			<block v-for="(item, index) in list" :key="index">
-				<view class="item" @tap="goDetail(index)">
-					<view class="img">
-						<view :class="MenuSelect==index?'menuselect':''" class="cu-avatar round xl" :style="[{ backgroundImage:'url(' + item.imageURL + ')' }]"></view>
-					</view>
-					<text class="item-title" style="display: flex; justify-content: center;">{{item.name}}</text>
+			<block v-for="(item, index) in list" :key="item.id" >
+				<view class="item" @tap="goDetail(index)" >
+					<image class="cu-avatar round lg" :id="MenuSelect==index?'menuselect':''" :src="item.pictures"></image>
+					<text class="text-df foodname">{{item.name}}</text>
 				</view>
 			</block>
 		</scroll-view>
-		<view class="contain solid-bottom">
-			<view style=" width:50%;height:100%; font-size:15px;">{{list[MenuSelect].desc}}</view>
-			<image style="border-radius: 6px; width:50%;height:100%;" :src="list[MenuSelect].menuImage"></image>
+		<!-- 食物介绍 -->
+		<view class="contain" v-if="MenuSelect!=-1">
+			<view class="desc">{{list[MenuSelect].introduction}}</view>
+			<image :src="list[MenuSelect].pictures"></image>
 		</view>
-		<!-- <view class="padding" style="display: flex; justify-content: center;">
-			<button class="cu-btn bg-red shadow" @tap="NumSteps">下一步</button>
-		</view> -->
-
 	</view>
 </template>
 
 <script>
 	export default {
 		props: {
-			ss:{name: String,}
+			ss: {
+				name: String,
+			}
 		},
 		model: {
 			prop: 'ss',
@@ -53,50 +44,68 @@
 				num: 0,
 
 				list: [{
-					imageURL: 'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2083260368,4001805896&fm=111&gp=0.jpg',
-					name: '1',
-					desc: '美食，顾名思义就是美味的食物1',
-					menuImage: 'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2083260368,4001805896&fm=111&gp=0.jpg'
-				}, {
-					imageURL: 'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2083260368,4001805896&fm=111&gp=0.jpg',
-					name: '2',
-					desc: '美食，顾名思义就是美味的食物2',
-					menuImage: 'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2083260368,4001805896&fm=111&gp=0.jpg'
-				}, {
-					imageURL: 'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2083260368,4001805896&fm=111&gp=0.jpg',
-					name: '3',
-					desc: '美食，顾名思义就是美味的食物3',
-					menuImage: 'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2083260368,4001805896&fm=111&gp=0.jpg'
-				}, {
-					imageURL: 'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2083260368,4001805896&fm=111&gp=0.jpg',
-					name: '4',
-					desc: '美食，顾名思义就是美味的食物4',
-					menuImage: 'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2083260368,4001805896&fm=111&gp=0.jpg'
-				}, {
-					imageURL: 'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2083260368,4001805896&fm=111&gp=0.jpg',
-					name: '5',
-					desc: '美食，顾名思义就是美味的食物5',
-					menuImage: 'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2083260368,4001805896&fm=111&gp=0.jpg'
-				}, {
-					imageURL: 'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2083260368,4001805896&fm=111&gp=0.jpg',
-					name: '6',
-					desc: '美食，顾名思义就是美味的食物6',
-					menuImage: 'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2083260368,4001805896&fm=111&gp=0.jpg'
-				}, {
-					imageURL: 'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2083260368,4001805896&fm=111&gp=0.jpg',
-					name: '7',
-					desc: '美食，顾名思义就是美味的食物7',
-					menuImage: 'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2083260368,4001805896&fm=111&gp=0.jpg'
-				}, {
-					imageURL: 'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2083260368,4001805896&fm=111&gp=0.jpg',
-					name: '8',
-					desc: '美食，顾名思义就是美味的食物8',
-					menuImage: 'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2083260368,4001805896&fm=111&gp=0.jpg'
-				}],
+						"id": 78035,
+						"name": "hMjr4LA8Xk",
+						"introduction": "热干面是中国十大面条之一。是湖北省武汉最出名的小吃之一，有多重做法。通常以油、盐、芝麻酱、色拉油、香油、细香葱、大蒜子、萝卜丁等构成。",
+						"pictures": "/static/food4.png"
+					},
+					{
+						"id": 48035,
+						"name": "hMjr4LA8Xk",
+						"introduction": "dBS1KcZ7ip",
+						"pictures": "/static/food3.png"
+					},
+					{
+						"id": 7535,
+						"name": "hMjr4LA8Xk",
+						"introduction": "热干面是中国十大面条之一。是湖北省武汉最出名的小吃之一，有多重做法。通常以油、盐、芝麻酱、色拉油、香油、细香葱、大蒜子、萝卜丁等构成。",
+						"pictures": "/static/food1.png"
+					},
+					{
+						"id": 7453,
+						"name": "hMjr4LA8Xk",
+						"introduction": "dBS1KcZ7ip",
+						"pictures": "/static/food5.png"
+					},
+					{
+						"id": 966,
+						"name": "hMjr4LA8Xk",
+						"introduction": "dBS1KcZ7ip",
+						"pictures": "/static/food4.png"
+					}
+				],
 				MenuSelect: 0,
+				plan: {
+					"id": 0,
+					"foodname": "",
+					"foodurl": "",
+					"shopname": "",
+					"kind": 0,
+					"shopscore": "",
+					"sceneryname": "",
+					"sceneryurl": ""
+				},
 			};
 		},
+		onLoad() {
+			 this.initPage();
+		},
 		methods: {
+			async initPage() {
+				this.list = [];
+				const res = await this.$myRequest({
+					url: '/v1/api/homepage/getCityFood', //仅为示例，并非真实接口地址。
+					data: {
+						cityid:1
+					},
+				})
+				let plans = [];
+				for (let i = 0; i < res.data.data.length; i++) {
+					plans.push(res.data.data[i]);
+				}
+				console.log(plans);
+				this.list = plans;
+			},
 			NumSteps() {
 				this.num = this.num == this.numList.length - 1 ? 0 : this.num + 1
 			},
@@ -104,11 +113,32 @@
 				this.num = this.num == this.numList.length - 1 ? 0 : this.num - 1
 			},
 			goDetail(index) {
+				console.log('func goDetail');
 				this.MenuSelect = index;
-				const data = this.ss;
-				data.name = this.list[index].name;
-				this.$emit('change', data);
-				console.log(data);
+				this.plan.foodname = this.list[index].name;
+				this.plan.foodurl = this.list[index].pictures;
+			},
+			async setPlan(plan) {
+				this.plan = plan;
+				await this.initPage();
+				if(plan.foodname == ''){
+					this.goDetail(0);
+				}else{
+					let flag = false;
+					for(let i = 0; i < this.list.length; i++){
+						if(this.list[i].name == plan.foodname){
+							this.MenuSelect = i;
+							flag = true;
+							break;
+						} 
+					}
+					if(!flag){
+						this.goDetail(0);
+					}
+				}
+			},
+			getPlan(){
+				return this.plan;
 			}
 		}
 	}
@@ -119,7 +149,6 @@
 		height: 170px;
 		background-color: #FFFFFF;
 		display: flex;
-		flex-direction: row;
 		border-radius: 10px;
 	}
 
@@ -130,24 +159,36 @@
 	}
 
 	.item {
-		margin-right: 20upx;
-		display: inline-block;
-		vertical-align: top;
+		width: 120upx;
+		margin: 15upx auto auto 30upx;
+		text-align: center;
 	}
-
-	.img {
-		display: inline-block;
+	
+	.item image {
+		border: 1px solid transparent;
 	}
-
-	.item-title {
-		display: block; // 让字体换行
-		width: 90%;
-		font-size: 15px;
-		line-height: 40upx;
+	
+	.foodname {
+		display: block;
+		margin-top: 10upx;
 	}
-
-	.menuselect {
-		border-style: solid;
-		border-color: #FF0000;
+	
+	.contain image {
+		width: 40%;
+		height: 100%;
+		font-size:15px;
+	}
+	
+	.desc {
+		padding: 20upx 20upx 20upx 40upx;
+		width: 60%;
+		height:100%; 
+		font-size:15px;
+		color: rgba(0, 0, 0, .6);
+		overflow: scroll;
+	}
+	
+	#menuselect {
+		border-color: #e54d42;
 	}
 </style>

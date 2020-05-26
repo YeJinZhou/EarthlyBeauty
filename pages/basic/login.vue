@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		<view class="renjian">
+		<view class="logo">
 			<img class="photo1"  style="width:100%;height: 100%;max-height: 200%;max-width: 200%; min-width:100% ;overflow:hidden; " src='../../static/img/logo2.png' ></image>
 		</view>		
 		<view class="input-group">
@@ -56,7 +56,21 @@
 			}
 		},
 		computed: mapState(['forcedLogin']),
+		onLoad () {
+					this.addDefaultAccount()
+				},
 		methods: {
+			async isAccountExist(account,password){
+							const res = await this.$myRequest({
+								url: '/v1/api/loadpage/isAccountExist?account=&password=', //仅为示例，并非真实接口地址。
+								data: {
+									account:this.account,
+									password:this.password
+								},
+							})
+							console.log(res.data);
+							console.log(this.account,this.password);							
+						},
 			...mapMutations(['login']),
 			initProvider() {
 				const filters = ['weixin', 'qq', 'sinaweibo'];
@@ -118,7 +132,8 @@
 				const validUser = service.getUsers().some(function(user) {
 					return data.account === user.account && data.password === user.password;
 				});
-				if (validUser) {
+				const validUser2=this.isAccountExist(this.account,this.password);
+				if (validUser||validUser2) {
 					this.toMain(this.account);
 				} else {
 					uni.showToast({
@@ -126,9 +141,7 @@
 						title: '用户账号或密码不正确',
 					});
 				}
-				uni.navigateTo({
-					url: '../main/main',
-				});
+				
 			},
 			oauth(value) {
 				uni.login({
@@ -176,16 +189,25 @@
 				 */
 				if (this.forcedLogin) {
 					uni.reLaunch({
-						url: '../main/main',
+						url: '../basic/introduction',
 					});
 				} else {
 					uni.reLaunch({
-						url: '../index/index',
+						url: '../basic/introduction',
 					});
 				}
 
-			}
+			},
+			// 添加默认的账户，省去调试时的注册环节
+						addDefaultAccount(){
+							service.addUser({
+								account: 'admini@qq.com',
+								password: 'admini'
+							});
+							console.log('add admin success');
+						}
 		},
+		
 		onReady() {
 			this.initPosition();
 			this.initProvider();
@@ -284,12 +306,12 @@
 	}
 	.content {
 		    background-image:url(../../static/img/untitled.png) ;
-			margin-top: 45%;
-			margin-bottom: 45%;
+			margin-top: 50%;
+			margin-bottom: 50%;
 			margin-left: 7%;
 			margin-right: 7%;
 			width: 60%;
-			border-radius: 250px;
+			border-radius: 50%;
 		
 			backgroundPosition: "center";
 			display: flex;
@@ -298,7 +320,7 @@
 			background-color: #eab373;
 			padding: 10upx;
 		}
-	 .renjian{
+	 .logo{
 			display: block;
 		margin-left: 10upx;
 			margin-top: 5upx;

@@ -12,7 +12,7 @@ Vue.component('home',home)
 import discover from './pages/discover/discover.vue'
 Vue.component('discover',discover)
 
-import post from './pages/post/createPost.vue'
+import post from './pages/post/create.vue'
 Vue.component('post',post)
 
 import oneDay from './pages/oneDay/oneDay.vue'

@@ -1,61 +1,113 @@
 <template>
+	<!-- 为了照顾食记主体的需要，所有的内容margin-left的值为41upx -->
 	<view>
-		<cu-custom bgColor="bg-gradual-orange" :isBack="true"><block slot="backText">返回</block><block slot="content"></block></cu-custom>
+		<!-- 顶部导航 -->
+		<!-- <cu-custom bgColor="bg-gradual-orange" :isBack="true"><block slot="backText">返回</block><block slot="content">食记</block></cu-custom> -->
+
 		<!-- 主图轮播 -->
 		<view class="swiper-box">
+			<view class="cuIcon-back back" @tap="back()"></view>
 			<swiper circular="true" autoplay="true" @change="swiperChange">
-				<swiper-item v-for="swiper in swiperList" :key="swiper.id">
-					<image :src="swiper.img"></image>
+				<swiper-item v-for="(swiper,index) in backendData.pictures" :key="index">
+					<image :src="swiper"></image>
+					<!-- <view>{{swiper}}</view> -->
 				</swiper-item>
 			</swiper>
-			<view class="indicator">{{currentSwiper+1}}/{{swiperList.length}}</view>
+			<view class="indicator">{{currentSwiper+1}}/{{backendData.pictures.length}}</view>
 		</view>
 		<!-- 用户信息 -->
-		<view class="info-box goods-info">
-			用户信息
+		<view class="user-xinxi">
+			<view class="face"><image  :src="backendData.userBriefInformation.headportrait"></image></view>
+			<view class="username" v-if='backendData.userBriefInformation.name'>{{backendData.userBriefInformation.name}}</view>
+			<button class="follow" size="mini" plain="true" >关注</button>
+		</view>
+		<!-- 食记主体 -->
+		<view class ="pingjia">
+			{{backendData.content}}
+		</view>
+		<!-- 标签 -->
+		<view class="biaoqian">
+			{{backendData.label}}
 		</view>
 		
-		<view class ="content">
-			{{goodsData.xinxi}}
-		</view>
-		<!-- 评价 -->
-		<view class="info-box comments" id="comments">
-			<view class="row">
-				<view class="text">评论({{goodsData.comment.number}})</view>
-				<view class="arrow" @tap="toRatings">
-					<view class="show" @tap="showComments(goodsData.id)">
-						查看全部
-						<view class="icon xiangyou"></view>
-					</view>
-				</view>
+		<view class="plan" v-if="showPlan"> 
+			<view class="shop">
+				<image class="shop-avatar" :src="backendData.resultBriefPlan.briefPlanItems[0].foodurl">
+				<text class="food-name">{{backendData.resultBriefPlan.briefPlanItems[0].foodname}}</text>
+				<text class="shop-name">{{backendData.resultBriefPlan.briefPlanItems[0].shopname}}</text>
 			</view>
-			<view class="comment" @tap="toRatings">
+			<view class="jia">+</view>
+			<view class="shop">
+				<image class="shop-avatar" :src="backendData.resultBriefPlan.briefPlanItems[1].foodurl">
+				<text class="food-name">{{backendData.resultBriefPlan.briefPlanItems[1].foodname}}</text>
+				<text class="shop-name">{{backendData.resultBriefPlan.briefPlanItems[1].shopname}}</text>
+			</view>
+			<view class="jia">+</view>
+			<view class="shop">
+				<image class="shop-avatar" :src="backendData.resultBriefPlan.briefPlanItems[2].foodurl">
+				<text class="food-name">{{backendData.resultBriefPlan.briefPlanItems[2].foodname}}</text>
+				<text class="shop-name">{{backendData.resultBriefPlan.briefPlanItems[2].shopname}}</text>
+			</view>
+			
+			
+			
+		</view>
+		
+		<button class="button_1" @click="tocreatePost" v-if="showPlan">作为我的一日方案</button>
+		
+		<!-- 评价 -->
+		<view class="info-box comments margin-top" id="comments">
+			<view class="row">
+				<view class="text">评论</view>
+			</view>
+			
+			<view class="comment" v-for="(item,index) in commentData" :key="index">
 				<view class="user-info">
-					<view class="face"><image :src="goodsData.comment.userface"></image></view>
-					<view class="username">{{goodsData.comment.username}}</view>
+					<view class="face"><image :src="item.userBriefInformation.headportrait"></image></view>
+					<view class="username">{{item.userBriefInformation.name}}</view>
 				</view>
 				<view class="content">
-					{{goodsData.comment.content}}
+					{{item.content}}
 				</view>
 			</view>
+			
 		</view>
 		
-		
+		<view class="dibu">
+			<text class="middle" @click="toggleMask('show')" size="" plain="true"  >说点什么吧...</text>
+			<uni-fav :checked="checkList[0]" class="shoucang" circle="true" bg-color="#fff" bg-color-checked="#e54d42" @click="onClick(0)"></uni-fav>
+			<ygc-comment ref="ygcComment"
+			    :placeholder="'发布评论'" 
+				@pubComment="pubComment"></ygc-comment>
+		</view>
 	</view>
 </template>
 
 <script>
+	
+import ygcComment from '@/components/ygc-comment/ygc-comment.vue';
+
+import uniFav from '@/components/uni-fav/uni-fav.vue';
+
+ var mockURL = "https://nei.netease.com/api/apimock-v2/7f58f7ccd8b5b6da5d9af6a1bd5edf68/v1/api/comment/getFoodRecordCommentByFoodRecordId?foodrecordid= "
 export default {
+	components:{
+		ygcComment,
+		uniFav
+	},
 	data() {
+		
 		return {
+			showPlan:false,
 			
+			checkList: [false],
 			//是否显示返回按钮
 			// #ifndef MP
 			showBack:true,
 			// #endif
 			//轮播主图数据
 			swiperList: [
-				{ id: 1, img: '/static/1.jpg' },
+				{ id: 1, img: '/static/23.png' },
 				{ id: 2, img: '/static/2.jpg' },
 				{ id: 3, img: '/static/3.jpg' },
 				{ id: 4, img: '/static/4.jpg' }
@@ -67,31 +119,68 @@ export default {
 			serviceClass: '',//服务弹窗css类，控制开关动画
 			specClass: '',//规格弹窗css类，控制开关动画
 			shareClass:'',//分享弹窗css类，控制开关动画
-			// 商品信息
+			
+			biaoqian:{
+				tag:'#西安#'
+			},
+			
+			user:{
+				name:'随芝所乐',
+				face:'/static/face.jpg',
+				xinxi:'说到西安，你脑袋中第一浮现出来的是什么呢？我脑袋中浮现出来的就是美食！！！大凡到过西安的人，都会去品尝一下西安的牛羊肉泡馍。由于羊肉泡馍经济实惠，而极富有地方特色，来西安不吃牛羊肉泡，似乎就白来西安一趟.',
+			},
+			
+			// 评论信息
 			goodsData:{
 				id:1,
-				xinxi:'说到西安,你脑袋中第一浮现出来的是什么呢？',
+				
 				
 				comment:{
-					number:102,
 					userface:'/static/face.jpg',
 					username:'大黑哥',
-					content:'很不错，之前吃了很多次了！'
+					content:'看起来很好吃啊，感谢分享！我也好喜欢西安这座城市！西安带给我好多美好的回忆！'
 				}
 			},
 			
-			};
+			backendData:[
+				{
+					id:1,
+					userBriefInformation:{},
+					
+				}
+					
+				
+		
+			],
+			
+			commentData:[
+				
+			],
+			
+			idData:{
+				foodrecordid:"",
+			},
+			
+			}
 	},
-	onLoad(option) {
-		// #ifdef MP
-		//小程序隐藏返回按钮
-		this.showBack = false;
-		// #endif
-		//option为object类型，会序列化上个页面传递的参数
-		console.log(option.cid); //打印出上个页面传递的参数。
+	onLoad(options) {
+		console.log(options.foodrecordid);
+		var j = parseInt(options.foodrecordid);
+		
+		this.initPage(j);
+		this.idData=options;
+		console.log(this.idData);
+		
 	},
+	
+	// onLoad:function(options){
+	// 	this.setData({
+	// 	      foodrecordid: foodrecordid    
+	// 	    })
+	// },
+	
 	onReady(){
-		this.calcAnchor();//计算锚点高度，页面数据是ajax加载时，请把此行放在数据渲染完成事件中执行以保证高度计算正确
+		//this.calcAnchor();//计算锚点高度，页面数据是ajax加载时，请把此行放在数据渲染完成事件中执行以保证高度计算正确
 	},
 	onPageScroll(e) {
 		
@@ -101,9 +190,53 @@ export default {
 		
 	},
 	methods: {
+		
+		async initPage(foodrecordid){
+			const res =await this.$myRequest({
+				url:'/v1/api/publishpage/seltectDetailFoodRecord',
+				data:{
+					foodrecordid:foodrecordid
+					
+				},
+			}) 
+			
+			console.log('back end data:');
+			console.log(res.data.data.userBriefInformation.name);
+			console.log(res.data.data.userBriefInformation);
+			this.backendData =res.data.data;
+			this.changeStatus();
+			// this.backendData.userBriefInformation = JSON.parse(t.data.data.userBriefInformation);
+			console.log(this.backendData.userBriefInformation.name);
+			// console.log(JSON.parse(this.backendData.userBriefInformation));
+			
+			const record =await this.$myRequest({
+				url:'/v1/api/comment/getFoodRecordCommentByFoodRecordId',
+				data:{
+					foodrecordid:foodrecordid
+					
+				},
+			})
+			this.commentData =record.data.data;
+			
+		  
+			console.log(this.idData);
+			
+		},
+		
+		changeStatus(){
+			  if(this.backendData.resultBriefPlan.id){
+				  
+				  this.showPlan = true;  
+			  }
+		},
 		//轮播图指示器
 		swiperChange(event) {
 			this.currentSwiper = event.detail.current;
+		},
+		
+		onClick(index) {
+			this.checkList[index] = !this.checkList[index]
+			this.$forceUpdate()
 		},
 		
 		//评论，跳转页面
@@ -113,10 +246,25 @@ export default {
 			})
 		},
 		
+		tocreatePost(){
+			uni.navigateTo({
+				url:'../me/plan'
+			})
+		},
+		
 		//返回上一页
 		back() {
 			uni.navigateBack();
 		},
+		toggleMask(type) {
+			this.$refs.ygcComment.toggleMask(type);
+		},
+		pubComment(commentContent1) {
+			this.$refs.ygcComment.toggleMask();
+			console.log(commentContent1);
+			this.commentContent = commentContent1;
+			this.$refs.ygcComment.content = '';
+		}
 		
 		
 	}
@@ -126,6 +274,16 @@ export default {
 <style lang="scss">
 page {
 	background-color: #f8f8f8;
+}
+.back {
+	position: absolute;
+	left: 10upx;
+	top: 10upx;
+	font-size: 50upx;
+	color: rgba(255, 255, 255, .7);
+	z-index: 5;
+	border-radius: 50%;
+	background-color: rgba(0, 0, 0, .3);
 }
 @keyframes showPopup {
 		0% {
@@ -159,6 +317,51 @@ page {
 			transform: translateY(0);
 		}
 	}
+ 
+.button_1{
+	margin: 10upx auto;
+	width: 90%;
+	height: 80upx;
+	color: #fff;
+	border-radius: 10upx;
+	background-color: #e54d42;
+	line-height: 80upx
+}
+.plan{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 45upx;
+	margin: 20upx auto;
+	height: 200upx;
+	width: 90%;
+	border: 1px solid rgba(0, 0, 0, .1);
+	border-radius: 20upx;
+	.jia {
+		font-size: 30px;
+		color: #e54d42;
+		margin-left: 20upx;
+		margin-bottom: 8%;
+		align-self: center;
+	}
+	.shop{
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+	.food-name,
+	.shop-name{
+		font-size: 25upx;
+	}
+	.shop-avatar{
+		width: 100upx;
+		height: 100upx;
+		border-radius: 50%	;
+	}
+}
+
+
 
 .icon {
 	font-size: 26upx;
@@ -290,14 +493,14 @@ page {
 .swiper-box {
 	position: relative;
 	width: 100%;
-	height: 100vw;
+	height: 500upx;
 	swiper {
 		width: 100%;
-		height: 100vw;
+		height: 500upx;
 		swiper-item {
 			image {
 				width: 100%;
-				height: 100vw;
+				height: 500upx;
 			}
 		}
 	}
@@ -317,12 +520,76 @@ page {
 	}
 }
 .info-box {
-	width: 92%;
 	padding: 20upx 4%;
 	background-color: #fff;
 	margin-bottom: 20upx;
 }
 
+.dibu{
+	position: fixed;
+	bottom: var(--window-bottom);
+	background-color: #ffffff;
+	display: flex;
+	justify-content: space-between;
+	padding: 0 30upx;
+	height: 80upx;
+	width: 100%;
+	.shoucang{
+		align-self: center;
+		border: 1px solid #E54D42;
+	}
+	.middle{
+		align-self: center;
+		font-size: 30upx;
+		color:  #d9d9d9;
+		
+	}
+	
+}
+
+.biaoqian{
+	display: flex;
+	flex-direction: row;
+	color: #ff6600;
+	margin-left: 41upx;
+}
+
+.pingjia{
+	font-size: 30upx;
+	margin: 20upx 41upx;
+	color: #666;
+}
+.user-xinxi{
+	margin-top: 20upx;
+	flex-direction: row;
+	display: flex;
+	height: 140upx;
+	justify-content: center;
+	.face{
+		width: 100upx;
+		height: 100upx;
+		align-self: center;
+		margin-left: 41upx;
+		image {
+			width: 100upx;
+			height: 100upx;
+			border-radius: 100%;
+		}
+	}
+	.username{
+		align-self: center;
+		margin-left: 30upx;
+		color: #666;
+		font-weight: 600;
+	}
+	.follow{
+		height:40%;
+		color: #e54d42;
+		margin-right: 41upx;
+		align-self: center;
+		border-radius: 28upx;
+	}
+}
 .goods-info {
 	.price {
 		font-size: 46upx;
@@ -378,13 +645,14 @@ page {
 	}
 }
 .comments {
+	margin-bottom: 100upx;
 	.row {
-		width: 100%;
-		height: 40upx;
+		margin-bottom: 10upx;
+		height: 50upx;
 		display: flex;
 		align-items: center;
-		margin: 0 0 30upx 0;
 		.text {
+			margin-bottom: 10upx;
 			font-size: 30upx;
 		}
 		.arrow {
@@ -401,17 +669,18 @@ page {
 			}
 		}
 	}
+	
 	.comment {
-		width: 100%;
+		border-top: 1upx solid rgba(0, 0, 0, .1);
 		.user-info {
-			width: 100%;
+			margin-top: 15upx;
 			height: 40upx;
 			display: flex;
 			align-items: center;
 			.face {
 				width: 40upx;
 				height: 40upx;
-				margin-right: 8upx;
+				margin-right: 12upx;
 				image {
 					width: 40upx;
 					height: 40upx;
@@ -424,11 +693,13 @@ page {
 			}
 		}
 		.content {
-			margin-top: 10upx;
+			margin-top: 12upx;
 			font-size: 26upx;
+			
 		}
 	}
 }
+
 .description {
 	.title {
 		width: 100%;
@@ -734,4 +1005,6 @@ page {
 		}
 	}
 }
+
+
 </style>

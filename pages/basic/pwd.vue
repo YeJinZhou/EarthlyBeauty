@@ -7,7 +7,7 @@
 		
 			<view class="input-row">
 				<text class="title">邮箱：</text>
-				<input class="kuang" type="text" focus clearable v-model="account" placeholder="请输入邮箱"></input>
+				<input class="inputbox" type="text" focus clearable v-model="account" placeholder="请输入邮箱"></input>
 			</view>
 
 
@@ -47,7 +47,7 @@
 					title: '已发送重置邮件至注册邮箱，请注意查收。',
 					duration: 3000
 				});
-			}
+			} 
 		}
 	}
 </script>
@@ -106,15 +106,15 @@
 			border-radius: 10px;
 
 	}
-	.kuang
-		{
-			background-color: #ffffff;
-			border-radius: 10px;
-			height: 70upx;
-			font-size: 16px;
-			
-		}
-		.input-row {
+	.inputbox {
+		height: 70upx;
+		width: 80%;
+		padding-left: 20upx;
+		font-size: 28upx;
+		background-color: #ffffff;
+		border-radius: 10px;
+	}
+	.input-row {
 		width: 80%;
 		margin-top: 100upx;
 		margin-bottom: 200upx;

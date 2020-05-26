@@ -1,7 +1,7 @@
 <template>
 	<view >
 		<!-- 顶部导航栏 -->
-		<cu-custom bgColor="bg-gradual-orange" :isBack="true">
+		<cu-custom bgColor="bg-gradual-red1" :isBack="true">
 			<block slot="backText">返回</block>
 			<block slot="content">我的食记</block>
 		</cu-custom>
@@ -18,26 +18,26 @@
 				</view>
 			</view>	
 		</view>
-		<view v-for="(item,index) in diaryList" :key="index" style="margin:3%;border-radius: 10px;">
+		<view v-for="(item,index) in diaryList" :key="index" style="border-radius: 10px;">
 			<navigator url="/pages/discover/diary">
 				<view  class="cu-card case" :class="isCard?'no-card':''" style="width:100%;">
 					<view class="cu-item shadow">
 						<view class="image">
-							<image :src= "item.background" 
+							<image :src= "item.picture" 
 							mode="scaleToFill"></image>
-							<view class="cu-bar bg-shadeBottom"> <text class="text-cut">{{item.introduction}}</text></view>
+							<view class="cu-bar bg-shadeBottom"> <text class="text-cut">{{item.title}}</text></view>
 						</view>
 						<view class="cu-list menu-avatar">
 							<view class="cu-item">
-								<view class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + item.headPortrait + ')' }]" ></view>
+								<view class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + item.userBriefInformation.headportrait + ')' }]" ></view>
 								<view class="content flex-sub">
-									<view class="text-grey">{{item.name}}</view>
+									<view class="text-grey">{{item.userBriefInformation.name}}</view>
 									<view class="text-gray text-sm flex justify-between">
-										{{item.date}}
+										{{item.time}}
 										<view class="text-gray text-sm">
-											<text class="cuIcon-attentionfill margin-lr-xs"></text> {{item.views}}
-											<text class="cuIcon-appreciatefill margin-lr-xs"></text> {{item.likes}}
-											<text class="cuIcon-messagefill margin-lr-xs"></text> {{item.comment}}
+											<text class="cuIcon-attentionfill margin-lr-xs"></text> {{item.viewnumber}}
+											<text class="cuIcon-appreciatefill margin-lr-xs"></text> {{item.praisenumber}}
+											<text class="cuIcon-messagefill margin-lr-xs"></text> {{item.commentnumber}}
 										</view>
 									</view>
 								</view>
@@ -61,46 +61,25 @@
 				headPortrait: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=865100368,2934340936&fm=26&gp=0.jpg',
 				numAtten: 80,
 				numFan: 54,
-				diaryList : [
-					{
-						id: 0,
-						background: "/static/food1.png",
-						introduction : "今天去了一家自助店",
-						headPortrait: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=865100368,2934340936&fm=26&gp=0.jpg',
-						name : "叶小洲",
-						date : "2020年3月31日",
-						views : 13, 
-						likes : 2,
-						comment :3,
-					},
-					{
-						id: 1,
-						background: "/static/food5.png",
-						introduction : "下馆子喽！",
-						headPortrait: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=865100368,2934340936&fm=26&gp=0.jpg',
-						name : "Username",
-						date : "2020年3月18日",
-						views : 111, 
-						likes : 23,
-						comment :30,
-					},
-					{
-						id: 2,
-						background: "/static/shop05.png",
-						introduction : "第一次打卡，有点紧张...",
-						headPortrait: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=865100368,2934340936&fm=26&gp=0.jpg',
-						name : "Username",
-						date : "2020年2月1日",
-						views : 1, 
-						likes : 2,
-						comment :3,
-					}
-				]
+				diaryList : []
 				
 			}
 		},
 		methods: {
-			
+			async initPage(){
+				const res = await this.$myRequest({
+					url: '/v1/api/discoverpage/getFocusFoodRecord?account=',
+					data: {
+						account: '0'
+						}
+				})
+				console.log(res.data);
+				// 给页面的数据赋值
+				this.diaryList =res.data.data;
+			}
+		},
+		onLoad() {
+			this.initPage();
 		}
 	}
 </script>

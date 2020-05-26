@@ -1,234 +1,248 @@
 <template>
 	<view>
-		<!-- 顶部导航栏 -->
-		<cu-custom bgColor="bg-gradual-orange" :isBack="true">
+		<!-- 顶部导航栏部分开始 -->
+		<cu-custom bgColor="bg-gradual-red1" :isBack="true">
 			<block slot="backText">返回</block>
-			<block slot="content">我的食记</block>
+			<block slot="content">食地</block>
 		</cu-custom>
+		<!-- 顶部导航栏部分结束 -->
+		<!-- 店铺信息部分开始 -->
 		<!-- 店铺名、评分、人均消费等信息 -->
-		<view class="flex solid-bottom justify-between align-center">
-			<view>
-				<view class="margin-left margin-top">
-					<text class="text-lg text-black text-bold">{{place.name}}</text>
-				</view>
-				<view class="justify-start flex align-center" style="margin-top: 10upx;">
-					<uni-rate :value='place.score' disabled="true" size="10" class="margin-left" style="margin-top: 6upx;"></uni-rate>
-					<text class="text-sm" style="margin-left: 9upx;">{{place.score}}分</text>
-					<text class="margin-left text-sm">¥{{place.perConsumption}}/人</text>
-				</view>
-			</view>
-			<!-- 有问题，点击之后isLike会改变但是图标不会变 -->
-			<view @tap="collect()" style="margin-right: 50upx;">
-				<image class="collectionImg " src="/static/like_grey.png" v-if="!isLike"></image>
-				<image class="collectionImg " src="/static/like_red.png" v-if="isLike"></image>
-			</view>
-		</view>
-		<!-- 特色菜品滚动条 -->
-			<!-- 只写出了bug -->
-			
+		<div class="eb-place-info">
+			<div class="basic">
+				<div class="name">{{place.name}}</div>
+				<div class="info">
+					<uni-rate disabled="true" size="10" :value="place.score"></uni-rate>
+					<div class="score">{{place.score}}分</div>
+					<text>¥{{place.price}}/人</text>
+				</div>	
+			</div>
+			<div @tap="collect" class="iconfont icon-shoucang" :class="place.isLike?'red':'gray'"></div>
+		</div>			
 		<!-- 店铺地址 -->
-		<view class="padding solid-bottom align-center justify-between flex">
-			<view class=" justify-start flex">
-				<image src="/static/location.png" class="collectionImg"></image>
-				<view class="margin-left">
-					<view><text class="text-bold">{{place.location.location}}</text></view>
-					<text class="text-sm text-gray">距离{{place.location.nearbyPlace}}{{place.location.dist2nearby}}米</text>
-				</view>
-			</view>
-			<image src="/static/arrow_right.png" style="width: 40upx; height: 40upx;"></image>
-		</view>
-		
-		<!-- 精选评论 -->
+		<div class="eb-location-box">
+			<div class="iconfont icon-weizhi"></div>
+			<div class="place-name">
+				{{place.address}}
+			</div>
+			<div class="dist"></div>
+			<div class="iconfont icon-you"></div>
+		</div>
+		<!-- 店铺信息部分结束 -->	
+		<!-- 精选评论部分开始 -->
 		<view class="text-lg text-bold margin-left margin-top">精选评论</view>
-		<view class="cu-card dynamic" :class="isCard?'no-card':''">
+		<view class="cu-card dynamic">
 			<view class="cu-item shadow">
 				<view class="cu-list menu-avatar">
 					<view class="cu-item">
-						<view class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + comment.headProtrait + ')' }]"></view>
+						<view class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + commentList[0].userBriefInformation.headportrait + ')' }]"></view>
 						<view class="content flex-sub ">
-							<view class="text-bold">{{comment.userName}}</view>
+							<view class="text-bold">{{commentList[0].userBriefInformation.name}}</view>
 							<view class="text-gray text-sm flex justify-between">
-								{{comment.publishDate}}
+								{{commentList[0].time}}
 							</view>
 						</view>
 					</view>
 				</view>
-				<view class="commentContent">
-					{{comment.content}}
+				<view class="eb-commentContent">
+					{{commentList[0].content}}
 				</view>
-				<view class="grid flex-sub padding-lr" :class="isCard?'col-3 grid-square':'col-1'">
-					<image class="thumbnailImage" :src='comment.imgList.img1URL'></image>
-					<image class="thumbnailImage margin-left" :src='comment.imgList.img2URL'></image>
-					<image class="thumbnailImage margin-left" :src='comment.imgList.img3URL'></image>
+				<view class="flex padding-lr">
+					<image class="thumbnailImage" :src='commentList[0].pectures[0]'></image>
+					<image class="thumbnailImage" :src='commentList[0].pectures[1]'></image>
+					<image class="thumbnailImage" style="margin-right: 0;" :src='commentList[0].pectures[2]'></image>
 				</view>
 				<view class=" padding"></view>
 			</view>
 		</view>
-		
-		<!-- 点评 -->
+		<!-- 精选评论部分结束 -->
+		<!-- 点评部分开始 -->
 		<view class="text-lg text-bold margin-left">点评</view>
-		<view class="cu-card dynamic" :class="isCard?'no-card':''">
+		<view class="cu-card dynamic">
 			<view class="cu-item shadow">
 				<view class="cu-list menu-avatar">
 					<view class="cu-item">
-						<view class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + comment2.headProtrait + ')' }]"></view>
+						<view class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + commentList[1].userBriefInformation.headportrait + ')' }]"></view>
 						<view class="content flex-sub ">
-							<view class="text-bold">{{comment2.userName}}</view>
+							<view class="text-bold">{{commentList[1].userBriefInformation.name}}</view>
 							<view class="text-gray text-sm flex justify-between">
-								{{comment2.publishDate}}
+								{{commentList[1].time}}
 							</view>
 						</view>
 					</view>
 				</view>
-				<view class="commentContent">
-					{{comment2.content}}
+				<view class="eb-commentContent">
+					{{commentList[1].content}}
 				</view>
-				<view class="grid flex-sub padding-lr" :class="isCard?'col-3 grid-square':'col-1'">
-					<image class="thumbnailImage" :src='comment2.imgList.img1URL'></image>
-					<image class="thumbnailImage margin-left" :src='comment2.imgList.img2URL'></image>
-					<image class="thumbnailImage margin-left" :src='comment2.imgList.img3URL'></image>
+				<view class="flex flex-sub padding-lr">
+					<image class="thumbnailImage" :src='commentList[1].pectures[0]'></image>
+					<image class="thumbnailImage" :src='commentList[1].pectures[1]'></image>
+					<image class="thumbnailImage" style="margin-right: 0;" :src='commentList[1].pectures[2]'></image>
 				</view>
 				<view class=" padding"></view>
 			</view>
-		</view>		
-		<!-- 底部评论栏 -->
+		</view>
+		<!-- 点评部分结束 -->
+		<!-- 防止评论栏遮挡最下方评论的空白部分 -->
+		<view style="height: 100upx;"></view>
+		<!-- 底部评论栏部分开始 -->
 		<view class="cu-bar foot bg-white">
 			<view class="search-form round">
-				<input class="margin-left" @focus="InputFocus" @blur="InputBlur" :adjust-position="false" type="text" placeholder="说点什么吧..." ></input>
+				<input class="margin-left" @focus="InputFocus" :adjust-position="false" type="text" placeholder="说点什么吧..." ></input>
 			</view>
 			<view class="action">
 				<button class="cu-btn bg-red shadow-blur round">评论</button>
 			</view>
 		</view>
+		<!-- 底部评论栏部分结束 -->
 		
+		<!-- 这里是评论的弹窗开始部分 -->
+		<view class="cu-modal bottom-modal" :class="showCommentWindow?'show':''">
+			<view class="cu-dialog eb-comment">
+				<!-- 头部开始 -->
+				<view class="header">
+					<view class="back-btn" @tap="hideCommentWindow()">返回</view>
+					<view class="post-btn" @tap="postComment()">发表评论</view>
+				</view>
+				<!-- 头部结束 -->
+				<!-- 评论填写部分开始 -->
+				<textarea class="content" placeholder="说点什么吧..."></textarea>
+				<!-- 评论填写部分结束 -->
+				<!-- 上传图片部分开始，最多选择三张 -->
+				<view class="img">
+					<!-- 三个预览图 -->
+					<view @tap="chooseImg(1)" class="thumb-img">
+						<image :src="imgs.img1"></image>
+					</view>
+					<view @tap="chooseImg(2)" class="thumb-img">
+						<image :src="imgs.img2"></image>
+					</view>
+					<view @tap="chooseImg(3)" class="thumb-img">
+						<image :src="imgs.img3"></image>
+					</view>
+				</view>
+				<!-- 上传图片部分结束 -->
+			</view>
+		</view>
+		<!-- 这里是评论的弹窗结束部分 -->
 	</view>
 </template>
 
 <script>
 	var _self;
-	import uniRate from '@/components/uni-rate/uni-rate.vue'
+	import uniRate from '@/components/uni-rate/uni-rate.vue';
+	
 	export default {
 		data() {
 			return {
 				place: {
-					name:"清真鼎盛兴饭店",
-					score: 4.7,
-					perConsumption: "30",
-					isLike: false,
-					location: {
-						location: "劳动南路10号汉中大厦一层底商2号店铺",
-						nearbyPlace: "西市生活广场",
-						dist2nearby: "650",
-					}
+					score: 4.8
 				},
-				specialFood:[
-					{
-						id:0,
-						name: "一",
-						img: "/static/logo.png",
-					},
-					{
-						id:1,
-						name:"两字",
-						img:'https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg',
-					},
-					{
-						id:2,
-						name:"三个字",
-						img:'https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg',
-					},
-					{
-						id:3,
-						name:"四字名字",
-						img:'https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg',
-					},
-					{
-						id:4,
-						name:"露出来点",
-						img:'https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg',
-					},
-					{
-						id:5,
-						name:"羊肉泡馍",
-						img:'https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg',
-					}
-				],
-				placeList:[
-					{
-						id: 0,
-						img: "/static/shop01.png",
-						name: "foodPlace",
-						score: "score",
-						perConsumption: 4.0,
-						dist: 1.2,
-						desc: "place desc is here"
-					}
-				],
-				comment: {
-					headProtrait: 'http://img3.imgtn.bdimg.com/it/u=181237702,2912095625&fm=26&gp=0.jpg',
-					userName: "ALAN麻麻",
-					publishDate: "2020年3月20日",
-					content: "服务超级热情，中饭点座无虚席。凉菜加了芝麻酱是亮点，泡馍/饺子/砂锅也很好吃。这一顿吃得十分开心！",
-					imgList:{
-							img1URL: "/static/1.jpg",
-							img2URL: "/static/2.jpg",
-							img3URL: "/static/3.jpg"
-					}
+				specialFood:[],
+				commentList: [],
+				showCommentWindow: false,
+				imgs: {
+					img1: '',
+					img2: '',
+					img3: '',
 				},
-				comment2: {
-					headProtrait: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=865100368,2934340936&fm=26&gp=0.jpg',
-					userName: "叶小洲",
-					publishDate: "2020年1月5日",
-					content: "我觉得吧，这家餐厅还是非常不错的，尤其是在服务、上菜速度、菜的质量方面。当然也有一些缺点，店内位置不是特别多，外卖的速度也不快。",
-					imgList:{
-							img1URL: "/static/food1.png",
-							img2URL: "/static/food4.png",
-							img3URL: ""
-					}
-				}
-				
+				filePath: [],
 			}
 		},
 		methods: {
-			collect(){
+			// 点击收藏按钮触发的收藏事件
+			collect: function() {
 				_self = this;
 				//_self.place.name = "changed name",
 				_self.place.isLike = !_self.place.isLike,
-				console.log('bth clicked'),
-				console.log(this.place.isLike)
+				console.log('isLike: '+ this.place.isLike)
 			},
-			
+			// 初始化页面数据函数，用来从接口获取数据并初始化页面元素
+			async initPage(){
+				const comment = await this.$myRequest({
+					url: '/v1/api/comment/getShopCommentByShopId?shopid=',
+					data: {
+						shopid: '0'
+						}
+				})
+				console.log(comment.data);
+				// 给页面的数据赋值
+				this.commentList =comment.data.data;
+				const info = await this.$myRequest({
+					url: '/v1/api/homepage/getshopbyshopid?shopid=',
+					data: {
+						shopid: '0'
+						}
+				})
+				console.log('info: ', info.data.data);
+				// 给页面的数据赋值
+				this.place =info.data.data;
+			},
+			// 上传图片并根据参数改变对应的URL
+			chooseImg(index) {
+				let imgs = uni.chooseImage({
+				    count: 1,
+				    success: (res) => {
+						switch (index){
+							case 1:
+								this.imgs.img1 = res.tempFilePaths[0];
+								break;
+							case 2:
+								this.imgs.img2 = res.tempFilePaths[0];
+								break;
+							case 3:
+								this.imgs.img3 = res.tempFilePaths[0];
+								break;
+						}
+						this.filePath.push(res.tempFilePaths[0]);
+						console.log('file paths: ', this.filePath);
+					},
+				    });
+			},
+			// 底部评论栏获得焦点时弹出评论窗口
+			InputFocus() {
+				console.log('input focus');
+				this.showCommentWindow = true;
+			},
+			// 按下发表评论按钮时发表评论
+			postComment() {
+				// POST给接口
+				this.$myRequest({
+					url: '/v1/api/comment/insertShopCommentWithUserid',
+					data: {
+						content: 'test',
+						pictures: this.filePath,
+						userid: 123,
+						shopid: 213,
+					},
+					method: 'POST',
+				}),
+				// 控制台显示成功
+				console.log('发表评论成功');
+				// 隐藏弹窗
+				this.hideCommentWindow();
+				// 弹框提示成功
+				uni.showToast({
+					title: '评论发表成功！',
+				});
+				// 清空评论的内容
+				this.clearComment();
+			},
+			// 隐藏评论窗口
+			hideCommentWindow() {
+				this.showCommentWindow = false;
+			},
+			// 清空评论的内容
+			clearComment() {
+				// 有需要再写吧。
+			}
+		},
+		onLoad() {
+			this.initPage();
 		}
 	}
 </script>
 
 <style>
-	.collectionImg{
-		width: 45upx;
-		height: 45upx;
-		margin-right: ;
-	}
-	.item {
-		margin-right: 40upx;
-		display: inline-block;
-		vertical-align: top;
-	}
-	.commentContent{
-		margin-top: 10upx;
-		margin-bottom: 20upx;
-		font-size: 30upx;
-		display: -webkit-box;			/* 好像是个必要的元素 */
-		-webkit-box-orient: vertical;	/* 作用未知,删除没有影响 */
-		-webkit-line-clamp: 2;			/* 文字截断的行数 */
-		word-break:break-all;
-		padding: 0 30upx 0;
-		max-height: 6.4em;
-		overflow: hidden; 				/* 溢出部分隐藏 */
-	}
-	.thumbnailImage{
-		width: 30%;
-		height: 200upx;
-		border-radius: 10upx;
-	}
 
 </style>

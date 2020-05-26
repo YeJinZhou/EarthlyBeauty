@@ -21,7 +21,7 @@
 			},
 			backgroundColor: {
 				type: String,
-				default: '#007aff'
+				default: '#ffffff'
 			},
 			borderColor: {
 				type: String,

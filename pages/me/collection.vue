@@ -1,37 +1,40 @@
 <template>
 	<view>
-		<cu-custom bgColor="bg-gradual-orange" :isBack="true"><block slot="backText">返回</block><block slot="content">收藏</block></cu-custom>
+		<!-- 顶部导航栏 -->
+		<cu-custom bgColor="bg-gradual-red1" :isBack="true">
+			<block slot="backText"></block>
+			<block slot="content">收藏</block>
+		</cu-custom>
 		<!-- /搜索栏/ -->
-		<view class="cu-bar bg-white solid-bottom">
+		<view class="cu-bar bg-white">
 			<view class="action">
-				<view class="example-body">
-					<uni-search-bar radius="100" placeholder="搜索食记" bgColor="#EEEEEE" @confirm="search" />
-				</view>
+				<uni-search-bar radius="100" placeholder="搜索食记" bgColor="#EEEEEE" @confirm="search" />
 			</view>
 		</view>
 		<!-- /左滑删除/ -->
-        <uni-swipe-action-item v-for="(item,index) in diarylist"  @click="swipeClick($event,index)" :key="item.index" :options="item.options"  @change="swipeChange" style="margin:3%;border-radius: 10px;">
+		<uniSwipeAction>
+        <uniSwipeActionItem v-for="(item,index) in diarylist"  @click="swipeClick($event,index)" :key="item.index" :options="options"  @change="swipeChange" style="backgroundColor: '#e54d42';margin:3%;border-radius: 10px;">
         	<!-- 卡片组 -->
 			
 			<view class="cu-card case" :class="isCard?'no-card':''" style="width:100%;" >
 				<navigator :url="'../discover/diary?id='+index">
         	    <view class="image">
-        		    <image  :src="item.background"
+        		    <image  :src="item.picture"
         		     mode="widthFix"></image>
         		    <view class="cu-tag bg-red">精选</view>
-        		    <view class="cu-bar bg-shadeBottom"> <text class="text-cut"  >{{item.description}}</text></view>				
+        		    <view class="cu-bar bg-shadeBottom"> <text class="text-cut"  >{{item.title}}</text></view>				
         	    </view>
         	    <view class="cu-list menu-avatar">
         	    	<view class="cu-item">
-        	    		<view class="cu-avatar round lg"  :style="[{ backgroundImage:'url(' + item.headPortrait + ')' }]"></view>
+        	    		<view class="cu-avatar round lg"  :style="[{ backgroundImage:'url(' + item.userBriefInformation.headPortrait + ')' }]"></view>
         		    	<view  class="content flex-sub">
-        		    		<view class="text-grey">{{item.name}}</view>
+        		    		<view class="text-grey">{{item.userBriefInformation.name}}</view>
         			    	<view class="text-gray text-sm flex justify-between">
         			    		十天前
         			    		<view class="text-gray text-sm">
-        			    			<text class="cuIcon-attentionfill margin-lr-xs"></text> {{item.views}}
-        				    		<text class="cuIcon-appreciatefill margin-lr-xs"></text> {{item.likes}}
-        				    		<text class="cuIcon-messagefill margin-lr-xs"></text> {{item.comment}}
+        			    			<text class="cuIcon-attentionfill margin-lr-xs"></text> {{item.viewnumber}}
+        				    		<text class="cuIcon-appreciatefill margin-lr-xs"></text> {{item.praisenumber}}
+        				    		<text class="cuIcon-messagefill margin-lr-xs"></text> {{item.commentnumber}}
         				        </view>
         			        </view>
         		        </view>
@@ -41,7 +44,8 @@
 			</view>
 			
 		    <view style="margin-top:  200px;"></view>
-        </uni-swipe-action-item>
+        </uniSwipeActionItem>
+		</uniSwipeAction>
 	</view>
 </template>
 
@@ -51,66 +55,75 @@
 	import uniSection from '@/components/uni-section/uni-section.vue'
 	import uniSwipeAction from '@/components/uni-swipe-action/uni-swipe-action.vue'
 	import uniSwipeActionItem from '@/components/uni-swipe-action-item/uni-swipe-action-item.vue'
+	import {
+		mapState
+	} from 'vuex'
+	
 	export default {
+		computed: mapState([ 'userName']),
+	
 		components: {
 			uniSearchBar,// 搜索栏
 			uniSection,
 			uniSwipeAction,
 			uniSwipeActionItem
 		},
+		
 		data() {
 			return {
 				isCard: false,
 				searchVal: '',
-				diarylist:[{
-					          options: [{
+				options: [{
 					          	text: '删除',
 					          	style: {
-					          		backgroundColor: 'rgb(255,58,49)'
+					          		backgroundColor: '#e54d42'
 					          	}
 					          }],
-					          id: 0,
-					          name: '随芝所乐',
-					   	      description: '吃货慎重！点进来你就无法自拔了！',
-						      background:"../../static/img/7.png",
-						      headPortrait:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=107058113,2695546856&fm=11&gp=0.jpg',
-						      views:'15',
-						      likes:'25',
-						      comment:'35',
-						   },{
-						       id: 1,
-						       options: [ {
-						       	text: '删除',
-						       	style: {
-						       		backgroundColor: 'rgb(255,58,49)'
-						       	}
-						       }],
-					           name: 'SiSi',
-					   	       description: '西安美食大搜罗！去了很多地方才收集到的哦！',
-						       background:"../../static/img/12.png",
-						       headPortrait:'../../static/img/qq_pic_merged_1583398711824.jpg',
-						       views:'30',
-						       likes:'22',
-						       comment:'18',
-						   },{
-							   id: 2,
-							   options: [{
-							   	text: '删除',
-							   	style: {
-							   		backgroundColor: 'rgb(255,58,49)'
-							   	}
-							   }],
-					           name: '独白',
-					   	       description: '这家的面真的太好吃啦！',
-						       background:"../../static/img/2.png",
-						       headPortrait:'../../static/img/qq_pic_merged_1583398729577.jpg',
-						       views:'11',
-						       likes:'5',
-						       comment:'3',
-						   }]
+				diarylist:[]
 			};
 		},
+		onLoad() {
+			this.initPage(); 
+		},
 		methods: {
+			async initPage(){
+				const res = await this.$myRequest({
+					url: '/v1/api/mypage/getCollectionFoodRecord?account=', //仅为示例，并非真实接口地址。
+					data: {
+						account: 'hi'
+					},
+				})
+				console.log(res.data);
+				console.log(this.userName);
+				let plans = [];
+				for(let i=0;i<res.data.data.length;i++){
+					plans.push(res.data.data[i]);
+				}
+				plans.push(plans[0]);
+				
+				this.diarylist = plans;
+				
+				console.log(this.diarylist);
+				
+				
+				// 给页面的数据赋值
+				
+			},
+			async disCollect(id){
+				const res = await this.$myRequest({
+					url: '/v1/api/mypage/disCollectFoodRecord?userId=&foodRecordId=', //仅为示例，并非真实接口地址。
+					data: {
+						userId: this.userName,
+						foodRecordId:id
+					},
+				})
+				console.log(res.data);
+				console.log(id);
+				
+				
+				// 给页面的数据赋值
+				
+			},
 			goDetail() {
 				// 				if (!/前|刚刚/.test(e.published_at)) {
 				// 					e.published_at = dateUtils.format(e.published_at);
@@ -159,20 +172,23 @@
 				let {
 					content
 				} = e
-				if (content.text === '删除') {                 // 通过对比options里的text决定删除还是添加还是什么
+				if (content.text === '删除') {                // 通过对比options里的text决定删除还是添加还是什么
 					uni.showModal({
 						title: '提示',
 						content: '是否删除',
+						
 						success: (res) => {
 							if (res.confirm) {
-								this.diarylist.splice(index, 1)
-								
+								console.log(this.diarylist);								
+								let id = this.diarylist[index].id;
+								this.diarylist.splice(index, 1);
+								this.disCollect(id);
 							} else if (res.cancel) {
 								console.log('用户点击取消');
 							}
 						}
 					});
-				} 
+				}
 			}
 			
 		},

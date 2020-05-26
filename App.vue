@@ -1,14 +1,16 @@
 <script>
+	import Vue from 'vue'
 	export default {
 		onLaunch: function() {
 			uni.getSystemInfo({
 				success: function(e) {
 					// #ifndef MP
 					Vue.prototype.StatusBar = e.statusBarHeight;
+					console.log(e.platform);
 					if (e.platform == 'android') {
-						Vue.prototype.CustomBar = e.statusBarHeight + 50;
+						Vue.prototype.CustomBar = e.statusBarHeight + 60;
 					} else {
-						Vue.prototype.CustomBar = e.statusBarHeight + 45;
+						Vue.prototype.CustomBar = e.statusBarHeight + 60;
 					};
 					// #endif
 			
@@ -40,6 +42,9 @@
 	@import "components/m-icon/m-icon.css";
     @import "colorui/main.css";
     @import "colorui/icon.css";
+	@import "colorui/extra.css";
+	@import "colorui/extra-icon.css";
+	
 	/*每个页面公共css */
 	.example {
 			padding: 0 15px 15px;
