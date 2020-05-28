@@ -5,7 +5,7 @@
 			<block slot="content">我的计划</block>
 		</cu-custom>
 
-		<uniSwipeActionItem v-for="(item,index) in planlist" @click="swipeClick($event,index)" :key="item.index" :options="options"
+		<uniSwipeActionItem v-for="(item,index) in planlist.map(x=>x.briefPlanItems)" @click="swipeClick($event,index)" :key="item.index" :options="options"
 		 @change="swipeChange" style="margin:4%;height: 130px;border-radius: 10px;">
 			<navigator hover-class="none" :url="'../oneDay/customized?planid='+planlist[index].id">
 				<view class="cu-list menu-avatar" style="height:130px">
@@ -76,17 +76,14 @@
 		methods: {
 			async initPage() {
 				const res = await this.$myRequest({
-					url: '/v1/api/onedayyfoodpage/getbriefplanbyuserid?userid=', //仅为示例，并非真实接口地址。
+					url: '/v1/api/onedayyfoodpage/getbriefplanbyuserid', //仅为示例，并非真实接口地址。
 					data: {
 						userid: '472296000@qq.com'
 					},
 				})
 				console.log(res.data);
-				console.log(this.userName);
-				let plans = res.data.data;
-				plans = plans.map(x => x.briefPlanItems);
-				console.log(plans);
-				this.planlist = plans;
+				
+				this.planlist =res.data.data;
 
 
 

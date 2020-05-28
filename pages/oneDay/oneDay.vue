@@ -242,7 +242,7 @@
 			},
 			async searchRecord(){
 				const res = await this.$myRequest({
-					url: '/v1/api/onedayyfoodpage/queryfoodrecord',
+					url: '/v1/api/onedayyfoodpage/queryfoodrecordwithoneday',
 					data: {
 						foodrecordtitle:this.searchVal,
 					}
@@ -259,8 +259,6 @@
 			    	for (let i = 0; i < res.data.data.length; i++) {
 				    	records.push(res.data.data[i]);
 			    	}
-				    records.push(records[0]);
-			    	records.push(records[0]);
 			    	this.diarylist = records;
 			   	}		
 			},
@@ -290,8 +288,6 @@
 				for (let i = 0; i < res.data.data.length; i++) {
 					plans.push(res.data.data[i]);
 				}
-				plans.push(plans[0]);
-				plans.push(plans[0]);
 				this.diarylist = plans;
 
 				console.log(this.diarylist);
