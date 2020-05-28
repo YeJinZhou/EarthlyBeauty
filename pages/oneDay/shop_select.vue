@@ -7,15 +7,7 @@
 			</view>
 		</view>
 		<!-- 搜索框 -->
-		<view class="cu-bar search bg-white">
-			<view class="search-form round">
-				<text class="cuIcon-search"></text>
-				<input @focus="InputFocus" @blur="InputBlur" :adjust-position="false" type="text" placeholder="搜索店铺" confirm-type="search"></input>
-			</view>
-			<view class="action">
-				<button class="cu-btn bg-red shadow-blur round">搜索</button>
-			</view>
-		</view>
+	
 		<!-- 店铺列表 -->
 		<view class="shop-list">
 			<scroll-view scroll-y="true" style="flex:1;">
