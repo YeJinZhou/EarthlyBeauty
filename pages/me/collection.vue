@@ -14,18 +14,18 @@
 			<view class="cu-card case" :class="isCard?'no-card':''" style="width:100%;" >
 				<navigator :url="'../discover/diary?foodrecordid='+diarylist[index].id">
         	    <view class="image">
-        		    <image  :src="item.picture"
+        		    <image  :src="item.pictures"
         		     mode="widthFix"></image>
         		    <view class="cu-tag bg-red">精选</view>
         		    <view class="cu-bar bg-shadeBottom"> <text class="text-cut"  >{{item.title}}</text></view>				
         	    </view>
         	    <view class="cu-list menu-avatar">
         	    	<view class="cu-item">
-        	    		<view class="cu-avatar round lg"  :style="[{ backgroundImage:'url(' + item.userBriefInformation.headPortrait + ')' }]"></view>
+        	    		<view class="cu-avatar round lg"  :style="[{ backgroundImage:'url(' + item.userBriefInformation.headportrait + ')' }]"></view>
         		    	<view  class="content flex-sub">
         		    		<view class="text-grey">{{item.userBriefInformation.name}}</view>
         			    	<view class="text-gray text-sm flex justify-between">
-        			    		十天前
+        			    		{{item.time}}
         			    		<view class="text-gray text-sm">
         			    			<text class="cuIcon-attentionfill margin-lr-xs"></text> {{item.viewnumber}}
         				    		<text class="cuIcon-appreciatefill margin-lr-xs"></text> {{item.praisenumber}}
@@ -85,7 +85,7 @@
 				const res = await this.$myRequest({
 					url: '/v1/api/mypage/getCollectionFoodRecord?account=', //仅为示例，并非真实接口地址。
 					data: {
-						account: 'hi'
+						account: '982157286@qq.com'
 					},
 				})
 				console.log(res.data);
@@ -94,7 +94,7 @@
 				for(let i=0;i<res.data.data.length;i++){
 					plans.push(res.data.data[i]);
 				}
-				plans.push(plans[0]);
+				
 				
 				this.diarylist = plans;
 				
