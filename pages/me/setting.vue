@@ -38,6 +38,7 @@
 </template>
 
 <script>
+	var user;
 	import service from '../../service.js';
 	import {
 		mapState,
@@ -52,6 +53,9 @@
 			return {
 			}
 		},
+		onLoad(e){
+			user = e;
+		},
 		methods: {	
 			bindLogout() {
 				uni.reLaunch({
@@ -65,7 +69,7 @@
 			},
 			information() {
 				uni.navigateTo({
-				    url: '../me/information',
+				    url: '../me/information?id='+user.id,
 				});
 			},
 		}
