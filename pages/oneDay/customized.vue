@@ -13,7 +13,7 @@
 					<view>店铺：{{items.planitems[0].shopname}}</view>
 					<view>评分：{{items.planitems[0].shopscore}}</view>
 				</view>
-				<image class="plus" src="../../static/tabbar/jia.png" @tap="openConfirm(0)"></image>
+				<view class="plus"  @tap="openConfirm(0)">+</view>
 			</view>
 			<view class="" :class="['cu-modal','bottom-modal',confirmWindow?'show':'']">
 				<view class="cu-dialog">
@@ -47,7 +47,7 @@
 		<view style="display: flex;justify-content: center;">
 			<view class="contain">
 				<view>附近景点有：{{items.planitems[0].sceneryname}}</view>
-				<image style="width: 40%;height:100%;" :src="items.planitems[0].pictures"></image>
+				<image style="width: 40%;height:100%;" :src="items.planitems[0].sceneryurl"></image>
 			</view>
 		</view>
 
@@ -60,14 +60,14 @@
 					<view>店铺：{{items.planitems[1].shopname}}</view>
 					<view>评分：{{items.planitems[1].shopscore}}</view>
 				</view>
-				<image class="plus" src="../../static/tabbar/jia.png" @tap="openConfirm(1)"></image>
+				<view class="plus"  @tap="openConfirm(1)">+</view>
 			</view>
 		</view>
 		<view style="height: 4px;"></view>
 		<view style="display: flex;justify-content: center;">
 			<view class="contain">
 				<view>附近景点有：{{items.planitems[1].sceneryname}}</view>
-				<image style="width: 40%;height:100%;" :src="items.planitems[1].pictures"></image>
+				<image style="width: 40%;height:100%;" :src="items.planitems[1].sceneryurl"></image>
 			</view>
 		</view>
 		<view style="height: 4px;"></view>
@@ -79,14 +79,14 @@
 					<view>店铺：{{items.planitems[2].shopname}}</view>
 					<view>评分：{{items.planitems[2].shopscore}}</view>
 				</view>
-				<image class="plus" src="../../static/tabbar/jia.png" @tap="openConfirm(2)"></image>
+				<view class="plus"  @tap="openConfirm(2)">+</view>
 			</view>
 		</view>
 		<view style="height: 4px;"></view>
 		<view style="display: flex;justify-content: center;">
 			<view class="contain">
 				<view>附近景点有：{{items.planitems[2].sceneryname}}</view>
-				<image style="width: 40%;height:100%;" :src="items.planitems[2].pictures"></image>
+				<image style="width: 40%;height:100%;" :src="items.planitems[2].sceneryurl"></image>
 			</view>
 		</view>
 		<menuroute v-show='sixFinish' class="left" :planitems="items.planitems"></menuroute>
@@ -181,7 +181,7 @@
 							"kind": 1,
 							"shopscore": "",
 							"sceneryname": "",
-							"pictures": ""
+							"sceneryurl": ""
 						},
 						{
 							"id": 1,
@@ -191,7 +191,7 @@
 							"kind": 1,
 							"shopscore": "",
 							"sceneryname": "",
-							"pictures": ""
+							"sceneryurl": ""
 						},
 						{
 							"id": 1,
@@ -201,7 +201,7 @@
 							"kind": 1,
 							"shopscore": "",
 							"sceneryname": "",
-							"pictures": ""
+							"sceneryurl": ""
 						}
 					]
 				},
@@ -219,13 +219,14 @@
 			
 			tocreatePost(){
 				uni.navigateTo({
-					url:'/pages/post/yijian'
-				})
+					url:'/pages/post/yijian?planid='+this.planid
+				});
 			},
 			
 			async initPage() {
 				console.log("init customize: " + this.planid);
 				if (this.planid == '') {
+					console.log(this.items);
 					return;
 				}
 				const res = await this.$myRequest({
@@ -251,12 +252,11 @@
 			async updatePlan(){
 				const plan = this.items;
 				//plan.id = this.planid;
+				//console.log(JSON.stringify(plan));
 				const res = await this.$myRequest({
 					url: '/v1/api/onedayyfoodpage/updateplan', //仅为示例，并非真实接口地址。
 					method: "POST",
-					data: {
-						plan: plan,
-					},
+					data: plan,
 				})
 				console.log(res.data);
 			},
@@ -277,11 +277,13 @@
 					},
 				})
 				this.items.planitems[index].sceneryname = res.data.data[0].name;
-				this.items.planitems[index].pictures = res.data.data[0].pictures;
-				console.log(this.items.planitems[index].pictures);
+				this.items.planitems[index].sceneryurl = res.data.data[0].pictures[0];
+				console.log(this.items.planitems[index]);
 			},
 			LoadModal(scroll = true) {
-				this.savePlan();
+				if(scroll){
+					this.savePlan();
+				}
 				this.loadModal = scroll;
 				this.sixFinish = true;
 				
@@ -409,5 +411,7 @@
 	.plus {
 		height: 20px;
 		width: 20px;
+		color: #EA0B3F;
+		font-size: larger;
 	}
 </style>
