@@ -1,5 +1,7 @@
 <template>
 	<view class="page">
+		<view style="height: 50upx;"></view>
+		
 		<view class="uni-flex" style="height: 100upx;color: #fff; padding-top: 30upx;">
 			<view class="center" style="font-size: 42upx;">精选特色菜品</view>
 			<view class="flex justify-end" style="font-size: 25upx;width: 720upx;">
@@ -13,64 +15,68 @@
 				<text class="cuIcon-search"></text>
 				<!-- <input @focus="InputFocus" @blur="InputBlur" :adjust-position="false" type="text" 
 				placeholder="请输入搜索内容" confirm-type="search"></input> -->
-				<input type="text" focus v-model="search" placeholder="请输入想要搜索的美食"/>
+				<input type="text" v-model="search" placeholder="请输入想要搜索的美食"/>
 			</view>
 			<view class="action">
 				<button class="cu-btn bg-red round" @tap="confirm()">搜索</button>
 			</view>
 		</view>
 		<!-- <input type="text" focus v-model="changeVaule" @confirm="searchFun" placeholder="qin"/> -->
-
 		<view v-if="check==true">
-			<!--食物介绍-->
-			<view style="display: flex;">
-				<scroll-view scroll-y="true" style="height: 1330upx;flex:1;width:680upx;">
-					<view v-for="(item,index) in food" class="content" :key="index">
-						<view class="bg-white content country-card">
-							<!--点击图片跳转-->
-							<image class="picture" @tap="jumpfood(index)" :src="item.pictures[0]"></image>
-							<view style="display:flex ;flex-direction: column; width: 680upx;">
-								<view class="content title">{{item.name}}</view>
-								<view class="text">
-									{{item.introduction}}
+			<view style="display: flex;flex-direction: column;justify-content: center; align-items: center;width: 100%;">
+				<view style="width: 90%;">
+					<scroll-view scroll-y="true" style="height: 1250upx;">
+						<view v-for="(item,index) in food" :key="index">
+							<view style="width: 100%;margin-bottom: 40upx;">
+								<view style="box-shadow: 5upx 5upx 15upx rgba(0,0,0,.1); border-radius: 10upx; background-color: #fff;display: flex;align-items: center;justify-content: center;height: 670upx;">
+									<view style="width: 98%;height: 98%;">
+										<image @tap="jumpfood(index)" :src=item.pictures[0] style="border-radius: 10upx; width: 100%;height: 420upx;"></image>
+										<view style="display: flex;justify-content: center;">
+											<view style="font-size: 40upx;font-weight: bold;margin: 10upx auto;">{{item.name}}</view>
+										</view>
+										<view style="border-radius: 4upx; font-size: 30upx; height: 155upx; overflow: scroll;background-color: #eee;">{{item.introduction}}</view>
+									</view>
 								</view>
+								
 							</view>
 						</view>
-						<view style="height: 40upx;"></view>
-					</view>	
-				</scroll-view>
+					</scroll-view>
+				</view>
 			</view>
-			<!-- 底部留白 -->
-			<div class="eb-blank"></div>
 		</view>
 		<view v-if="check==false">
 			<view v-if="c.code == 0">
-				<!--食物介绍-->
-				<view style="display: flex;">
-					<scroll-view scroll-y="true" style="height: 1330upx;flex:1;width:680upx;">
-						<view v-for="(item,index) in p" class="content" :key="index">
-							<view class="bg-white content country-card">
-								<!--点击图片跳转-->
-								<image class="picture" @tap="jumpfood(index)" :src="item.pictures[0]"></image>
-								<view style="display:flex ;flex-direction: column; width: 680upx;">
-									<view class="content title">{{item.name}}</view>
-									<view class="text">
-										{{item.introduction}}
+				<view style="display: flex;flex-direction: column;justify-content: center; align-items: center;width: 100%;">
+					<view style="width: 90%;">
+						<scroll-view scroll-y="true" style="height: 1250upx;">
+							<view v-for="(item,index) in p" :key="index">
+								<view style="width: 100%;margin-bottom: 40upx;">
+									<view style="box-shadow: 5upx 5upx 15upx rgba(0,0,0,.1); border-radius: 10upx; background-color: #fff;display: flex;align-items: center;justify-content: center;height: 670upx;">
+										<view style="width: 98%;height: 98%;">
+											<image @tap="jumpfood(index)" :src=item.pictures[0] style="border-radius: 10upx; width: 100%;height: 420upx;"></image>
+											<view style="display: flex;justify-content: center;">
+												<view style="font-size: 40upx;font-weight: bold;margin: 10upx auto;">{{item.name}}</view>
+											</view>
+											<view style="border-radius: 4upx; font-size: 30upx; height: 155upx; overflow: scroll;background-color: #eee;">{{item.introduction}}</view>
+										</view>
 									</view>
 								</view>
 							</view>
-							<view style="height: 40upx;"></view>
-						</view>	
-					</scroll-view>
+						</scroll-view>
+					</view>
 				</view>
-				<!-- 底部留白 -->
-				<div class="eb-blank"></div>
 			</view>
 			<view v-if="c.code == -1">
-				查找不到
+				<view style="height: 1400upx;display: flex;justify-content: center;align-items: center;">
+					<view style="font-size: 40upx; font-weight: bold;">
+						<view style="display: flex;justify-content: center;align-items: center;">
+							<image style="width: 300upx;height: 300upx;" src="../../static/searchFalse.jpg" mode=""></image>
+						</view>
+						<view>对不起，查找不到您所需的食物</view>
+					</view>
+				</view>
 			</view>
 		</view>
-		
 	</view>
 </template>
 
@@ -94,8 +100,14 @@
 		},
 		methods: {
 			confirm(){
-				this.searchFood();
-				this.check = false;
+				if(this.search!=''){
+					this.searchFood();
+					this.check = false;
+				}else{
+					uni.redirectTo({
+						url:'../home/country',
+					})
+				}
 				//console.log(this.check)
 			},
 			async searchFood(){
@@ -123,8 +135,13 @@
 			//食物带foodid参数跳转
 			jumpfood(e) {   
 				var that = this;
-				var foodid = that.food[e].id;
-				var cityid = that.food[e].cityid;
+				if(this.check == true){
+					var foodid = that.food[e].id;
+					var cityid = that.food[e].cityid;
+				}else{
+					var foodid = that.p[e].id;
+					var cityid = that.p[e].cityid;
+				}
 				console.log(foodid);
 				console.log(cityid);
 				uni.navigateTo({
@@ -145,13 +162,13 @@
 
 <style>
 	.country-card {
-		display:flex;
+		/* display:flex;
 		flex-direction: column;
-		padding: 10upx;
-		height:auto; 
+		padding: 10upx; */
+		height:400upx; 
 		border-radius: 4upx;
 		box-shadow: 5upx 5upx 15upx rgba(0, 0, 0, .1);
-		box-sizing: border-box;
+		/* box-sizing: border-box; */
 	}
 	.center{
 		display: flex;
@@ -164,7 +181,7 @@
 		justify-content: center;
 	}
 	.title {
-		margin: 10upx 0;
+		/* margin: 10upx 0; */
 		font-size: 35upx;
 		font-weight: bold;
 	}
@@ -173,11 +190,11 @@
 		width: 100%;
 	}
 	.text{
-		padding: 0 17upx;
+		/* padding: 0 17upx; */
 		width: 100%;
 		colof: #999;
-		line-height: 1.5em;
-		height: 130upx;
+		line-height: 10upx;
+		height: 400upx;
 		overflow: scroll;
 	}
 	.page{
