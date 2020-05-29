@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
 		<view class="logo">
-			<img class="photo1"  style="width:100%;height: 100%;max-height: 200%;max-width: 200%; min-width:100% ;overflow:hidden; " src='../../static/img/logo2.png' ></image>
+			<image class="photo1"  style="width:100%;height: 85%;max-height: 200%;max-width: 200%; min-width:100% ;overflow:hidden; " src='../../static/img/logo2.png' ></image>
 		</view>		
 		<view class="input-group">
 			<view class="input-row border">
@@ -22,14 +22,7 @@
 			<navigator url="../pwd/pwd">忘记密码</navigator>
 		</view>
 		
-		<view class="oauth-row" v-if="hasProvider" v-bind:style="{top: positionTop + 'upx'}">
-			<view class="oauth-image" v-for="provider in providerList" :key="provider.value">
-				<image :src="provider.image" @tap="oauth(provider.value)"></image>
-				<!-- #ifdef MP-WEIXIN -->
-				<button v-if="!isDevtools" open-type="getUserInfo" @getuserinfo="getUserInfo"></button>
-				<!-- #endif -->
-			</view>
-		</view>
+		
 	</view>
 </template>
 
@@ -306,8 +299,8 @@
 	}
 	.content {
 		    background-image:url(../../static/img/untitled.png) ;
-			margin-top: 50%;
-			margin-bottom: 50%;
+			margin-top: 55%;
+			margin-bottom: 55%;
 			margin-left: 7%;
 			margin-right: 7%;
 			width: 60%;
