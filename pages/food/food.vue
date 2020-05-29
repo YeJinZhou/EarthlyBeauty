@@ -1,12 +1,11 @@
+
 <template>
 	<view style="background-color: #f0f0f0;">
+		<view style="height: 80upx;"></view>
 		<!-- 顶部导航 -->
-		<cu-custom style="background-color: #fff;" :isBack="true">
-			<block slot="backText">返回</block>
-			<block slot="content">
+		<view style="display: flex;justify-content: center;align-items: center;">
 				<view style="font-size: 42upx;font-weight: bold;">{{cityInfo.name}}美食</view>
-			</block>
-		</cu-custom>
+		</view>
 		<!-- 图片部分 -->
 		<view class="content-row food-pic-part">
 			<!-- 美食主图 -->
@@ -57,9 +56,9 @@
 								<text class="margin-left-sm">{{item.score}}分</text>
 								<text class="margin-left">¥{{item.price}}</text>/人
 							</view>		
-							<view class="food-tag">
-								<text>{{item.address}}</text>
-								<text>{{item.label}}</text>
+							<view style="display: flex;align-items: center;">
+								<view style="font-size: 23upx; width: auto;height: 40upx;border-radius: 50upx;background-color: #e6e600;">{{item.address}}</view>
+								<view style="font-size: 23upx; margin-left: 10upx; width: auto;height: 40upx;border-radius: 50upx;background-color: #e6e600;">{{item.label}}</view>
 							</view>
 							<view>{{item.introduction}}</view>
 						</view>							
