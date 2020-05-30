@@ -1,7 +1,7 @@
 <template>
 	<view>
 	
-		<view class="content">
+		<view class="yinzi">
 			 
 			 <navigator url="/pages/home/city" open-type="switchTab"><image src="../../static/img/timg.png" mode="scaleToFill" style="width: 100%; " >
 				
@@ -94,7 +94,7 @@
 		margin-left: 140rpx;
 	}
 	
-	.content{
+	.yinzi{
 		
 		flex-direction: row;
 		flex-wrap: wrap;
@@ -108,7 +108,7 @@
 	}
 	
 	.info{
-		font-size: 45rpx;
+		font-size: 35rpx;
 		margin-left: 360rpx;
 		margin-top: 0rpx;
 	}
@@ -131,7 +131,7 @@
 		font-size: 14rpx;
 		background-color: #ffffff;
 		height: 150rpx;
-		margin-top: 100rpx;
+		margin-top: 50rpx;
 	}
 
 	/* #endif */
