@@ -1,10 +1,15 @@
 <template>
 
 	
-	<view class="content">
-		<uni-search-bar :radius="100" @confirm="search"></uni-search-bar>
-		<uni-segmented-control :current="current" :values="items" @clickItem="onClickItem" style-type="button" radius="100%" width="80%" active-color="#dd524d" ></uni-segmented-control>
-		<view class="content">
+	<view class="search">
+		
+		<view style="background-color: #FFFFFF;" >
+			<uni-search-bar radius="100" placeholder="搜索食记"  bgColor="#EEEEEE" @input="input"/>
+			<text >{{words}}</text>
+		</view>
+		<!-- <uni-search-bar :radius="100" @confirm="search"></uni-search-bar> -->
+		<uni-segmented-control :current="current" :values="items" @clickItem="onClickItem" style-type="button" radius="100%" width="80%" active-color="#dd524d"  ></uni-segmented-control>
+		<view class="select">
 		    <view v-show="current === 0">
 				
 		        <view v-for="(item,index) in dataList"  :key="item.index" :options="item.options"   style="width:46%;float: left;margin:2%;">
@@ -71,9 +76,11 @@
 	export default {
 		data() {
 			return {
+				searchVal:'',
 				title: 'Hello',
 				dataList: [],
 				focusList:[],
+				words:'',
 				isCard: false,
 				items: ['热门','关注'],
 				current: 0
@@ -85,7 +92,47 @@
 			uniSegmentedControl
 		},
 		methods: {
-			
+			input(res1) {
+				this.searchVal = res1.value;
+				this.searchRecord();
+			},
+			async searchRecord(){
+				const res1 = await this.$myRequest({
+					url: '/v1/api/onedayyfoodpage/queryfoodrecord',
+					data: {
+						foodrecordtitle:this.searchVal,
+					}
+				})
+				console.log(res1.data);
+				if(res1.data.code==-1)
+				{
+					this.words='抱歉，未找到相关结果，为你推荐：';
+				}
+				else
+				{
+					this.words='';
+					let records = [];
+					let records1 = [];
+			    	// for (let i = 0; i < res1.data.data.length; i++) {
+				    // 	records.push(res1.data.data[i]);
+			    	// }
+				    //records.push(records[0]);
+			    	//records.push(records[0]);
+					if(this.current===0){
+						for (let i = 0; i < res1.data.data.length; i++) {
+							records.push(res1.data.data[i]);
+						}
+						this.dataList = records;
+					}
+			    	else{
+						// for (let j = 0; j < res1.data.data.length; j++) {
+						// 	records1.push(res1.data.data[j]);
+						// }
+			   //  		this.focusList = records1;
+			    	}
+					//this.focusList = records;
+			   	}		
+			},
 			async initPage(){
 				const res =await this.$myRequest({
 					url:'/v1/api/discoverpage/getPopularFoodRecord',
@@ -151,64 +198,27 @@
 		onLoad() {
 			this.getNetWork();
 			this.getSystemInfo();
-			this.initPage();
+			//this.initPage();
 		},
 		mounted() {
-			let that = this;
-			let arr = [{
-				cover: "/static/1.jpg",
-				id: "1084",
-				isLiked: "0",
-				likeCount: 0,
-				name: "随芝所乐",
-				photo: "/static/logo.png",
-				title: "吃货慎重！点进来你就无法自拔了！",
-			}, {
-				cover: "/static/7.png",
-				id: "1084",
-				isLiked: "0",
-				likeCount: 520,
-				name: "大吃货",
-				photo: "/static/logo.png",
-				title: "这间店真的太赞了！"
-			}, {
-				cover: "/static/2.jpg",
-				id: "1084",
-				isLiked: "0",
-				likeCount: 650,
-				name: "千层梦想家",
-				photo: "/static/logo.png",
-				title: "我爱千层千层爱我！"
-			}, {
-				cover: "/static/3.jpg",
-				id: "1084",
-				isLiked: "0",
-				likeCount: 999,
-				name: "无风",
-				photo: "/static/logo.png",
-				title: "西安美食大搜罗！",
-			}, {
-				cover: "/static/4.jpg",
-				id: "1084",
-				isLiked: "0",
-				likeCount: 25,
-				name: "123",
-				photo: "/static/logo.png",
-				title: "这种美食你绝对不能错过！",
-			}, {
-				cover: "/static/5.jpg",
-				id: "1084",
-				isLiked: "0",
-				likeCount: 4,
-				name: "快到碗里来",
-				photo: "/static/logo.png",
-				title: "啊，一口吃掉！",
-			}];
+			
+			this.initPage();
+			
 			
 			
 		}
 	}
 </script>
 
-<style>
+<style lang="scss">
+.content{
+	width:100%;
+}
+.search{
+	width:100%;
+	margin-top: 40rpx;
+}
+.select{
+	width:100%;
+}
 </style>
