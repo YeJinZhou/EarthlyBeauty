@@ -8,7 +8,8 @@ export const myRequest = (options)=>{
 			data: options.data || {},		// 感觉这里的{}可以不写？
 			method: options.method || 'GET',// 默认值是GET，如果有需要改动，在options中设定其他的method值
 			success: (res) => {
-				console.log(res.data);		// 控制台显示数据信息
+				console.log('interface: \'' + options.url + '\' data:');
+				console.log(res.data.data);		// 控制台显示数据信息
 				resolve(res)
 			},
 			fail: (err) =>{
