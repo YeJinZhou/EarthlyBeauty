@@ -86,9 +86,9 @@
 		<!-- 防止评论栏遮挡最下方评论的空白部分 -->
 		<view style="height: 100upx;"></view>
 		<!-- 底部评论栏部分开始 -->
-		<view class="cu-bar foot bg-white">
+		<view class="cu-bar foot bg-white" @tap="InputFocus()">
 			<view class="search-form round">
-				<input class="margin-left" @focus="InputFocus" :adjust-position="false" type="text" placeholder="说点什么吧..." ></input>
+				<text class="margin-left text-gray text-df">说点什么吧...</text>
 			</view>
 			<view class="action">
 				<button class="cu-btn bg-red shadow-blur round">评论</button>
@@ -100,25 +100,23 @@
 		<view class="cu-modal bottom-modal" :class="showCommentWindow?'show':''">
 			<view class="cu-dialog eb-comment">
 				<!-- 头部开始 -->
-				<view class="header">
+				<view class="comment-header">
 					<view class="back-btn" @tap="hideCommentWindow()">返回</view>
 					<view class="post-btn" @tap="postComment()">发表评论</view>
 				</view>
 				<!-- 头部结束 -->
 				<!-- 评论填写部分开始 -->
-				<textarea class="content" placeholder="说点什么吧..."></textarea>
+				<textarea v-model="newComment" class="comment-content" placeholder="说点什么吧..."></textarea>
 				<!-- 评论填写部分结束 -->
 				<!-- 上传图片部分开始，最多选择三张 -->
-				<view class="img">
-					<!-- 三个预览图 -->
-					<view @tap="chooseImg(1)" class="thumb-img">
-						<image :src="imgs.img1"></image>
-					</view>
-					<view @tap="chooseImg(2)" class="thumb-img">
-						<image :src="imgs.img2"></image>
-					</view>
-					<view @tap="chooseImg(3)" class="thumb-img">
-						<image :src="imgs.img3"></image>
+				<view class="cu-form-group">
+					<view class="grid col-4 grid-square flex-sub">
+						<view class="bg-img" v-for="(item,index) in imgList" :key="index" @tap="ViewImage" :data-url="imgList[index]">
+						 <image :src="imgList[index]" mode="aspectFill"></image>
+						</view>
+						<view class="solids" @tap="ChooseImage" v-if="imgList.length<3">
+							<text class='cuIcon-cameraadd'></text>
+						</view>
 					</view>
 				</view>
 				<!-- 上传图片部分结束 -->
@@ -129,25 +127,22 @@
 </template>
 
 <script>
-	var _self;
 	import uniRate from '@/components/uni-rate/uni-rate.vue';
-	
+	var _self;
 	export default {
 		data() {
 			return {
-				placeid: 1,
+				placeid: '',
 				place: {
 					score: 4.8
 				},
 				specialFood:[],
 				commentList: [],
 				showCommentWindow: false,
-				imgs: {
-					img1: '',
-					img2: '',
-					img3: '',
-				},
-				filePath: [],
+				imgs: [],
+				newComment: '',
+				userid: '982157286@qq.com',
+				imgList: [],
 			}
 		},
 		methods: {
@@ -166,8 +161,6 @@
 						shopid: this.shopid
 						}
 				})
-				console.log('comment');
-				console.log( comment.data);
 				// 给页面的数据赋值
 				this.commentList =comment.data.data;
 				const info = await this.$myRequest({
@@ -176,30 +169,8 @@
 						shopid: this.shopid
 						}
 				})
-				console.log('info: ', info.data.data);
 				// 给页面的数据赋值
 				this.place =info.data.data;
-			},
-			// 上传图片并根据参数改变对应的URL
-			chooseImg(index) {
-				let imgs = uni.chooseImage({
-				    count: 1,
-				    success: (res) => {
-						switch (index){
-							case 1:
-								this.imgs.img1 = res.tempFilePaths[0];
-								break;
-							case 2:
-								this.imgs.img2 = res.tempFilePaths[0];
-								break;
-							case 3:
-								this.imgs.img3 = res.tempFilePaths[0];
-								break;
-						}
-						this.filePath.push(res.tempFilePaths[0]);
-						console.log('file paths: ', this.filePath);
-					},
-				    });
 			},
 			// 底部评论栏获得焦点时弹出评论窗口
 			InputFocus() {
@@ -207,26 +178,39 @@
 				this.showCommentWindow = true;
 			},
 			// 按下发表评论按钮时发表评论
-			postComment() {
-				// POST给接口
-				this.$myRequest({
-					url: '/v1/api/comment/insertShopCommentWithUserid',
-					data: {
-						content: 'test',
-						pictures: this.filePath,
-						userid: 123,
-						shopid: 213,
+			async postComment() {
+				console.log('posting comment...');				
+				
+				let imgs = this.imgList.map((value, index) => {
+					return {
+						name: 'image' + index,
+						url: value,
+					}
+				})
+				console.log('-imgs: ');
+				console.log(imgs);
+				console.log('-shop id: ' + this.shopid);
+				console.log('-user id: ' + this.userid);
+				console.log('-content: ' + this.newComment);
+				uni.uploadFile({
+					url: 'http://10.21.234.73:8080/v1/api/comment/insertShopCommentWithUserid', //仅为示例，非真实的接口地址
+					files: imgs,
+					formData: {
+						content: this.newComment,
+						shopid: this.shopid,
+						userid: this.userid,
 					},
-					method: 'POST',
-				}),
-				// 控制台显示成功
-				console.log('发表评论成功');
+					success: function () {
+						console.log('评论上传成功');
+						// 弹框提示成功
+						uni.showToast({
+							title: '评论发表成功！',
+						});
+					},
+				});
 				// 隐藏弹窗
 				this.hideCommentWindow();
-				// 弹框提示成功
-				uni.showToast({
-					title: '评论发表成功！',
-				});
+				
 				// 清空评论的内容
 				this.clearComment();
 			},
@@ -237,10 +221,30 @@
 			// 清空评论的内容
 			clearComment() {
 				// 有需要再写吧。
+			},
+			ChooseImage() {
+				uni.chooseImage({
+					count: 4, //默认9
+					sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+					sourceType: ['album'], //从相册选择
+					success: (res) => {
+						if (this.imgList.length != 0) {
+							this.imgList = this.imgList.concat(res.tempFilePaths)
+						} else {
+							this.imgList = res.tempFilePaths
+						}
+					}
+				});
+			},
+			ViewImage(e) {
+				uni.previewImage({
+					urls: this.imgList,
+					current: e.currentTarget.dataset.url
+				});
 			}
 		},
 		onLoad(e) {
-			this.shopid = e.shopid;
+			this.shopid = e.shopid || 1;
 			console.log('page place.vue loaded...');
 			console.log('the shop id is: ' + this.shopid);
 			this.initPage();

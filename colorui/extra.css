@@ -157,7 +157,7 @@
 .placeBlock {
   display: inline-block;
   margin-right: 20upx;
-	width: 500upx;	
+	width: 500upx;
   border: 1px solid rgba(0, 0, 0, .2);
   border-radius: 10px;;
 }
@@ -191,7 +191,7 @@
   text-align: left;
 }
 
-.eb-comment .header {
+.eb-comment .comment-header {
   display: flex;
   justify-content: space-between;
   margin: 5%;
@@ -200,15 +200,15 @@
   border-bottom: 1px solid rgba(0,0,0,.1);
 }
 
-.eb-comment .header .back-btn {
+.eb-comment .comment-header .back-btn {
 
 }
 
-.eb-comment .header .post-btn {
+.eb-comment .comment-header .post-btn {
    color: #ee5253;
 }
 
-.eb-comment .content {
+.eb-comment .comment-content {
   margin: 5%;
   width: 90%;
 }
