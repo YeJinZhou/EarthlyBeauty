@@ -1,5 +1,5 @@
 <template>
-	<view class="content">
+	<view class="yijian">
 		<cu-custom bgColor="bg-white" :isBack="true"><block slot="backText">返回</block><block slot="content">发表</block></cu-custom>
 		<view class='issue'>
 			<view class="issue-head">
@@ -8,25 +8,46 @@
 			 
 			<textarea v-if="textareaShow" @blur="blur" :value="infoReceive.textareaValue" :placeholder="textareaPlaceholder"/>
 			
+			<view class="cu-dialog eb-comment">
+				 <view class="img">
+				 	<!-- 三个预览图 -->
+				 	<view @tap="chooseImg(1)" class="thumb-img">
+				 		<image :src="imgs.img1"></image>
+				 	</view>
+				 	<view @tap="chooseImg(2)" class="thumb-img">
+				 		<image :src="imgs.img2"></image>
+				 	</view>
+				 	<view @tap="chooseImg(3)" class="thumb-img">
+				 		<image :src="imgs.img3"></image>
+				 	</view>
+					<view @tap="chooseImg(4)" class="thumb-img">
+						<image :src="imgs.img4"></image>
+					</view>
+				 </view>
+			</view>
+			
 			<!-- 这里要改，死数据方案部分开始 -->
-			<view class="plan">
+			<view class="plan" >
 				<view class="shop">
-					<image class="shop-avatar" src="../../static/23.png">
-					<text class="food-name">羊肉泡馍</text>
-					<text class="shop-name">鼎盛兴</text>
+					<image class="shop-avatar" :src="planData.planitems[0].foodurl">
+					<text class="food-name">{{planData.planitems[0].foodname}}</text>
+					<text class="shop-name">{{planData.planitems[0].shopname}}</text>
 				</view>
 				<view class="jia">+</view>
 				<view class="shop">
-					<image class="shop-avatar" src="../../static/img/3.png">
-					<text class="food-name">陕西凉皮</text>
-					<text class="shop-name">长安美食坊</text>
+					<image class="shop-avatar" :src="planData.planitems[1].foodurl">
+					<text class="food-name">{{planData.planitems[1].foodname}}</text>
+					<text class="shop-name">{{planData.planitems[1].shopname}}</text>
 				</view>
 				<view class="jia">+</view>
 				<view class="shop">
-					<image class="shop-avatar" src="../../static/img/2.png">
-					<text class="food-name">臊子面</text>
-					<text class="shop-name">李氏臊子面</text>
+					<image class="shop-avatar" :src="planData.planitems[2].foodurl">
+					<text class="food-name">{{planData.planitems[2].foodname}}</text>
+					<text class="shop-name">{{planData.planitems[2].shopname}}</text>
 				</view>
+				
+				
+				
 			</view>
 			<!-- 这里要改，死数据方案部分结束 -->
 			
@@ -101,12 +122,40 @@
 				enableDel: true,
 				enableAdd: true,
 				colorType: 'primary',
-				tagList: []
+				tagList: [],
+				imgs: {
+					img1: '',
+					img2: '',
+					img3: '',
+					img4: '',
+				},
+				planData:[],
 			}
 		},
-		onLoad() {
+		onLoad(options) {
+			console.log(options.planid);
+			var j = parseInt(options.planid);
+			this.getPlan(j);
 		},
 		methods:{
+			async getPlan(planid){
+				
+				
+				const plan =await this.$myRequest({
+					url:'/v1/api/onedayyfoodpage/getplanbyid',
+					data:{
+						planid:planid
+						
+					},
+				})
+				this.planData =plan.data.data;
+				
+			  
+				console.log(this.idData);
+				console.log('pinglun:'+this.account);
+				
+			},
+			
 		    clickTag: function(e){
 		        console.log(e)
 		    },
@@ -128,6 +177,29 @@
 			headblur(e){
 				
 				this.head.headtextareaValue=e.detail.value
+			},
+			chooseImg(index) {
+				let imgs = uni.chooseImage({
+				    count: 1,
+				    success: (res) => {
+						switch (index){
+							case 1:
+								this.imgs.img1 = res.tempFilePaths[0];
+								break;
+							case 2:
+								this.imgs.img2 = res.tempFilePaths[0];
+								break;
+							case 3:
+								this.imgs.img3 = res.tempFilePaths[0];
+								break;
+							case 4:
+								this.imgs.img4 = res.tempFilePaths[0];
+								break;	
+						}
+						this.filePath.push(res.tempFilePaths[0]);
+						console.log('file paths: ', this.filePath);
+					},
+				    });
 			},
 			
 			
@@ -151,7 +223,7 @@
 	$borderColor:#f5f5f5;
 	$white:#ffffff;
 	$fontSize:28upx;	
-	.content{
+	.yijian{
 		height: 100%;
 	}
 	
