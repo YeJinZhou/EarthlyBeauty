@@ -87,7 +87,7 @@
 		<view class="cu-modal bottom-modal" :class="showCommentWindow?'show':''">
 			<view class="cu-dialog eb-comment">
 				<!-- 头部开始 -->
-				<view class="header">
+				<view class="comment-header">
 					<view class="back-btn" @tap="hideCommentWindow()">返回</view>
 					<view class="post-btn" @tap="postComment()">发表评论</view>
 				</view>
