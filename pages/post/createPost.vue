@@ -1,6 +1,6 @@
 <template>
 	
-	<view class="content">
+	<view class="fabiao">
 		<cu-custom bgColor="bg-white" :isBack="true"><block slot="backText">返回</block><block slot="content">发表</block></cu-custom>
 		<view class='issue'>
 			<view class="issue-head">
@@ -9,7 +9,23 @@
 			 
 			
 				<textarea v-if="textareaShow" @blur="blur" :value="infoReceive.textareaValue" :placeholder="textareaPlaceholder"/>
-		
+		<view class="cu-dialog eb-comment">
+			 <view class="img">
+			 	<!-- 三个预览图 -->
+			 	<view @tap="chooseImg(1)" class="thumb-img">
+			 		<image :src="imgs.img1"></image>
+			 	</view>
+			 	<view @tap="chooseImg(2)" class="thumb-img">
+			 		<image :src="imgs.img2"></image>
+			 	</view>
+			 	<view @tap="chooseImg(3)" class="thumb-img">
+			 		<image :src="imgs.img3"></image>
+			 	</view>
+				<view @tap="chooseImg(4)" class="thumb-img">
+					<image :src="imgs.img4"></image>
+				</view>
+			 </view>
+		</view>
 			 
 			<button v-if="submitShow1" class="button_1" type="primary" @click="doSubmit">{{submitText1}}</button>
 					<slot name="submit"></slot>
@@ -23,7 +39,7 @@
 </template>
 
 <script>
-  
+  import uniRate from '@/components/uni-rate/uni-rate.vue';
   import robbyTags from '@/components/robby-tags/robby-tags.vue'
 	export default {
 		components:{},
@@ -87,6 +103,12 @@
 				enableDel: true,
 				enableAdd: true,
 				colorType: 'primary',
+				imgs: {
+					img1: '',
+					img2: '',
+					img3: '',
+					img4: '',
+				},
 				tagList: []
 			}
 		},
@@ -106,6 +128,29 @@
 			/**
 			 * @name 获取textarea内容
 			 */
+			chooseImg(index) {
+				let imgs = uni.chooseImage({
+				    count: 1,
+				    success: (res) => {
+						switch (index){
+							case 1:
+								this.imgs.img1 = res.tempFilePaths[0];
+								break;
+							case 2:
+								this.imgs.img2 = res.tempFilePaths[0];
+								break;
+							case 3:
+								this.imgs.img3 = res.tempFilePaths[0];
+								break;
+							case 4:
+								this.imgs.img4 = res.tempFilePaths[0];
+								break;	
+						}
+						this.filePath.push(res.tempFilePaths[0]);
+						console.log('file paths: ', this.filePath);
+					},
+				    });
+			},
 			
 			blur(e){
 				this.infoReceive.textareaValue=e.detail.value
@@ -127,9 +172,9 @@
 				uni.showToast({
 					title: '食记发表成功！',
 				});
-				uni.navigateTo({
-					url:'../discover/discover'
-				})
+				// uni.navigateTo({
+				// 	url:'../discover/discover'
+				// })
 				
 			}
 		}
@@ -152,7 +197,7 @@
 		line-height: 80upx
 	}
 	
-	.content{
+	.fabiao{
 		height: 100%;
 	}
 	
