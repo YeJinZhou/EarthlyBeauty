@@ -10,7 +10,7 @@
 		<scroll-view scroll-x="true" class="bookshelf-content">
 			<block v-for="(item, index) in list" :key="item.id" >
 				<view class="item" @tap="goDetail(index)" >
-					<image class="cu-avatar round lg" :id="MenuSelect==index?'menuselect':''" :src="item.pictures"></image>
+					<image class="cu-avatar round lg" :id="MenuSelect==index?'menuselect':''" :src="item.pictures[0]"></image>
 					<text class="text-df foodname">{{item.name}}</text>
 				</view>
 			</block>
@@ -18,7 +18,7 @@
 		<!-- 食物介绍 -->
 		<view class="contain" v-if="MenuSelect!=-1">
 			<view class="desc">{{list[MenuSelect].introduction}}</view>
-			<image :src="list[MenuSelect].pictures"></image>
+			<image :src="list[MenuSelect].pictures[0]"></image>
 		</view>
 	</view>
 </template>

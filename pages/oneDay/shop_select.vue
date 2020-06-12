@@ -104,8 +104,6 @@
 				for (let i = 0; i < res.data.data.length; i++) {
 					plans.push(res.data.data[i]);
 				}
-				plans.push(plans[0]);
-				plans.push(plans[0]);
 				this.list = plans;
 			},
 			InputFocus(e) {
@@ -123,8 +121,20 @@
 			HighLight(index) {
 				console.log('highlight');
 				this.shop_select = index;
+				// this.plan.shopid = this.list[index].id;
 				this.plan.shopname = this.list[index].name;
 				this.plan.shopscore = this.list[index].score;
+				this.getscenery(this.list[index].id);
+			},
+			async getscenery(shopid) {
+				const res = await this.$myRequest({
+					url: '/v1/api/onedayyfoodpage/getscenery?shopid=', //仅为示例，并非真实接口地址。
+					data: {
+						shopid: shopid,
+					},
+				})
+				this.plan.sceneryname = res.data.data[0].name;
+				this.plan.sceneryurl = res.data.data[0].pictures[0];
 			},
 			async setPlan(plan) {
 				this.plan = plan;

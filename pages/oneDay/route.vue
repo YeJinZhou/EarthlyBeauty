@@ -11,15 +11,15 @@
 			<view class="cu-item text-red">
 				<view class="bg-red shadow-blur con" style="border-radius: 7px;">
 					<view class="cu-list menu-avatar radius">
-						<view class="cu-item">
-							<view class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + planitems[0].foodurl + ')' }]"></view>
+						<view class="cu-item1" style="height: 67px; background-color: #FFFFFF; display: flex; align-items: center; flex-direction: row; justify-content: space-around;">
+							<view class="cu-avatar round lg" style="margin:10px;" :style="[{ backgroundImage:'url(' + planitems[0].foodurl + ')' }]"></view>
 							<view class="cont">
 								<view class="text-grey">早餐：{{planitems[0].foodname}}</view>
 								<view class="text-gray text-sm">
 									<text class="cuIcon-locationfill text-red"></text>{{planitems[0].shopname}}</view>
 							</view>
-							<view class="action">
-								<view class="cu-tag round bg-red sm">{{planitems[0].shopscore}}分</view>
+							<view class="acti">
+								<view class="cu-tag round bg-red sm" >{{planitems[0].shopscore}}分</view>
 							</view>
 						</view>
 
@@ -42,7 +42,7 @@
 			<view class="cu-item text-red">
 				<view class="bg-red shadow-blur con" style="border-radius: 7px;">
 					<view class="cu-list menu-avatar radius">
-						<view class="cu-item">
+						<view class="cu-item1" style="height: 67px; background-color: #FFFFFF; display: flex; align-items: center; flex-direction: row; justify-content: space-around;">
 							<view class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + planitems[1].foodurl + ')' }]"></view>
 							<view class="cont">
 								<view class="text-grey">中餐：{{planitems[1].foodname}}</view>
@@ -73,7 +73,7 @@
 			<view class="cu-item text-red">
 				<view class="bg-red shadow-blur con" style="border-radius: 7px;">
 					<view class="cu-list menu-avatar radius">
-						<view class="cu-item">
+						<view class="cu-item1" style="height: 67px; background-color: #FFFFFF; display: flex; align-items: center; flex-direction: row; justify-content: space-around;">
 							<view class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + planitems[2].foodurl + ')' }]"></view>
 							<view class="cont">
 								<view class="text-grey">晚餐：{{planitems[2].foodname}}</view>
@@ -156,5 +156,8 @@
 <style>
 	.cu-timeline>.cu-item>.con {
 		padding: 0px !important;
+	}
+	.cont{
+		padding-right: 45px;
 	}
 </style>
