@@ -115,6 +115,7 @@
 			goDetail(index) {
 				console.log('func goDetail');
 				this.MenuSelect = index;
+				this.plan.id = this.list[index].id;
 				this.plan.foodname = this.list[index].name;
 				this.plan.foodurl = this.list[index].pictures;
 			},

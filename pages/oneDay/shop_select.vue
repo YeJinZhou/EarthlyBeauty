@@ -92,10 +92,11 @@
 		},
 		methods: {
 			async initPage() {
+				console.log(this.plan);
 				const res = await this.$myRequest({
 					url: '/v1/api/homepage/getShopByFood', //仅为示例，并非真实接口地址。
 					data: {
-						foodid:'1' 
+						foodid: this.plan.id
 					},
 				})
 				console.log(res.data);
