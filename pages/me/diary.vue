@@ -5,7 +5,7 @@
 			<block slot="backText">返回</block>
 			<block slot="content">我的食记</block>
 		</cu-custom>
-		<!-- 用户信息 -->
+		<!-- 用户信息开始 -->
 		<view class="solids-bottom padding flex align-center">
 			<view class="cu-avatar lg round" :style="[{ backgroundImage:'url(' + user.headportrait + ')' }]"></view>
 			<view >
@@ -18,26 +18,27 @@
 				</view>
 			</view>	
 		</view>
-		<view v-for="(item,index) in diaryList" :key="index" style="border-radius: 10px;">
+		<!-- 用户信息结束 -->
+		<view v-for="(item,index) in user.resultFoodRecords" :key="index" style="border-radius: 10px;">
 			<navigator url="/pages/discover/diary">
 				<view  class="cu-card case" style="width:100%;">
 					<view class="cu-item shadow">
 						<view class="image">
-							<image :src= "item.pictures" 
+							<image :src= "item.pictures[0]" 
 							mode="scaleToFill"></image>
 							<view class="cu-bar bg-shadeBottom"> <text class="text-cut">{{item.title}}</text></view>
 						</view>
 						<view class="cu-list menu-avatar">
 							<view class="cu-item">
-								<view class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + item.userBriefInformation.headportrait + ')' }]" ></view>
+								<view class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + user.headportrait + ')' }]" ></view>
 								<view class="content flex-sub">
-									<view class="text-grey">{{item.userBriefInformation.name}}</view>
+									<view class="text-grey">{{user.name}}</view>
 									<view class="text-gray text-sm flex justify-between">
 										{{item.time}}
 										<view class="text-gray text-sm">
-											<text class="cuIcon-attentionfill margin-lr-xs"></text> {{item.viewnumber}}
+											<!-- <text class="cuIcon-attentionfill margin-lr-xs"></text> {{item.viewnumber}} -->
 											<text class="cuIcon-appreciatefill margin-lr-xs"></text> {{item.praisenumber}}
-											<text class="cuIcon-messagefill margin-lr-xs"></text> {{item.commentnumber}}
+											<!-- <text class="cuIcon-messagefill margin-lr-xs"></text> {{item.commentnumber}} -->
 										</view>
 									</view>
 								</view>
@@ -66,32 +67,22 @@
 			async initPage(){
 				// 获取用户信息
 				const user = await this.$myRequest({
-					url: '/v1/api/mypage/getPersonInfo?account=',
+					url: '/v1/api/mypage/getPersonInfo?account',
 					data: {
 						account: this.userid
 						}
 				})
 				// 给页面的数据赋值
 				this.user = user.data.data;
-				// 获取食记
-				const res = await this.$myRequest({
-					url: '/v1/api/discoverpage/getFocusFoodRecord?account=',
-					data: {
-						account: this.userid
-						}
-				})
-				console.log('diaryList');
-				console.log(res.data);
-				// 给页面的数据赋值
-				this.diaryList =res.data.data;
 			}
 		},
 		onLoad(e) {
 			console.log('page Diary loaded...');
 			console.log('e = ');
 			console.log(e);
-			this.userid = e.id;
+			this.userid = e.id || '472296000@qq.com';
 			this.initPage();
+			console.log(this.user);
 		}
 	}
 </script>
