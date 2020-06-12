@@ -1,5 +1,8 @@
 <template>
 	<view>
+		<!-- 顶部留白开始 -->
+		<view style="height: 50upx;"></view>
+		<!-- 顶部留白结束 -->
 		<!-- 城市简介 -->
 		<view class="solid-bottom">
 			<view class="flex justify-between">
