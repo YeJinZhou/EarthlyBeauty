@@ -4,7 +4,6 @@
 		<view style="height: 50upx;"></view>
 		<!-- 顶部留白结束 -->
 		<!-- 城市简介 -->
-		<view class="solid-bottom">
 			<view class="flex justify-between">
 				<view class="cityTitle">{{city.name}}</view>
 				<navigator url="../index/index">
@@ -21,20 +20,19 @@
 				</view>
 				<text @tap="showinfo" v-if="iSinfo" class="hidebtn">收起</text>
 			</view>
-		</view>
+		<div class="separator"></div>
 		<!-- 城市特色美食横向滚动条 -->
-		<view class="solid-bottom">
-			<view class="cityTitle ">{{city.name}}特色</view>	
-			<!-- 滚动条 -->
-			<scroll-view scroll-x class="padding response cu-steps steps-bottom">
-				<block v-for="(item,index) in specialFood" :key="index">
-					<view class="item" @tap="jump2food(index)">
-						<view class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + item.pictures[0] + ')' }]"></view>
-						<text class="text-sm margin-top-xs" style="height: 30upx; display: flex; justify-content: center;">{{item.name}}</text>
-					</view>
-				</block>
-			</scroll-view>
-		</view>
+		<view class="cityTitle ">{{city.name}}特色</view>	
+		<!-- 滚动条 -->
+		<scroll-view scroll-x class="padding response cu-steps steps-bottom">
+			<block v-for="(item,index) in specialFood" :key="index">
+				<view class="item" @tap="jump2food(index)">
+					<view class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + item.pictures[0] + ')' }]"></view>
+					<text class="text-sm margin-top-xs" style="height: 30upx; display: flex; justify-content: center;">{{item.name}}</text>
+				</view>
+			</block>
+		</scroll-view>
+		<div class="separator"></div>
 		<!-- 知名食地滚动条 -->
 		<view class="cityTitle ">知名食地</view>
 		<scroll-view scroll-x class="bg-white padding response cu-steps steps-bottom">
@@ -245,6 +243,12 @@
 		justify-content: center;
 		width: auto;
 	}
-
+	.separator {
+		padding: 10upx 0;
+		margin: 0 auto;
+		width: 90%;
+		height: 2px;
+		border-bottom: 1px solid rgba(0, 0, 0, .2);
+	}
 </style>
 
