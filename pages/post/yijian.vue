@@ -9,24 +9,19 @@
 			<textarea v-if="textareaShow" @blur="blur" :value="infoReceive.textareaValue" :placeholder="textareaPlaceholder"/>
 			
 			<view class="cu-dialog eb-comment">
-				 <view class="img">
-				 	<!-- 三个预览图 -->
-				 	<view @tap="chooseImg(1)" class="thumb-img">
-				 		<image :src="imgs.img1"></image>
+				 <view class="cu-form-group">
+				 	<view class="grid col-4 grid-square flex-sub">
+				 		<view class="bg-img" v-for="(item,index) in imgList" :key="index" @tap="ViewImage" :data-url="imgList[index]">
+				 		 <image :src="imgList[index]" mode="aspectFill"></image>
+				 		</view>
+				 		<view class="solids" @tap="ChooseImage" v-if="imgList.length<3">
+				 			<text class='cuIcon-cameraadd'></text>
+				 		</view>
 				 	</view>
-				 	<view @tap="chooseImg(2)" class="thumb-img">
-				 		<image :src="imgs.img2"></image>
-				 	</view>
-				 	<view @tap="chooseImg(3)" class="thumb-img">
-				 		<image :src="imgs.img3"></image>
-				 	</view>
-					<view @tap="chooseImg(4)" class="thumb-img">
-						<image :src="imgs.img4"></image>
-					</view>
 				 </view>
 			</view>
 			
-			<!-- 这里要改，死数据方案部分开始 -->
+			
 			<view class="plan" >
 				<view class="shop">
 					<image class="shop-avatar" :src="planData.planitems[0].foodurl">
@@ -49,7 +44,7 @@
 				
 				
 			</view>
-			<!-- 这里要改，死数据方案部分结束 -->
+			<!-- 一日计划 -->
 			
 			<button v-if="submitShow1" class="button_1" type="primary" @click="doSubmit">{{submitText1}}</button>
 			<slot name="submit"></slot>
@@ -118,17 +113,13 @@
 		
 		data() {
 			return {
-				title: 'Hello',
+				title: '',
 				enableDel: true,
 				enableAdd: true,
 				colorType: 'primary',
 				tagList: [],
-				imgs: {
-					img1: '',
-					img2: '',
-					img3: '',
-					img4: '',
-				},
+				imgList:[],
+				imgs:[],
 				planData:[],
 			}
 		},
@@ -151,9 +142,9 @@
 				this.planData =plan.data.data;
 				
 			  
-				console.log(this.idData);
-				console.log('pinglun:'+this.account);
 				
+				console.log('pinglun:'+this.planData.id);
+	
 			},
 			
 		    clickTag: function(e){
@@ -178,39 +169,64 @@
 				
 				this.head.headtextareaValue=e.detail.value
 			},
-			chooseImg(index) {
-				let imgs = uni.chooseImage({
-				    count: 1,
-				    success: (res) => {
-						switch (index){
-							case 1:
-								this.imgs.img1 = res.tempFilePaths[0];
-								break;
-							case 2:
-								this.imgs.img2 = res.tempFilePaths[0];
-								break;
-							case 3:
-								this.imgs.img3 = res.tempFilePaths[0];
-								break;
-							case 4:
-								this.imgs.img4 = res.tempFilePaths[0];
-								break;	
-						}
-						this.filePath.push(res.tempFilePaths[0]);
-						console.log('file paths: ', this.filePath);
-					},
-				    });
-			},
+			
 			
 			
 			/**
 			 * @name 提交
 			 */
-			doSubmit(){
+			async doSubmit(){
 				this.$emit('submit',this.infoReceive);
 				this.$emit('submit',this.head);
-				console.log(this.head,this.infoReceive)
+				console.log('标题 '+this.head.headtextareaValue);
+				console.log('正文 '+this.infoReceive.textareaValue);
 				
+				let imgs = this.imgList.map((value, index) => {
+					return {
+						name: 'image' + index,
+						uri: value,
+					}
+				})
+				console.log('照片 ')
+				console.log(imgs);
+				uni.uploadFile({
+					url: 'http://10.21.234.73:8080/v1/api/publishpage/insertplanfoodrecord', //仅为示例，非真实的接口地址
+					files: imgs,
+					formData:{
+						title:this.head.headtextareaValue,
+						content:this.infoReceive.textareaValue,
+						userid: '472296000@qq.com',
+						planid:	1,
+						cityid: 1,
+					},
+					
+				
+				});
+				uni.showToast({
+					title: '食记发表成功！',
+				});
+				
+				
+			},
+			ChooseImage() {
+				uni.chooseImage({
+					count: 4, //默认9
+					sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+					sourceType: ['album'], //从相册选择
+					success: (res) => {
+						if (this.imgList.length != 0) {
+							this.imgList = this.imgList.concat(res.tempFilePaths)
+						} else {
+							this.imgList = res.tempFilePaths
+						}
+					}
+				});
+			},
+			ViewImage(e) {
+				uni.previewImage({
+					urls: this.imgList,
+					current: e.currentTarget.dataset.url
+				});
 			}
 			
 		}
