@@ -47,17 +47,17 @@
 				<view class="eb-commentContent">
 					{{commentList[0].content}}
 				</view>
-<!-- 				<view class="flex padding-lr">
-					<image class="thumbnailImage" :src='commentList[0].pectures[0]'></image>
-					<image class="thumbnailImage" :src='commentList[0].pectures[1]'></image>
-					<image class="thumbnailImage" style="margin-right: 0;" :src='commentList[0].pectures[2]'></image>
-				</view> -->
+				<view class="flex padding-lr">
+					<image class="thumbnailImage" :src='commentList[0].pictures[0]'></image>
+					<image class="thumbnailImage" :src='commentList[0].pictures[1]'></image>
+					<image class="thumbnailImage" style="margin-right: 0;" :src='commentList[0].pictures[2]'></image>
+				</view>
 				<view class=" padding"></view>
 			</view>
 		</view>
-		<!-- 精选评论部分结束 -->
+		<!-- 精选评论部分结束Z -->
 		<!-- 点评部分开始 -->
-		<!-- <view class="text-lg text-bold margin-left">点评</view>
+		<view class="text-lg text-bold margin-left">点评</view>
 		<view class="cu-card dynamic">
 			<view class="cu-item shadow">
 				<view class="cu-list menu-avatar">
@@ -75,13 +75,13 @@
 					{{commentList[1].content}}
 				</view>
 				<view class="flex flex-sub padding-lr">
-					<image class="thumbnailImage" :src='commentList[1].pectures[0]'></image>
-					<image class="thumbnailImage" :src='commentList[1].pectures[1]'></image>
-					<image class="thumbnailImage" style="margin-right: 0;" :src='commentList[1].pectures[2]'></image>
+					<image class="thumbnailImage" :src='commentList[1].pictures[0]'></image>
+					<image class="thumbnailImage" :src='commentList[1].pictures[1]'></image>
+					<image class="thumbnailImage" style="margin-right: 0;" :src='commentList[1].pictures[2]'></image>
 				</view>
 				<view class=" padding"></view>
 			</view>
-		</view> -->
+		</view>
 		<!-- 点评部分结束 -->
 		<!-- 防止评论栏遮挡最下方评论的空白部分 -->
 		<view style="height: 100upx;"></view>
@@ -183,8 +183,8 @@
 				
 				let imgs = this.imgList.map((value, index) => {
 					return {
-						name: 'image' + index,
-						url: value,
+						file: 'image',
+						uri: value,
 					}
 				})
 				console.log('-imgs: ');
@@ -244,7 +244,7 @@
 			}
 		},
 		onLoad(e) {
-			this.shopid = e.shopid || 1;
+			this.shopid = e.shopid || 18;
 			console.log('page place.vue loaded...');
 			console.log('the shop id is: ' + this.shopid);
 			this.initPage();
