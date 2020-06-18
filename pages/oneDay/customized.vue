@@ -269,17 +269,6 @@
 					this.updatePlan();
 				} 
 			},
-			async getscenery(index) {
-				const res = await this.$myRequest({
-					url: '/v1/api/onedayyfoodpage/getscenery?shopid=', //仅为示例，并非真实接口地址。
-					data: {
-						shopid: 1
-					},
-				})
-				this.items.planitems[index].sceneryname = res.data.data[0].name;
-				this.items.planitems[index].sceneryurl = res.data.data[0].pictures[0];
-				console.log(this.items.planitems[index]);
-			},
 			LoadModal(scroll = true) {
 				if(scroll){
 					this.savePlan();
@@ -341,7 +330,7 @@
 					this.modalName = 'DialogModal1';
 				} else {
 					this.items.planitems[this.selectedNow] = plan;
-					this.getscenery(this.selectedNow);
+					// this.getscenery(this.selectedNow);
 					if (this.checkFinished()) {
 						this.modalName = 'DialogModal2';
 					} else {
