@@ -77,6 +77,7 @@
 				</view>
 			</view>
 		</view>
+		<view style="height: 50px"></view>
 	</view>
 </template>
 

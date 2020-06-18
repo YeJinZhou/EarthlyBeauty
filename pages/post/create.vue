@@ -1,8 +1,8 @@
 <template>
 	<view>
-		<view @click.stop="onClick" class="content">
-			<button class="btn" @click="toPlan"><text class="text">方案自动生成游记</text></button>
-			<button class="btn" @click="tocreate"><text class="text">自由发表游记</text></button>
+		<view @click.stop="onClick" class="cont">
+			<button class="btnBlock" @click="toPlan"><text class="text">方案自动生成游记</text></button>
+			<button class="btnBlock" @click="tocreate"><text class="text">自由发表游记</text></button>
 		</view>
 	</view>
 </template>
@@ -36,7 +36,7 @@
 </script>
 
 <style>
-	.content {
+	.cont {
 		margin-top: 60%;
 	}
 
@@ -49,11 +49,12 @@
 		color: #FFFFFF;
 	}
 	
-	.btn{
+	.btnBlock{
 		background-color: #E54D42;
 		border-color: #E54D42;
 		margin-top: 30px;
 		width: 60%;
+		height: 50px;
 	}
 </style>
 

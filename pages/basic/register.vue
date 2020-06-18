@@ -299,11 +299,11 @@
 		display: block;
 		margin-left: auto;
 		margin-right: auto;
-			margin-top: 200upx;
-		    width: 120upx;
-			height: 120upx;
-			margin-bottom: 50upx;
-			border-radius: 10px;
+		margin-top: 200upx;
+		width: 120upx;
+		height: 120upx;
+		margin-bottom: 50upx;
+		border-radius: 10px;
 
 	}
 	.input-group {
@@ -326,7 +326,7 @@
 	.input-row {
 		width: 80%;
 		margin-top: 15upx;
-		margin-left: 10%;
+		margin-left: 0;
 		width: 80%;
 		display: flex;
 		flex-direction: row;
